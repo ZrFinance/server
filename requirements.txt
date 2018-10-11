@@ -9,5 +9,5 @@ markdown==2.6.11
 mysqlclient
 django-cors-headers
 openpyxl
-Image
+Pillow
 
