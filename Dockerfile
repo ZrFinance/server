@@ -10,6 +10,7 @@ RUN pip install -r requirements.txt \
     && mkdir -p /project/fianceweb/media
 
 RUN apk add --no-cache tzdata  && \
+    apk add linux-headers && \
     ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone
 
