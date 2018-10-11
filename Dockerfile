@@ -11,6 +11,11 @@ RUN pip install -r requirements.txt \
 
 RUN apk add --no-cache tzdata  && \
     apk add linux-headers && \
+    apk add gcc-core && \
+    apk add libjpeg-devel && \
+    apk add zlib-devel && \
+    apk add python3-devel && \
+    apk add python3-setuptools && \
     ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone
 
