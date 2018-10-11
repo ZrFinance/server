@@ -1,0 +1,1 @@
+choices={    "GENDER_TYPE":(        (1,'男'),        (2,'女'),        (3,'未知'),    ),    "ROLE_TYPE":(        (1,'老师'),        (2,'学生'),    ),    "user_status":(        (0,'正常'),        (1,'未激活'),        (2,'禁用')    )}for k in choices:    exec("{}={}".format(k,choices.get(k)))

@@ -1,0 +1,1 @@
+from django.urls import path,includefrom .user import urls as user_urlsfrom .public import urls as public_urlsfrom .order import urls as order_urlsurlpatterns = [    path('user/', include(user_urls)),    path('public/', include(public_urls)),    path('order/', include(order_urls)),]
