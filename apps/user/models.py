@@ -79,6 +79,7 @@ class Users(models.Model):
         db_table = 'user'
 
 class Agent(models.Model):
+    id = models.BigAutoField(primary_key=True)
     mobile = models.CharField(max_length=20)
     mobile1 = models.CharField(max_length=20,verbose_name="代理",default="")
     level = models.IntegerField(default=1,verbose_name='代理等级')

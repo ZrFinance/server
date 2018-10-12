@@ -18,6 +18,7 @@ class SysParam(models.Model):
         db_table = "sysparam"
 
 class Lucky(models.Model):
+    id = models.BigAutoField(primary_key=True)
     userid = models.BigIntegerField(default=0)
     index = models.IntegerField(default=0)
     name = models.CharField(max_length=60,default='')

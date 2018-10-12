@@ -36,6 +36,7 @@ class AgentModelSerializer(serializers.ModelSerializer):
 
 
 class AgentSerializer(serializers.Serializer):
+	id=serializers.IntegerField()
 	mobile=serializers.CharField()
 	createtime=serializers.IntegerField()
 	status=serializers.SerializerMethodField()

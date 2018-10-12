@@ -12,6 +12,6 @@ class VerificationSerializer(serializers.ModelSerializer):
 class LuckySerializer(serializers.ModelSerializer):
 	class Meta:
 		model=Lucky
-		fields=('name','createtime')
+		fields=('id','name','createtime')
 
 
