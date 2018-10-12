@@ -1,7 +1,7 @@
 
 from utils.mytime import datetime_toTimestamp
 from utils.exceptions import PubErrorCustom
-from apps.public.models import Verification,PicVerCode
+from apps.public.models import Verification
 
 def check_verification_code(kwargs):
     verification_code=kwargs.get('verification_code')
@@ -14,16 +14,6 @@ def check_verification_code(kwargs):
             raise PubErrorCustom("验证码失效！")
     else:
         raise PubErrorCustom("验证码不存在！")
-
-def check_picvercode(kwargs):
-    name = kwargs.get('name')
-    vercode = kwargs.get('vercode')
-
-    try:
-        PicVerCode.objects.get(filename=name,vercode=vercode.lower())
-    except PicVerCode.DoesNotExist:
-        raise PubErrorCustom("图形验证码输入错误！")
-
 
 import random
 def myrandom(num_,r_):

@@ -35,17 +35,6 @@ class Lucky(models.Model):
         verbose_name_plural = verbose_name
         db_table = 'lucky'
 
-class PicVerCode(models.Model):
-
-    filename  = models.CharField(max_length=60)
-    vercode = models.CharField(max_length=20)
-    created = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name = 'PicVerCode'
-        verbose_name_plural = verbose_name
-        db_table="picvercode"
-
 class Verification(models.Model):
     mobile = models.CharField(max_length=11)
     code = models.CharField(max_length=4,default='')
