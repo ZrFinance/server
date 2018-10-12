@@ -1,16 +1,16 @@
 FROM tangchen2018/python:3.6-alpine
 ENV PYTHONUNBUFFERED 1
 
-COPY . /project/fianceweb
+COPY . /project/sso
 
-WORKDIR /project/fianceweb
+WORKDIR /project/sso
 
 RUN apk add --no-cache tzdata  && \
     ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone
 
 RUN pip install -r requirements.txt \
-    && mkdir -p /project/fianceweb/logs \
-    && mkdir -p /project/fianceweb/media
+    && mkdir -p /project/sso/logs \
+    && mkdir -p /project/sso/media
 
-CMD ["uwsgi", "/project/fianceweb/education/wsgi/uwsgi.ini"]
+CMD ["uwsgi", "/project/sso/education/wsgi/uwsgi.ini"]
