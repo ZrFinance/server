@@ -13,6 +13,7 @@ INSTALLED_APPS_CUSTOM = [
     'apps.user',
     'apps.order',
     'apps.public',
+    'apps.serveradmin',
 ]
 
 

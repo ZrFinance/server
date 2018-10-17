@@ -140,6 +140,10 @@ PICVERCODE_PATH = os.path.join(os.path.join( BASE_DIR , 'media') , os.path.join(
 BASEPIC_PATH = os.path.join(os.path.join( BASE_DIR , 'media') , os.path.join('images','base'))
 BANNER_PATH = os.path.join(os.path.join( BASE_DIR , 'media') , os.path.join('images','banner'))
 
+
+MEDIA_ROOT = BASE_DIR
+MEDIA_URL =  'media/'
+
 LOGGING_DIR = os.path.join(BASE_DIR, 'logs')
 
 if RUN_MODE == "DEVELOP":

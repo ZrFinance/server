@@ -6,10 +6,29 @@ from rest_framework.validators import UniqueTogetherValidator
 from apps.user.models import Users,Agent
 from include.data import choices_list
 
+from apps.order.models import Order
+
 
 class UsersSerializer(serializers.ModelSerializer):
 	pay_passwd = serializers.SerializerMethodField()
 	passwd = serializers.SerializerMethodField()
+	statusname = serializers.SerializerMethodField()
+	endtime = serializers.SerializerMethodField()
+
+	def get_statusname(self,obj):
+		if obj.status==0:
+			return '正常'
+		elif obj.status==1:
+			return '未激活'
+		else:
+			return '禁用'
+
+	def get_endtime(self,obj):
+		order=Order.objects.filter(userid=obj.userid).order_by('-createtime').values('createtime')
+		if order.exists():
+			return order[0]['createtime']
+
+		return ''
 
 	def get_pay_passwd(self,obj):
 		return ''

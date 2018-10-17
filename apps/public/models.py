@@ -12,6 +12,33 @@ class SysParam(models.Model):
     bfb10000=models.IntegerField(default=0,verbose_name='幸运转盘10000百分比')
     bfbwzj=models.IntegerField(default=0,verbose_name='幸运转盘未中奖百分比')
 
+    help_amount = models.CharField(default='',max_length=100,verbose_name='提供帮助金额')
+    morning_amount = models.IntegerField(default=0,verbose_name='每天上午可排单资金总额')
+    after_amount = models.IntegerField(default=0,verbose_name='每天下午可排单资金总额')
+    limit = models.IntegerField(default=0,verbose_name='超出该时间未打款可投诉')
+    amount_term = models.IntegerField(default=0,verbose_name='匹配后最后打款期限')
+    amount_term1 = models.IntegerField(default=0,verbose_name='打款后收款期限')
+    morning = models.CharField(max_length=60,default='',verbose_name='每天排单（提供帮助）开时间段')
+    after = models.CharField(max_length=60,default='',verbose_name='每天排单（提供帮助）开时间段2')
+    term = models.IntegerField(default=0,verbose_name='提供帮助排队期')
+    term1 = models.IntegerField(default=0, verbose_name='提现匹配排队期')
+    interset = models.IntegerField(default=0,verbose_name='（排单）两小时内打款利息')
+    interset1 = models.IntegerField(default=0,verbose_name='（排单）两小时后打款利息')
+    time1 = models.IntegerField(default=0,verbose_name='排队时间提醒')
+    count1 = models.IntegerField(default=0,verbose_name='每天最多能提供帮助(排单)的次数')
+    count2 = models.IntegerField(default=0,verbose_name='每天最多能申请帮助的次数')
+    count3 = models.IntegerField(default=0,verbose_name='可存在的最大未完成提供帮助单数')
+    amount1 = models.IntegerField(default=0,verbose_name='申请帮助(股权分红)最低金额(收益申请)')
+    amount2 = models.IntegerField(default=0,verbose_name='申请帮助股权分红*的倍数(收益申请)')
+    amount3 = models.IntegerField(default=0,verbose_name='申请帮助股权分红最高限制金额(收益申请)')
+    amount4 = models.IntegerField(default=0, verbose_name='申请帮助推广股权最低金额')
+    amount5 = models.IntegerField(default=0,verbose_name='申请帮助推广股权*的倍数(收益申请)')
+    amount6 = models.IntegerField(default=0,verbose_name='申请帮助（推广股权）每天最高限额')
+    amount7 = models.IntegerField(default=0,verbose_name='一代领导奖(%)')
+    amount8 = models.IntegerField(default=0,verbose_name='二代领导奖(%)')
+    amount9 = models.IntegerField(default=0,verbose_name='满足条件一代领导奖(%)')
+    amount10 = models.IntegerField(default=0,verbose_name='满足条件二代领导奖(%)')
+
     class Meta:
         verbose_name = 'SysParam'
         verbose_name_plural = verbose_name

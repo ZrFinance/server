@@ -130,5 +130,8 @@ def parse_url(url):
     url = parse.path
     return url.lstrip('/')
 
+import hashlib
+def md5pass(str):
+    return hashlib.md5(str.encode("utf8")).hexdigest().upper()
 
 
