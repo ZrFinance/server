@@ -14,6 +14,7 @@ INSTALLED_APPS_CUSTOM = [
     'apps.order',
     'apps.public',
     'apps.serveradmin',
+    'django_crontab'
 ]
 
 

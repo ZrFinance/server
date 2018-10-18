@@ -146,6 +146,11 @@ MEDIA_URL =  'media/'
 
 LOGGING_DIR = os.path.join(BASE_DIR, 'logs')
 
+CRON_FILE = os.path.join(LOGGING_DIR, 'cron')
+CRONJOBS = [
+    ('*/1 * * * *', 'apps.public.cron.task1', '%s'%(CRON_FILE))
+]
+
 if RUN_MODE == "DEVELOP":
     LOG_LEVEL = LOG_LEVEL_DEVELOP
     LOG_CLASS = 'logging.handlers.RotatingFileHandler'
