@@ -11,6 +11,7 @@ from apps.order.serializers import OrderSerializer
 from apps.public.models import SysParam
 
 from apps.utils import GenericViewSetCustom
+from apps.public.utils import daysqbzcount
 
 class OrderAPIView(GenericViewSetCustom):
 
@@ -44,6 +45,9 @@ class OrderAPIView(GenericViewSetCustom):
 
         if user.pay_passwd != request.data.get('pay_passwd'):
             raise PubErrorCustom('二级密码错误！')
+
+        if daysqbzcount(user.userid,sysparam):
+            raise PubErrorCustom("当天申请帮助次数已超！")
 
         if user.integral < 50:
             if int(request.data.get('amount')) > 500:

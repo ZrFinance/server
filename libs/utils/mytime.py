@@ -9,6 +9,9 @@ from datetime import datetime,timedelta
 def datetime_toTimestamp():
     return time.mktime(timezone.now().timetuple())
 
+def send_toTimestamp(time):
+    return time.mktime(time)
+
 def timestamp_toDatetime(timestamp):
     return datetime.fromtimestamp(timestamp)
 

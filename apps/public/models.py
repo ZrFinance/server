@@ -39,6 +39,8 @@ class SysParam(models.Model):
     amount9 = models.IntegerField(default=0,verbose_name='满足条件一代领导奖(%)')
     amount10 = models.IntegerField(default=0,verbose_name='满足条件二代领导奖(%)')
 
+    flag1 = models.IntegerField(default=0,verbose_name="推广奖冻结比例%")
+
     class Meta:
         verbose_name = 'SysParam'
         verbose_name_plural = verbose_name

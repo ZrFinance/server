@@ -59,6 +59,7 @@ class Users(models.Model):
     integral = models.IntegerField(verbose_name='VIP分',default=0,null=True)
     bonus =  models.IntegerField(verbose_name="股权分红",default=0,null=True)
     spread = models.IntegerField(verbose_name="推广股权",default=0,null=True)
+    spreadstop = models.IntegerField(verbose_name="推广股权冻结",default=0,null=True)
     idcard=models.CharField(max_length=20,verbose_name="身份证号",default='',null=True)
     name=models.CharField(max_length=60,verbose_name="真实姓名",null=True,default='')
     alipay=models.CharField(max_length=60,verbose_name="支付宝",default='',null=True)

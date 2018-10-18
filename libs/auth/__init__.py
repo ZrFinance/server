@@ -19,5 +19,9 @@ def get_user(request):
         return (None,'token失效！', 200, ResCode.Token_Missing)
 
     user=Users.objects.get(userid=result.userid)
+    if user.status == 1:
+        return (None, '未激活！', 200, ResCode.Token_Missing)
+    elif user.status == 2:
+        return (None, '已禁用！', 200, ResCode.Token_Missing)
 
     return (user,'操作成功！', 200, ResCode.Success)
