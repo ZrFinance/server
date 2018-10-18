@@ -1,7 +1,5 @@
 from rest_framework import (viewsets)
 
-from apps.public.task.api import task1
-
 class GenericViewSetCustom(viewsets.ViewSet):
     # from apscheduler.schedulers.background import BackgroundScheduler
     # scheduler = BackgroundScheduler()
