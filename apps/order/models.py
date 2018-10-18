@@ -20,7 +20,7 @@ class Order(models.Model):
     confirm = models.IntegerField(default=0,verbose_name='0-未确认,1-本人确认，对方未确认,2-双方确认')
     createtime=models.BigIntegerField(default=0)
     updtime = models.BigIntegerField(default=0)
-    img = models.ImageField(upload_to='img',max_length=255)
+    img = models.CharField(max_length=255)
 
     mobile=None
     name=None
