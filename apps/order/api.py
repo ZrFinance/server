@@ -49,37 +49,6 @@ class OrderAPIView(GenericViewSetCustom):
         if daysqbzcount(user.userid,sysparam):
             raise PubErrorCustom("当天申请帮助次数已超！")
 
-        if user.integral < 50:
-            if int(request.data.get('amount')) > 500:
-                raise PubErrorCustom('诚心值积分不够！')
-        elif user.integral < 100:
-            if int(request.data.get('amount')) > 1000:
-                raise PubErrorCustom('诚心值积分不够！')
-        elif user.integral < 150:
-            if int(request.data.get('amount')) > 3000:
-                raise PubErrorCustom('诚心值积分不够！')
-        elif user.integral < 220:
-            if int(request.data.get('amount')) > 4000:
-                raise PubErrorCustom('诚心值积分不够！')
-        elif user.integral < 300:
-            if int(request.data.get('amount')) > 5000:
-                raise PubErrorCustom('诚心值积分不够！')
-        elif user.integral < 420:
-            if int(request.data.get('amount')) > 6000:
-                raise PubErrorCustom('诚心值积分不够！')
-        elif user.integral < 550:
-            if int(request.data.get('amount')) > 7000:
-                raise PubErrorCustom('诚心值积分不够！')
-        elif user.integral < 700:
-            if int(request.data.get('amount')) > 8000:
-                raise PubErrorCustom('诚心值积分不够！')
-        elif user.integral < 850:
-            if int(request.data.get('amount')) > 9000:
-                raise PubErrorCustom('诚心值积分不够！')
-        elif user.integral < 1000:
-            if int(request.data.get('amount')) > 10000:
-                raise PubErrorCustom('诚心值积分不够！')
-
 
         if request.data.get('defaultValue')=='gffh':
             if int(request.data.get('amount')) < sysparam.amount1 :
@@ -97,6 +66,37 @@ class OrderAPIView(GenericViewSetCustom):
                 raise PubErrorCustom('必须为%d倍数'%(sysparam.amount5))
             if user.spread < int(request.data.get('amount')):
                 raise  PubErrorCustom('推广股权余额不足')
+
+            if user.integral < 50:
+                if int(request.data.get('amount')) > 500:
+                    raise PubErrorCustom('诚心值积分不够！')
+            elif user.integral < 100:
+                if int(request.data.get('amount')) > 1000:
+                    raise PubErrorCustom('诚心值积分不够！')
+            elif user.integral < 150:
+                if int(request.data.get('amount')) > 3000:
+                    raise PubErrorCustom('诚心值积分不够！')
+            elif user.integral < 220:
+                if int(request.data.get('amount')) > 4000:
+                    raise PubErrorCustom('诚心值积分不够！')
+            elif user.integral < 300:
+                if int(request.data.get('amount')) > 5000:
+                    raise PubErrorCustom('诚心值积分不够！')
+            elif user.integral < 420:
+                if int(request.data.get('amount')) > 6000:
+                    raise PubErrorCustom('诚心值积分不够！')
+            elif user.integral < 550:
+                if int(request.data.get('amount')) > 7000:
+                    raise PubErrorCustom('诚心值积分不够！')
+            elif user.integral < 700:
+                if int(request.data.get('amount')) > 8000:
+                    raise PubErrorCustom('诚心值积分不够！')
+            elif user.integral < 850:
+                if int(request.data.get('amount')) > 9000:
+                    raise PubErrorCustom('诚心值积分不够！')
+            elif user.integral < 1000:
+                if int(request.data.get('amount')) > 10000:
+                    raise PubErrorCustom('诚心值积分不够！')
             type=1
             trantype=11
         Order.objects.create(
