@@ -103,7 +103,7 @@ def daytgbzcount(userid,sysparam):
     t = datetime.now().strftime("%Y-%m-%d %H:%S:%M")
     start = string_toTimestamp(t[:10] + ' 00:00:01')
     end = string_toTimestamp(t[:10] + ' 23:59:59')
-    if Order.objects.filter(userid=userid,createtime__gte=start,createtime__lt=end,trantype=0).count() > sysparam.count1:
+    if Order.objects.filter(userid=userid,createtime__gte=start,createtime__lt=end,trantype=0).count() >= sysparam.count1:
         return True
     else:
         return False
@@ -112,7 +112,7 @@ def daysqbzcount(userid,sysparam):
     t = datetime.now().strftime("%Y-%m-%d %H:%S:%M")
     start = string_toTimestamp(t[:10] + ' 00:00:01')
     end = string_toTimestamp(t[:10] + ' 23:59:59')
-    if Order.objects.filter(userid=userid,createtime__gte=start,createtime__lt=end,trantype=1).count() > sysparam.count2:
+    if Order.objects.filter(userid=userid,createtime__gte=start,createtime__lt=end,trantype=1).count() >= sysparam.count2:
         return True
     else:
         return False
