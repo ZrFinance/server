@@ -579,3 +579,53 @@ class ServerAdmin(viewsets.ViewSet):
 
 
         return None
+
+    @list_route(methods=['POST'])
+    @Core_connector(transaction=True)
+    def ordersplit(self, request, *args, **kwargs):
+        amounts = request.data.get('amounts')
+        ordercode = request.data.get('ordercode')
+
+        if not ordercode:
+            raise PubErrorCustom("订单号不能为空")
+
+        if not(len(amounts.split(','))>1):
+            raise PubErrorCustom("拆分格式错误！")
+
+        try:
+            order = Order.objects.get(ordercode=ordercode)
+        except Order.DoesNotExist:
+            raise PubErrorCustom("无此订单!")
+
+        if order.status != 0:
+            raise PubErrorCustom("该状态不能拆分")
+
+        sum = 0
+        for item in amounts.split(','):
+            sum += int(item)
+        if order.amount != sum:
+            raise PubErrorCustom("拆分金额与订单金额不匹配！")
+
+        for (index, item) in enumerate(amounts.split(',')):
+            if index == 0:
+                order.amount = item
+                order.save()
+            else:
+                Order.objects.create(**{
+                    'trantype': order.trantype,
+                    'subtrantype': order.subtrantype,
+                    'amount': item,
+                    'userid': order.userid,
+                    'username': order.username,
+                    'userid_to': order.userid_to,
+                    'username_to': order.username_to,
+                    'ordercode_to': order.ordercode_to,
+                    'status': order.status,
+                    'statusname': order.statusname,
+                    'confirm': order.confirm,
+                    'createtime': order.createtime,
+                    'updtime': order.updtime,
+                    'img': order.img
+                })
+
+

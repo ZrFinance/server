@@ -17,9 +17,17 @@ def timestamp_toDatetime(timestamp):
 
 
 def diff_day(start, end=datetime.now()):
-    s = (end - start).seconds / 3600
-    return int(((end - start).days + s % 24 / 24.0) * 10) / 10.0
+    a = (end - start).seconds
+    f = a // 60
+    s = a % 60
 
+    h = f // 60
+    f = f % 60
+
+    d = h // 60
+    h = h % 60
+
+    return d + round(h / 24.0, 2)
 
 #字符串转化为时间戳
 def string_toTimestamp(st):

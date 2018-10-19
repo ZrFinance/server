@@ -11,6 +11,8 @@ from libs.utils.mytime import timestamp_toDatetime,send_toTimestamp
 
 from apps.order.models import Tranlist
 
+from libs.utils.http_request import send_request
+
 def check_verification_code(kwargs):
     verification_code=kwargs.get('verification_code')
     mobile=kwargs.get('mobile')
@@ -43,17 +45,17 @@ def smssend(mobile=None,flag=0,vercode=None):
                 mobiletmp='{},'.format(item)
             mobile=mobiletmp[:-1]
 
-        # send_request(
-        #     url="http://dx110.ipyy.net/smsJson.aspx",
-        #     method='post',
-        #     data={
-        #         'account': '8MYX00159',
-        #         'password': md5pass('8MYX0015998'),
-        #         'mobile' : mobile,
-        #         'content' : '您现在正在注册众瑞金融账户，您的验证码是{}【众瑞金融】'.format(vercode),
-        #         'action' : 'send',
-        #     }
-        # )
+        send_request(
+            url="http://dx110.ipyy.net/smsJson.aspx",
+            method='post',
+            data={
+                'account': '8MYX00159',
+                'password': md5pass('8MYX0015998'),
+                'mobile' : mobile,
+                'content' : '您现在正在注册众瑞金融账户，您的验证码是{}【众瑞金融】'.format(vercode),
+                'action' : 'send',
+            }
+        )
 
 
 
@@ -114,10 +116,6 @@ def daysqbzcount(userid,sysparam):
         return True
     else:
         return False
-
-# def maxorder(userid,sysparm):
-#
-#     if Order.objects.filter(userid=userid,trantype=0,)
 
 def tjjr(user,amount,ordercode,sysparm):
 

@@ -26,8 +26,6 @@ def send_request(url, token=None, method='get', params=None, data=None):
         result = request(method, url, headers={'Authorization': token}, params=params, data=data, verify=False)
         status_code = result.status_code
         result = result.json()
-        print(data)
-        print(result)
         if result.get('rescode') == '10000':
             return True, result.get('data')
         return False, result.get('msg')

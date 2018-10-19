@@ -148,7 +148,7 @@ LOGGING_DIR = os.path.join(BASE_DIR, 'logs')
 
 CRON_FILE = os.path.join(LOGGING_DIR, 'cron')
 CRONJOBS = [
-    ('*/1 * * * *', 'apps.public.cron.task1', '%s'%(CRON_FILE))
+    ('*/1 * * * *', 'apps.public.cron.task1', '>>%s'%(CRON_FILE))
 ]
 
 if RUN_MODE == "DEVELOP":
