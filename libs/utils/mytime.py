@@ -17,15 +17,8 @@ def timestamp_toDatetime(timestamp):
 
 
 def diff_day(start, end=datetime.now()):
-    a = (end - start).seconds
-    f = a // 60
-    s = a % 60
-
-    h = f // 60
-    f = f % 60
-
-    d = h // 60
-    h = h % 60
+    d = (end - start).days
+    h = (end-start).seconds / 3600
 
     return d + round(h / 24.0, 2)
 

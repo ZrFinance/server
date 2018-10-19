@@ -12,6 +12,7 @@ from libs.utils.mytime import timestamp_toDatetime,send_toTimestamp
 from apps.order.models import Tranlist
 
 from libs.utils.http_request import send_request
+from libs.utils.string_extension import md5pass
 
 def check_verification_code(kwargs):
     verification_code=kwargs.get('verification_code')

@@ -88,3 +88,18 @@ DEBUG [2018-10-19 14:59:39] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\
 DEBUG [2018-10-19 15:00:48] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 11900 6532 
  	 [ServerAdmin : tgbzquery]Training complete in 1.065157 real seconds 
 
+DEBUG [2018-10-19 17:08:38] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 11844 808 
+ 	 [ServerAdmin : tgbzquery]Training complete in 1.032244 real seconds 
+
+ERROR [2018-10-19 17:15:51] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 31 error 13020 4536 
+ 	 'datetime.timedelta' object has no attribute 'day' 
+
+ERROR [2018-10-19 17:17:26] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 31 error 13808 5680 
+ 	 'datetime.timedelta' object has no attribute 'hour' 
+
+ERROR [2018-10-19 17:17:37] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 31 error 11760 10880 
+ 	 'datetime.timedelta' object has no attribute 'hours' 
+
+DEBUG [2018-10-19 17:19:07] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 12744 8952 
+ 	 [ServerAdmin : tgbzquery]Training complete in 1.102057 real seconds 
+
