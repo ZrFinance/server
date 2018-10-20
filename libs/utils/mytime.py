@@ -9,12 +9,13 @@ from datetime import datetime,timedelta
 def datetime_toTimestamp():
     return time.mktime(timezone.now().timetuple())
 
-def send_toTimestamp(time):
-    return time.mktime(time)
+def send_toTimestamp(t):
+    t1=str(t)
+    t2=time.strptime(t1[0:19],"%Y-%m-%d %H:%M:%S")
+    return time.mktime(t2)
 
 def timestamp_toDatetime(timestamp):
     return datetime.fromtimestamp(timestamp)
-
 
 def diff_day(start, end=datetime.now()):
     d = (end - start).days

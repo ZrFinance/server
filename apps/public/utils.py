@@ -121,102 +121,54 @@ def daysqbzcount(userid,sysparam):
 def tjjr(user,amount,ordercode,sysparm):
 
     t=datetime.now()
-    d5 = send_toTimestamp(t - timedelta(day=5))
-    #一级代理
-    try:
-        agent=Agent.objects.get(mobile1=user.mobile,level=1)
+    d5 = send_toTimestamp(t - timedelta(days=5))
+    #代理
+    agent_list=[1,2]
+    for item in agent_list:
         try:
-            user1=Users.objects.get(mobile=agent.mobile)
-        except Users.DoesNotExist:
-            raise PubErrorCustom("推广奖对应用户不存在!")
-        order = Order.objects.filter(userid=user1.userid, trantype=0, status=2, updtime__gte=d5,
-                                     updtime__lt=send_toTimestamp(t)).order_by('amount')
-        if order.exists():
-            order=order[0]
-            if amount > order.amount:
-                amount = order.amount
-            #直推是否有5人间推是否有15人
-            if Agent.objects.filter(mobile=user1.mobile,level=1).count()>=5 and Agent.objects.filter(mobile=user1.mobile,level=2).count()>=15:
-                spread=amount * sysparm.amount9 / 100
-            else:
-                spread=amount * sysparm.amount7 / 100
+            agent=Agent.objects.get(mobile1=user.mobile,level=item)
+            try:
+                user1=Users.objects.get(mobile=agent.mobile)
+            except Users.DoesNotExist:
+                raise PubErrorCustom("推广奖对应用户不存在!")
+            order = Order.objects.filter(userid=user1.userid, trantype=0, status=2, updtime__gte=d5,
+                                         updtime__lt=send_toTimestamp(t)).order_by('amount')
+            if order.exists():
+                order=order[0]
+                if amount > order.amount:
+                    amount = order.amount
+                #直推是否有5人间推是否有15人
+                if Agent.objects.filter(mobile=user1.mobile,level=1).count()>=5 and Agent.objects.filter(mobile=user1.mobile,level=2).count()>=15:
+                    spread=amount * sysparm.amount9 / 100
+                else:
+                    spread=amount * sysparm.amount7 / 100
 
-            #推荐奖分两部分(冻结部分待开放)
-            amount1 = spread * sysparm.flag1 / 100
-            amount2 = spread - amount1
+                #推荐奖分两部分(冻结部分待开放)
+                amount2 = spread * sysparm.flag1 / 100
+                amount1 = spread - amount2
 
-            user1.spread += amount1
-            user1.spreadstop += amount2
-            user1.save()
+                Tranlist.objects.create(
+                    trantype=13,
+                    userid=user1.userid,
+                    username=user1.username,
+                    bal=user1.spread,
+                    amount=amount1,
+                    ordercode=ordercode
+                )
 
-            Tranlist.objects.create(
-                trantype=13,
-                userid=user1.userid,
-                username=user1.username,
-                bal=user1.spread,
-                amount=amount1,
-                ordercode=ordercode
-            )
+                Tranlist.objects.create(
+                    trantype=22,
+                    userid=user1.userid,
+                    username=user1.username,
+                    bal=user1.spreadstop,
+                    amount=amount2,
+                    ordercode=ordercode
+                )
 
-            Tranlist.objects.create(
-                trantype=22,
-                userid=user1.userid,
-                username=user1.username,
-                bal=user1.spreadstop,
-                amount=amount2,
-                ordercode=ordercode
-            )
-    except Agent.DoesNotExist:
-        pass
-
-    #二级代理
-    try:
-        agent=Agent.objects.get(mobile1=user.mobile,level=2)
-        try:
-            user1=Users.objects.get(mobile=agent.mobile)
-        except Users.DoesNotExist:
-            raise PubErrorCustom("推广奖对应用户不存在!")
-        order = Order.objects.filter(userid=user1.userid, trantype=0, status=2, updtime__gte=d5,
-                                     updtime__lt=send_toTimestamp(t)).order_by('amount')
-        if order.exists():
-            order=order[0]
-            if amount > order.amount:
-                amount = order.amount
-            #直推是否有5人间推是否有15人
-            if Agent.objects.filter(mobile=user1.mobile,level=1).count()>=5 and Agent.objects.filter(mobile=user1.mobile,level=2).count()>=15:
-                spread=amount * sysparm.amount10 / 100
-            else:
-                spread=amount * sysparm.amount8 / 100
-
-            #推荐奖分两部分(冻结部分待开放)
-            amount1 = spread * sysparm.flag1 / 100
-            amount2 = spread - amount1
-
-            user1.spread += amount1
-            user1.spreadstop += amount2
-            user1.save()
-
-            Tranlist.objects.create(
-                trantype=14,
-                userid=user1.userid,
-                username=user1.username,
-                bal=user1.spread,
-                amount=amount1,
-                ordercode=ordercode
-            )
-
-            Tranlist.objects.create(
-                trantype=23,
-                userid=user1.userid,
-                username=user1.username,
-                bal=user1.spreadstop,
-                amount=amount2,
-                ordercode=ordercode
-            )
-    except Agent.DoesNotExist:
-        pass
-
-
-
+                user1.spread += amount1
+                user1.spreadstop += amount2
+                user1.save()
+        except Agent.DoesNotExist:
+            pass
 
 
