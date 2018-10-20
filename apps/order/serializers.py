@@ -16,8 +16,8 @@ class OrderSerializer2(serializers.Serializer):
 	referee_name=serializers.CharField()
 	name=serializers.CharField()
 	ordercode=serializers.IntegerField()
-	statusname=serializers.IntegerField()
 	stime = serializers.SerializerMethodField()
+	status = serializers.IntegerField()
 
 	def get_stime(self,obj):
 		param=SysParam.objects.get()
