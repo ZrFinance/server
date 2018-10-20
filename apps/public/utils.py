@@ -129,7 +129,7 @@ def tjjr(user,amount,ordercode,sysparm):
             user1=Users.objects.get(mobile=agent.mobile)
         except Users.DoesNotExist:
             raise PubErrorCustom("推广奖对应用户不存在!")
-        order = Order.objects.filter(userid=user1.userid, trantype=0, statusname=1, updtime__gte=d5,
+        order = Order.objects.filter(userid=user1.userid, trantype=0, status=2, updtime__gte=d5,
                                      updtime__lt=send_toTimestamp(t)).order_by('amount')
         if order.exists():
             order=order[0]
@@ -176,7 +176,7 @@ def tjjr(user,amount,ordercode,sysparm):
             user1=Users.objects.get(mobile=agent.mobile)
         except Users.DoesNotExist:
             raise PubErrorCustom("推广奖对应用户不存在!")
-        order = Order.objects.filter(userid=user1.userid, trantype=0, statusname=1, updtime__gte=d5,
+        order = Order.objects.filter(userid=user1.userid, trantype=0, status=2, updtime__gte=d5,
                                      updtime__lt=send_toTimestamp(t)).order_by('amount')
         if order.exists():
             order=order[0]
