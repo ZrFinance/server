@@ -17,11 +17,18 @@ import os
 from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework.routers import DefaultRouter
+from apps.public.api import PublicFileAPIView
+
+router1 = DefaultRouter(trailing_slash=False)
+router1.register('', PublicFileAPIView, base_name='')
 
 urlpatterns = [
     path('api/', include('apps.urls')),
+    path('', include(router1.urls)),
 ]
 
 urlpatterns += static('/images/picvercode/',document_root=settings.PICVERCODE_PATH)
 urlpatterns += static('/images/base/',document_root=settings.BASEPIC_PATH)
 urlpatterns += static('/images/banner/',document_root=settings.BANNER_PATH)
+

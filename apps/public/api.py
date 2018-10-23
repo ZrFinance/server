@@ -27,7 +27,7 @@ import os
 from education.settings import BASE_DIR
 
 date = time.strftime('%Y%m%d')
-UPLOAD_FILE_PATH = '%s/%s/' % (BASE_DIR, date)
+UPLOAD_FILE_PATH = '%s/media/%s/' % (BASE_DIR, date)
 isExists = os.path.exists(UPLOAD_FILE_PATH)
 if not isExists:
     os.makedirs(UPLOAD_FILE_PATH)
@@ -605,6 +605,14 @@ class PublicAPIView(viewsets.ViewSet):
         else:
             return {'data': {"flag": 2}}
 
+
+
+class PublicFileAPIView(viewsets.ViewSet):
+
+    def get_authenticators(self):
+        if self.action_map.get('post') not in ['get_verification_code']:
+            return [auth() for auth in [Authentication]]
+
     @list_route(methods=['POST'])
     @Core_connector()
     def upload(self,request, *args, **kwargs):
@@ -631,4 +639,6 @@ class PublicAPIView(viewsets.ViewSet):
         # res = '/'.join(path_dir)
 
         return None
+
+
 

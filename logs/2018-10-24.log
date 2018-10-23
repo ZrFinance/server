@@ -1,3 +1,9 @@
 DEBUG [2018-10-24 01:34:06] C:\Users\Tc\Desktop\ÖÚÈð\zhongrui\server\libs\utils\log.py 52 debug 17352 9916 
  	 [PublicAPIView : upload]Training complete in 0.004986 real seconds 
 
+DEBUG [2018-10-24 01:56:19] C:\Users\Tc\Desktop\ÖÚÈð\zhongrui\server\libs\utils\log.py 52 debug 12252 10252 
+ 	 [PublicFileAPIView : upload]Training complete in 0.001991 real seconds 
+
+DEBUG [2018-10-24 01:57:12] C:\Users\Tc\Desktop\ÖÚÈð\zhongrui\server\libs\utils\log.py 52 debug 13456 18200 
+ 	 [PublicFileAPIView : upload]Training complete in 0.000000 real seconds 
+
