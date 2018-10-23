@@ -22,6 +22,16 @@ from auth.authentication import Authentication
 
 from apps.public.utils import after_c,pdlimit,daytgbzcount,daysqbzcount
 
+import time
+import os
+from education.settings import BASE_DIR
+
+date = time.strftime('%Y%m%d')
+UPLOAD_FILE_PATH = '%s/%s/' % (BASE_DIR, date)
+isExists = os.path.exists(UPLOAD_FILE_PATH)
+if not isExists:
+    os.makedirs(UPLOAD_FILE_PATH)
+
 class PublicAPIView(viewsets.ViewSet):
 
     def get_authenticators(self):
@@ -595,4 +605,29 @@ class PublicAPIView(viewsets.ViewSet):
         else:
             return {'data': {"flag": 2}}
 
+    @list_route(methods=['GET'])
+    @Core_connector()
+    def upload(self,request, *args, **kwargs):
+        request_params = request.POST
+        print(request_params)
+        file_name = request_params['file_name']
+        file_content_type = request_params['file_content_type']
+        file_md5 = request_params['file_md5']
+        file_path = request_params['file_path']
+        file_size = request_params['file_size']
+
+        ip_address = request.META.get('HTTP_X_REAL_IP') or request.META.get('HTTP_REMOTE_ADD')
+
+        # save file to tmp
+        new_file_name = '%s_%s' % (file_md5, file_name)
+        new_file_path = ''.join([UPLOAD_FILE_PATH, new_file_name])
+        with open(new_file_path, 'a') as new_file:
+            with open(file_path, 'rb') as f:
+                new_file.write(f.read())
+
+        print(new_file_path)
+        path_dir = new_file_path.split('/')[2:]
+        res = '/'.join(path_dir)
+
+        return {'data':{'url':res}}
 
