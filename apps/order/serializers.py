@@ -18,6 +18,7 @@ class OrderSerializer2(serializers.Serializer):
 	ordercode=serializers.IntegerField()
 	stime = serializers.SerializerMethodField()
 	status = serializers.IntegerField()
+	img=serializers.CharField()
 
 	def get_stime(self,obj):
 		param=SysParam.objects.get()
