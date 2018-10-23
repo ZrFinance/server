@@ -614,21 +614,24 @@ class PublicFileAPIView(viewsets.ViewSet):
             return [auth() for auth in [Authentication]]
 
     @list_route(methods=['POST'])
-    @Core_connector()
+    @Core_connector(transaction=True)
     def upload(self,request, *args, **kwargs):
 
         print(self.request.data)
         file_path = self.request.data.get('file_path')
-        file_name = self.request.data.get('file_name')
-        file_md5 = self.request.data.get('file_md5')
+        file_name = self.request.data.get('file_name').split('.')[1]
+        # file_md5 = self.request.data.get('file_md5')
+        ordercode = self.request.data.get('ordercode')
 
         base='%s/media/%s'%(BASE_DIR,file_path.split('/')[-2:][0])
-        new_file_name = '%s' % (file_md5)
+        new_file_name = '%s.%s' % (ordercode,file_name)
         new_file_path = ''.join([UPLOAD_FILE_PATH, new_file_name])
         with open(new_file_path, 'ab') as new_file:
             with open('%s/%s'%(base,file_path.split('/')[-1:][0]), 'rb') as f:
                 new_file.write(f.read())
-        return {'data':{'url':'/nginx_upload/%s/%s'%(date,new_file_name)}}
+        url='/nginx_upload/%s/%s'%(date,new_file_name)
+        Order.objects.filter(ordercode=ordercode).update(img=url)
+        return {'data':{'url':url}}
 
 
 
