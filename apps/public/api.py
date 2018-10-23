@@ -616,6 +616,7 @@ class PublicFileAPIView(viewsets.ViewSet):
     @list_route(methods=['POST'])
     @Core_connector()
     def upload(self,request, *args, **kwargs):
+        print(str(self))
         print(self.headers)
         # request_params = request.POST
         # print(request_params)
