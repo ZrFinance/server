@@ -621,11 +621,11 @@ class PublicFileAPIView(viewsets.ViewSet):
         file_name = self.request.data.get('file_name')
         file_md5 = self.request.data.get('file_md5')
 
-        base='%s/media/%s'%(BASE_DIR,file_path[-2:])
+        base='%s/media/%s'%(BASE_DIR,file_path.split('/')[-2:])
         new_file_name = '%s_%s' % (file_md5, file_name)
         new_file_path = ''.join([UPLOAD_FILE_PATH, new_file_name])
         with open(new_file_path, 'a') as new_file:
-            with open('%s/%s'%(base,file_path[-1:]), 'rb') as f:
+            with open('%s/%s'%(base,file_path.split('/')[-1:]), 'rb') as f:
                 new_file.write(f.read())
 
         print(base)
