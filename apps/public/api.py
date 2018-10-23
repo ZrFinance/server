@@ -618,6 +618,7 @@ class PublicFileAPIView(viewsets.ViewSet):
     def upload(self,request, *args, **kwargs):
         print(str(self))
         print(self.headers)
+        print(self.request.data)
         # request_params = request.POST
         # print(request_params)
         # file_name = request_params['file_name']
