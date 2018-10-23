@@ -627,9 +627,6 @@ class PublicFileAPIView(viewsets.ViewSet):
         with open(new_file_path, 'ab') as new_file:
             with open('%s/%s'%(base,file_path.split('/')[-1:][0]), 'rb') as f:
                 new_file.write(f.read())
-
-        print(base)
-        os.removedirs(base)
         return {'data':{'url':'/nginx_upload/%s/%s'%(date,new_file_name)}}
 
 
