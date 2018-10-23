@@ -619,7 +619,7 @@ class PublicFileAPIView(viewsets.ViewSet):
 
         file_path = self.request.data.get('file_path')
         file_name = self.request.data.get('file_name')
-        file_md5 = self.request.date.get('file_md5')
+        file_md5 = self.request.data.get('file_md5')
 
         base='%s/media/%s'%(BASE_DIR,file_path[-2:])
         new_file_name = '%s_%s' % (file_md5, file_name)
