@@ -605,7 +605,7 @@ class PublicAPIView(viewsets.ViewSet):
         else:
             return {'data': {"flag": 2}}
 
-    @list_route(methods=['GET'])
+    @list_route(methods=['POST'])
     @Core_connector()
     def upload(self,request, *args, **kwargs):
         request_params = request.POST
