@@ -616,31 +616,21 @@ class PublicFileAPIView(viewsets.ViewSet):
     @list_route(methods=['POST'])
     @Core_connector()
     def upload(self,request, *args, **kwargs):
-        print(str(self))
-        print(self.headers)
-        print(self.request.data)
-        # request_params = request.POST
-        # print(request_params)
-        # file_name = request_params['file_name']
-        # file_content_type = request_params['file_content_type']
-        # file_md5 = request_params['file_md5']
-        # file_path = request_params['file_path']
-        # file_size = request_params['file_size']
-        #
-        # ip_address = request.META.get('HTTP_X_REAL_IP') or request.META.get('HTTP_REMOTE_ADD')
-        #
-        # # save file to tmp
-        # new_file_name = '%s_%s' % (file_md5, file_name)
-        # new_file_path = ''.join([UPLOAD_FILE_PATH, new_file_name])
-        # with open(new_file_path, 'a') as new_file:
-        #     with open(file_path, 'rb') as f:
-        #         new_file.write(f.read())
-        #
-        # print(new_file_path)
-        # path_dir = new_file_path.split('/')[2:]
-        # res = '/'.join(path_dir)
 
-        return None
+        file_path = self.request.data.get('file_path')
+        file_name = self.request.data.get('file_name')
+        file_md5 = self.request.date.get('file_md5')
+
+        new_file_name = '%s_%s' % (file_md5, file_name)
+        new_file_path = ''.join([UPLOAD_FILE_PATH, new_file_name])
+        with open(new_file_path, 'a') as new_file:
+            with open(file_path, 'rb') as f:
+                new_file.write(f.read())
+
+        base='%s/media/%s'%(BASE_DIR,file_path[-2:])
+        print(base)
+        os.removedirs(base)
+        return {'data':{'url':'/nginx_upload/%s/%s'%(date,new_file_name)}}
 
 
 
