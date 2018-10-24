@@ -53,6 +53,7 @@ class Users(models.Model):
     agent = models.TextField(verbose_name='所有下线代理,逗号分隔',null=True,default='')
     lastindex = models.IntegerField(default=0,verbose_name='上一次指定转盘奖品索引',null=True)
     status = models.IntegerField(default='1',verbose_name="状态:0-正常,1-未激活,2-禁用",null=True)
+    stopstatus = models.IntegerField(default='0',verbose_name='是否申请解冻,0-否,1-是')
     blockcount = models.IntegerField(default=0,verbose_name="被封次数")
     activation = models.IntegerField(verbose_name="激活码",default=0,null=True)
     buypower = models.IntegerField(verbose_name="认筹权",default=0,null=True)

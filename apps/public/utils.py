@@ -172,3 +172,14 @@ def tjjr(user,amount,ordercode,sysparm):
             pass
 
 
+def query_agent_limit(mobile,mobile_to):
+
+    if Agent.objects.filter(mobile=mobile,mobile1=mobile_to).count():
+        return True
+
+    if Agent.objects.filter(mobile=mobile_to,mobile1=mobile).count():
+        return True
+
+    return False
+
+

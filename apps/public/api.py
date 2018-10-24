@@ -20,7 +20,7 @@ from libs.utils.mytime import islimit_time
 
 from auth.authentication import Authentication
 
-from apps.public.utils import after_c,pdlimit,daytgbzcount,daysqbzcount
+from apps.public.utils import after_c,pdlimit,daytgbzcount,daysqbzcount,query_agent_limit
 
 import time
 import os
@@ -314,7 +314,7 @@ class PublicAPIView(viewsets.ViewSet):
         except Users.DoesNotExist:
             raise PubErrorCustom('对方账户不存在！')
 
-        if user_to.mobile not in user.agent:
+        if not query_agent_limit(user.mobile,user_to.mobile):
             raise PubErrorCustom('权限不足,无法转账！')
 
         user.buypower -= int(amount)
@@ -366,7 +366,7 @@ class PublicAPIView(viewsets.ViewSet):
         except Users.DoesNotExist:
             raise PubErrorCustom('对方账户不存在！')
 
-        if user_to.mobile not in user.agent:
+        if not query_agent_limit(user.mobile,user_to.mobile):
             raise PubErrorCustom('权限不足,无法转账！')
 
         user.activation -= int(amount)
