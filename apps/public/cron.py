@@ -55,25 +55,30 @@ def task2():
 
     if users.exists():
         for item in users:
+
+            if item.spread == 0 and item.spreadstop == 0:
+                continue
             if Order.objects.filter(userid=item.userid, trantype=0, status=2, updtime__gte=d7,
                                          updtime__lt=send_toTimestamp(t)).count() == 0:
-                Tranlist.objects.create(
-                    trantype = 26,
-                    tranname = '超过7天未打款清空推荐奖',
-                    userid = item.userid,
-                    username = item.username,
-                    bal = item.spread,
-                    amount = item.spread * -1
-                )
 
-                Tranlist.objects.create(
-                    trantype = 27,
-                    tranname = '超过7天未打款清空推荐奖(冻结)',
-                    userid = item.userid,
-                    username = item.username,
-                    bal = item.spreadstop,
-                    amount = item.spreadstop * -1
-                )
-                item.spread = 0
-                item.spreadstop = 0
-                item.save()
+                with transaction.atomic():
+                    Tranlist.objects.create(
+                        trantype = 26,
+                        tranname = '超过7天未打款清空推荐奖',
+                        userid = item.userid,
+                        username = item.username,
+                        bal = item.spread,
+                        amount = item.spread * -1
+                    )
+
+                    Tranlist.objects.create(
+                        trantype = 27,
+                        tranname = '超过7天未打款清空推荐奖(冻结)',
+                        userid = item.userid,
+                        username = item.username,
+                        bal = item.spreadstop,
+                        amount = item.spreadstop * -1
+                    )
+                    item.spread = 0
+                    item.spreadstop = 0
+                    item.save()

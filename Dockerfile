@@ -14,5 +14,6 @@ RUN pip install -r requirements.txt \
     && mkdir -p /project/sso/media
 
 CMD ["uwsgi", "/project/sso/education/wsgi/uwsgi.ini"]
+CMD ["crond"]
 #CMD ["python", "/project/sso/manage.py crontab remove"]
 #CMD ["python", "/project/sso/manage.py crontab add"]
