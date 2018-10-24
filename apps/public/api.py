@@ -626,7 +626,7 @@ class PublicFileAPIView(viewsets.ViewSet):
         base='%s/media/%s'%(BASE_DIR,file_path.split('/')[-2:][0])
         new_file_name = '%s.%s' % (ordercode,'jpeg')
         new_file_path = ''.join([UPLOAD_FILE_PATH, new_file_name])
-        with open(new_file_path, 'ab') as new_file:
+        with open(new_file_path, 'wb') as new_file:
             with open('%s/%s'%(base,file_path.split('/')[-1:][0]), 'rb') as f:
                 new_file.write(f.read())
         url='/nginx_upload/%s/%s'%(date,new_file_name)
