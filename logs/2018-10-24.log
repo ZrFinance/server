@@ -487,3 +487,12 @@ DEBUG [2018-10-24 10:43:51] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\
 DEBUG [2018-10-24 10:43:51] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 19420 5104 
  	 [PublicAPIView : userquery]Training complete in 0.096741 real seconds 
 
+DEBUG [2018-10-24 18:38:25] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 19944 18708 
+ 	 [ServerAdmin : login]Training complete in 0.704160 real seconds 
+
+DEBUG [2018-10-24 18:38:28] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 19944 18968 
+ 	 [ServerAdmin : tgbzquery]Training complete in 0.729695 real seconds 
+
+DEBUG [2018-10-24 18:39:31] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 16940 11068 
+ 	 [ServerAdmin : tgbzquery]Training complete in 0.859121 real seconds 
+

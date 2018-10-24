@@ -21,7 +21,7 @@ def diff_day(start, end=datetime.now()):
     d = (end - start).days
     h = (end-start).seconds / 3600
 
-    return d + round(h / 24.0, 2)
+    return d + round(h / 24.0, 1)
 
 #字符串转化为时间戳
 def string_toTimestamp(st):
@@ -29,7 +29,8 @@ def string_toTimestamp(st):
 
 def islimit_time(start,end):
     t = timestamp_toDatetime(start) + timedelta(hours=end)
-    if t<datetime.now():
+    print(t,datetime.now)
+    if datetime.now() <= t:
         return True
     else:
         return False
