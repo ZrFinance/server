@@ -17,7 +17,8 @@ def send_toTimestamp(t):
 def timestamp_toDatetime(timestamp):
     return datetime.fromtimestamp(timestamp)
 
-def diff_day(start, end=datetime.now()):
+def diff_day(start, end=None):
+    end=timezone.now()
     d = (end - start).days
     h = (end-start).seconds / 3600
 
@@ -29,8 +30,9 @@ def string_toTimestamp(st):
 
 def islimit_time(start,end):
     t = timestamp_toDatetime(start) + timedelta(hours=end)
-    print(t,datetime.now)
-    if datetime.now() <= t:
+    t1=datetime.now()
+
+    if t1 <= t:
         return True
     else:
         return False

@@ -1,0 +1,72 @@
+DEBUG [2018-10-25 00:53:08] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 20652 20768 
+ 	 [ServerAdmin : userquery]Training complete in 0.873675 real seconds 
+
+DEBUG [2018-10-25 00:53:12] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 20652 8552 
+ 	 [ServerAdmin : matchquery]Training complete in 0.322137 real seconds 
+
+DEBUG [2018-10-25 00:53:12] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 20652 15536 
+ 	 [ServerAdmin : matchquery]Training complete in 0.337096 real seconds 
+
+DEBUG [2018-10-25 00:53:13] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 20652 16092 
+ 	 [ServerAdmin : tgbzquery]Training complete in 0.768941 real seconds 
+
+DEBUG [2018-10-25 01:08:45] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 15948 
+ 	 [ServerAdmin : userquery]Training complete in 0.909581 real seconds 
+
+DEBUG [2018-10-25 01:08:57] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 2036 
+ 	 [ServerAdmin : amountsend]Training complete in 0.589445 real seconds 
+
+DEBUG [2018-10-25 01:08:58] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 14040 
+ 	 [ServerAdmin : userquery]Training complete in 0.892610 real seconds 
+
+DEBUG [2018-10-25 01:09:20] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 19588 
+ 	 [ServerAdmin : matchquery]Training complete in 0.387963 real seconds 
+
+DEBUG [2018-10-25 01:09:20] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 15988 
+ 	 [ServerAdmin : matchquery]Training complete in 0.408907 real seconds 
+
+DEBUG [2018-10-25 01:09:23] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 3308 
+ 	 [ServerAdmin : tgbzquery]Training complete in 0.786898 real seconds 
+
+DEBUG [2018-10-25 01:09:35] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 20828 
+ 	 [ServerAdmin : matchadd]Training complete in 0.669210 real seconds 
+
+DEBUG [2018-10-25 01:09:37] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 10532 
+ 	 [ServerAdmin : jsbzquery]Training complete in 0.895600 real seconds 
+
+DEBUG [2018-10-25 01:09:44] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 16548 
+ 	 [ServerAdmin : matchadd]Training complete in 0.733018 real seconds 
+
+DEBUG [2018-10-25 01:09:46] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 13668 
+ 	 [ServerAdmin : matchquery]Training complete in 0.359041 real seconds 
+
+DEBUG [2018-10-25 01:09:46] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 5900 
+ 	 [ServerAdmin : matchquery]Training complete in 0.395946 real seconds 
+
+DEBUG [2018-10-25 01:09:48] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 18136 
+ 	 [ServerAdmin : match]Training complete in 0.963406 real seconds 
+
+DEBUG [2018-10-25 01:09:53] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 5456 
+ 	 [ServerAdmin : matchquery]Training complete in 0.368015 real seconds 
+
+DEBUG [2018-10-25 01:09:53] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 16920 
+ 	 [ServerAdmin : matchquery]Training complete in 0.378985 real seconds 
+
+DEBUG [2018-10-25 01:12:51] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 6668 
+ 	 [UserAPIView : login]Training complete in 0.593424 real seconds 
+
+DEBUG [2018-10-25 01:12:54] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 11984 
+ 	 [PublicAPIView : gqfhquery]Training complete in 0.137627 real seconds 
+
+DEBUG [2018-10-25 01:12:57] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 21484 
+ 	 [OrderAPIView : orderquery]Training complete in 0.093755 real seconds 
+
+DEBUG [2018-10-25 01:12:59] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 12292 
+ 	 [OrderAPIView : orderquery]Training complete in 0.059840 real seconds 
+
+DEBUG [2018-10-25 01:13:05] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 13696 
+ 	 [PublicAPIView : orderobjquery]Training complete in 0.196421 real seconds 
+
+DEBUG [2018-10-25 01:13:22] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 15676 
+ 	 [PublicAPIView : orderobjquery]Training complete in 0.217409 real seconds 
+

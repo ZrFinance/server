@@ -148,7 +148,8 @@ LOGGING_DIR = os.path.join(BASE_DIR, 'logs')
 
 CRON_FILE = os.path.join(LOGGING_DIR, 'cron.log')
 CRONJOBS = [
-    ('*/1 * * * *', 'apps.public.cron.task1', '>>/var/logs/sso/cron.log')
+    ('*/1 * * * *', 'apps.public.cron.task1', '>>/var/logs/sso/cron.log'),
+    ('0 23 * * *', 'apps.public.cron.task2', '>>/var/logs/sso/cron.log')
 ]
 
 if RUN_MODE == "DEVELOP":
