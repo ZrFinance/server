@@ -632,7 +632,7 @@ class ServerAdmin(viewsets.ViewSet):
                 orders.append(order1.ordercode)
         tranname='订单拆分['
         for item in orders:
-            tranname+=str(item)
+            tranname+="%s,"%str(item)
         tranname+=']'
         Tranlist.objects.create(**{
             'trantype': 24,
