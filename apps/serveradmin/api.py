@@ -606,12 +606,14 @@ class ServerAdmin(viewsets.ViewSet):
         if order.amount != sum:
             raise PubErrorCustom("拆分金额与订单金额不匹配！")
 
+        orders=list()
         for (index, item) in enumerate(amounts.split(',')):
             if index == 0:
                 order.amount = item
                 order.save()
+                orders.append(order.ordercode)
             else:
-                Order.objects.create(**{
+                order1=Order.objects.create(**{
                     'trantype': order.trantype,
                     'subtrantype': order.subtrantype,
                     'amount': item,
@@ -627,5 +629,17 @@ class ServerAdmin(viewsets.ViewSet):
                     'updtime': order.updtime,
                     'img': order.img
                 })
+                orders.append(order1.ordercode)
+        tranname='订单拆分['
+        for item in orders:
+            tranname+=item
+        tranname+=']'
+        Tranlist.objects.create(**{
+            'trantype': 24,
+            'tranname':tranname,
+            'userid':order.userid,
+            'username':order.username,
+            'ordercode':order.ordercode
+        })
 
 

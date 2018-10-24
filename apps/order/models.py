@@ -78,6 +78,7 @@ class Tranlist(models.Model):
             21-规定时间内无匹配,推荐奖作废(冻结),
             22-一代奖金(冻结),
             23-二代奖金(冻结),
+            24-订单拆分
             """, default=0)
     tranname = models.CharField(max_length=100,default='')
     userid = models.BigIntegerField(default=0)
