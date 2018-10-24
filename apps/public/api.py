@@ -418,10 +418,14 @@ class PublicAPIView(viewsets.ViewSet):
     def orderobjquery(self,request,*args,**kwargs):
 
         order=Order.objects.raw("""
-            select t1.ordercode,t3.username,t3.name,t3.mobile,t3.alipay,t3.wechat,t3.bank,t3.bank_account,t3.referee_name,t1.ordercode,t1.updtime
+            select t1.ordercode,t3.username,t3.name,t3.mobile,t3.alipay,t3.wechat,t3.bank,t3.bank_account,t3.referee_name,t1.ordercode,t1.updtime,
+              case t1.trantype
+                when '0' then t1.img
+                else t4.img end as img
             from `order` as t1
             inner join user as t2 on t1.userid = t2.userid
             inner join user as t3 on t1.userid_to = t3.userid
+            inner join `order` as t4 on t1.ordercode_to = t4.ordercode
             where t1.ordercode=%s
         """,[self.request.query_params.get('ordercode')])
         order=list(order)[0]
