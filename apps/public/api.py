@@ -455,7 +455,7 @@ class PublicAPIView(viewsets.ViewSet):
         except SysParam.DoesNotExist:
             raise PubErrorCustom("无规则")
 
-        if islimit_time(order.updtime,2):
+        if islimit_time(order1.updtime,2):
             amountlixi=order.amount * sysparam.interset / 100
         else:
             amountlixi=order.amount * sysparam.interset1 / 100
@@ -634,7 +634,7 @@ class PublicFileAPIView(viewsets.ViewSet):
             with open('%s/%s'%(base,file_path.split('/')[-1:][0]), 'rb') as f:
                 new_file.write(f.read())
         url='/nginx_upload/%s/%s'%(date,new_file_name)
-        Order.objects.filter(ordercode=ordercode).update(img=url)
+        Order.objects.filter(ordercode=ordercode).update(img=url,updtime=time.mktime(timezone.now().timetuple()))
         return {'data':{'url':url}}
 
 

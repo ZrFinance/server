@@ -70,3 +70,30 @@ DEBUG [2018-10-25 01:13:05] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\
 DEBUG [2018-10-25 01:13:22] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 15024 15676 
  	 [PublicAPIView : orderobjquery]Training complete in 0.217409 real seconds 
 
+DEBUG [2018-10-25 12:23:10] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 5564 15820 
+ 	 [OrderAPIView : orderquery]Training complete in 0.069813 real seconds 
+
+DEBUG [2018-10-25 12:23:16] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 5564 20728 
+ 	 [PublicAPIView : userquery]Training complete in 0.145608 real seconds 
+
+DEBUG [2018-10-25 12:23:18] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 5564 21328 
+ 	 [OrderAPIView : orderquery]Training complete in 0.043882 real seconds 
+
+DEBUG [2018-10-25 12:23:20] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 5564 20948 
+ 	 [OrderAPIView : orderquery]Training complete in 0.197423 real seconds 
+
+DEBUG [2018-10-25 12:23:22] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 5564 2860 
+ 	 [PublicAPIView : orderobjquery]Training complete in 0.213427 real seconds 
+
+DEBUG [2018-10-25 12:23:26] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 5564 14976 
+ 	 [PublicAPIView : userquery]Training complete in 0.167594 real seconds 
+
+DEBUG [2018-10-25 12:23:34] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 5564 9912 
+ 	 [UserAPIView : login]Training complete in 0.676222 real seconds 
+
+DEBUG [2018-10-25 12:23:38] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 5564 20444 
+ 	 [OrderAPIView : orderquery]Training complete in 0.091754 real seconds 
+
+DEBUG [2018-10-25 12:23:40] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 5564 12816 
+ 	 [PublicAPIView : orderobjquery]Training complete in 0.173572 real seconds 
+
