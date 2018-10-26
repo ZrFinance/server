@@ -11,7 +11,9 @@ RUN apk add --no-cache tzdata  && \
 
 RUN pip install -r requirements.txt \
     && mkdir -p /project/sso/logs \
-    && mkdir -p /project/sso/media
+    && mkdir -p /project/sso/media \
+    && mkdir -p /var/logs/sso \
+    && echo "" > /var/logs/sso/cron.log
 
 
 CMD crond && uwsgi /project/sso/education/wsgi/uwsgi.ini

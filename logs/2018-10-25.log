@@ -97,3 +97,42 @@ DEBUG [2018-10-25 12:23:38] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\
 DEBUG [2018-10-25 12:23:40] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 5564 12816 
  	 [PublicAPIView : orderobjquery]Training complete in 0.173572 real seconds 
 
+DEBUG [2018-10-25 13:09:16] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 20040 18992 
+ 	 [OrderAPIView : orderquery]Training complete in 0.075799 real seconds 
+
+DEBUG [2018-10-25 15:03:46] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 18460 6112 
+ 	 [PublicAPIView : get_verification_code]Training complete in 0.635300 real seconds 
+
+DEBUG [2018-10-25 15:03:56] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 18460 3216 
+ 	 [UserAPIView : register]Training complete in 1.347409 real seconds 
+
+DEBUG [2018-10-25 15:04:20] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 18460 13164 
+ 	 [PublicAPIView : get_verification_code]Training complete in 0.486702 real seconds 
+
+DEBUG [2018-10-25 15:04:26] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 18460 4604 
+ 	 [UserAPIView : register]Training complete in 1.331442 real seconds 
+
+DEBUG [2018-10-25 15:04:53] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 18460 3268 
+ 	 [PublicAPIView : get_verification_code]Training complete in 0.525594 real seconds 
+
+DEBUG [2018-10-25 15:05:01] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 18460 10936 
+ 	 [UserAPIView : register]Training complete in 1.317513 real seconds 
+
+DEBUG [2018-10-25 15:05:22] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 18460 10500 
+ 	 [PublicAPIView : get_verification_code]Training complete in 0.559506 real seconds 
+
+DEBUG [2018-10-25 15:05:28] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 18460 13012 
+ 	 [UserAPIView : register]Training complete in 1.492011 real seconds 
+
+DEBUG [2018-10-25 15:05:50] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 18460 19176 
+ 	 [PublicAPIView : get_verification_code]Training complete in 0.572469 real seconds 
+
+DEBUG [2018-10-25 15:06:06] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 18460 17756 
+ 	 [UserAPIView : register]Training complete in 1.449118 real seconds 
+
+DEBUG [2018-10-25 15:06:19] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 18460 19864 
+ 	 [PublicAPIView : get_verification_code]Training complete in 0.521611 real seconds 
+
+DEBUG [2018-10-25 15:06:27] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 18460 3820 
+ 	 [UserAPIView : register]Training complete in 1.335428 real seconds 
+
