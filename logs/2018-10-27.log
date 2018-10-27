@@ -142,3 +142,15 @@ DEBUG [2018-10-27 16:45:24] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\
 DEBUG [2018-10-27 16:45:45] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 4824 3496 
  	 [PublicAPIView : userquery]Training complete in 1.309577 real seconds 
 
+DEBUG [2018-10-27 16:56:13] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 4824 20720 
+ 	 [UserAPIView : login]Training complete in 3.303178 real seconds 
+
+DEBUG [2018-10-27 16:56:21] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 4824 20044 
+ 	 [PublicAPIView : tranlistbquery]Training complete in 0.358100 real seconds 
+
+DEBUG [2018-10-27 16:56:31] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 4824 8132 
+ 	 [PublicAPIView : tranlistbquery]Training complete in 0.272312 real seconds 
+
+DEBUG [2018-10-27 16:59:37] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 1828 17152 
+ 	 [PublicAPIView : tranlistbquery]Training complete in 0.485738 real seconds 
+

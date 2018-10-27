@@ -404,13 +404,13 @@ class PublicAPIView(viewsets.ViewSet):
         flag = self.request.query_params.get('flag')
 
         if str(flag)=='0':
-            return {'data':TranlistSerializer(Tranlist.objects.filter(userid=user.userid,trantype__in=[1,2,3]),many=True).data}
+            return {'data':TranlistSerializer(Tranlist.objects.filter(userid=user.userid,trantype__in=[1,2,3]).order_by('-createtime'),many=True).data}
         elif str(flag)=='1':
-            return {'data': TranlistSerializer(Tranlist.objects.filter(userid=user.userid, trantype__in=[4,5]),many=True).data}
+            return {'data': TranlistSerializer(Tranlist.objects.filter(userid=user.userid, trantype__in=[4,5]).order_by('-createtime'),many=True).data}
         elif str(flag)=='2':
-            return {'data': TranlistSerializer(Tranlist.objects.filter(userid=user.userid, trantype__in=[6]),many=True).data}
+            return {'data': TranlistSerializer(Tranlist.objects.filter(userid=user.userid, trantype__in=[6]).order_by('-createtime'),many=True).data}
         elif str(flag)=='3':
-            return {'data': TranlistSerializer(Tranlist.objects.filter(userid=user.userid, trantype__in=[11,13,14,22,23]),many=True).data}
+            return {'data': TranlistSerializer(Tranlist.objects.filter(userid=user.userid, trantype__in=[11,13,14,22,23]).order_by('-createtime'),many=True).data}
 
 
     @list_route(methods=['GET'])
