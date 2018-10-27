@@ -482,7 +482,7 @@ class PublicAPIView(viewsets.ViewSet):
             ordercode=order1.ordercode
         )
 
-        user.bonus +=order1.amount
+        user1.bonus +=order1.amount
         #利息
         Tranlist.objects.create(
             trantype=10,
