@@ -137,18 +137,29 @@ def tjjr(user,amount,ordercode,sysparm):
                 order=order[0]
                 if amount > order.amount:
                     amount = order.amount
-                #直推是否有5人间推是否有15人
-                if Agent.objects.filter(mobile=user1.mobile,level=1).count()>=5 and Agent.objects.filter(mobile=user1.mobile,level=2).count()>=15:
-                    spread=amount * sysparm.amount9 / 100
-                else:
-                    spread=amount * sysparm.amount7 / 100
+                if item==1:
+                    #直推是否有5人间推是否有15人
+                    if Agent.objects.filter(mobile=user1.mobile,level=1).count()>=5 and Agent.objects.filter(mobile=user1.mobile,level=2).count()>=15:
+                        spread=amount * sysparm.amount9 / 100
+                    else:
+                        spread=amount * sysparm.amount7 / 100
+                elif item==2:
+                    #直推是否有5人间推是否有15人
+                    if Agent.objects.filter(mobile=user1.mobile,level=1).count()>=5 and Agent.objects.filter(mobile=user1.mobile,level=2).count()>=15:
+                        spread=amount * sysparm.amount10 / 100
+                    else:
+                        spread=amount * sysparm.amount8 / 100
 
                 #推荐奖分两部分(冻结部分待开放)
                 amount2 = spread * sysparm.flag1 / 100
                 amount1 = spread - amount2
 
+                if item == 1:
+                    trantype=13
+                elif item == 2:
+                    trantype=14
                 Tranlist.objects.create(
-                    trantype=13,
+                    trantype=trantype,
                     userid=user1.userid,
                     username=user1.username,
                     bal=user1.spread,
@@ -156,8 +167,12 @@ def tjjr(user,amount,ordercode,sysparm):
                     ordercode=ordercode
                 )
 
+                if item == 1:
+                    trantype=22
+                elif item == 2:
+                    trantype=23
                 Tranlist.objects.create(
-                    trantype=22,
+                    trantype=trantype,
                     userid=user1.userid,
                     username=user1.username,
                     bal=user1.spreadstop,

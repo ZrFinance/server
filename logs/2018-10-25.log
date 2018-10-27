@@ -136,3 +136,9 @@ DEBUG [2018-10-25 15:06:19] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\
 DEBUG [2018-10-25 15:06:27] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 18460 3820 
  	 [UserAPIView : register]Training complete in 1.335428 real seconds 
 
+DEBUG [2018-10-26 17:40:24] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 10452 2440 
+ 	 [UserAPIView : login]Training complete in 2.116338 real seconds 
+
+DEBUG [2018-10-26 17:40:48] C:\Users\Tc\Desktop\众瑞\zhongrui\server\libs\utils\log.py 52 debug 10452 13616 
+ 	 [OrderAPIView : orderquery]Training complete in 0.380980 real seconds 
+
