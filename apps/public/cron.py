@@ -25,7 +25,7 @@ def task1():
     with transaction.atomic():
         sysparam=SysParam.objects.get()
 
-        order=Order.objects.filter(status=0,trantype=0)
+        order=Order.objects.filter(status=0,trantype=0,umark=0)
         if order.exists():
             for item in order:
                 if not islimit_time(item.updtime,sysparam.amount_term):
@@ -58,8 +58,8 @@ def task2():
 
             if item.spread == 0 and item.spreadstop == 0:
                 continue
-            if Order.objects.filter(userid=item.userid, trantype=0, status=2, updtime__gte=d7,
-                                         updtime__lt=send_toTimestamp(t)).count() == 0:
+            if Order.objects.filter(userid=item.userid, trantype=0, status=2, confirmtime__gte=d7,
+                                    confirmtime__lt=send_toTimestamp(t)).count() == 0:
 
                 with transaction.atomic():
                     Tranlist.objects.create(

@@ -143,8 +143,7 @@ class PublicAPIView(viewsets.ViewSet):
             amount=amount,
             userid=user.userid,
             username=user.username,
-            status=0,
-            updtime=time.mktime(timezone.now().timetuple())
+            status=0
         )
         amount1 = amount * 2 /100
         if user.buypower < amount1 :
@@ -418,7 +417,9 @@ class PublicAPIView(viewsets.ViewSet):
     def orderobjquery(self,request,*args,**kwargs):
 
         order=Order.objects.raw("""
-            select t1.ordercode,t3.username,t3.name,t3.mobile,t3.alipay,t3.wechat,t3.bank,t3.bank_account,t3.referee_name,t1.ordercode,t1.updtime,
+            select t1.ordercode,t3.username,t3.name,t3.mobile,t3.alipay,t3.wechat,t3.bank,t3.bank_account,t3.referee_name,
+              t1.ordercode,
+              t1.matchtime  as updtime,
               case t1.trantype
                 when '0' then t1.img
                 else t4.img end as img
@@ -438,12 +439,12 @@ class PublicAPIView(viewsets.ViewSet):
         ordercode=request.data.get('ordercode')
 
         try:
-            order=Order.objects.get(ordercode=ordercode)
+            order=Order.objects.get(ordercode=ordercode,umark=0)
         except Order.DoesNotExist:
             raise PubErrorCustom("订单号不存在！")
 
         try:
-            order1=Order.objects.get(ordercode=order.ordercode_to)
+            order1=Order.objects.get(ordercode=order.ordercode_to,umark=0)
         except Order.DoesNotExist:
             raise PubErrorCustom("订单号不存在！")
 
@@ -455,7 +456,7 @@ class PublicAPIView(viewsets.ViewSet):
         except SysParam.DoesNotExist:
             raise PubErrorCustom("无规则")
 
-        if islimit_time(order1.updtime,2):
+        if islimit_time(order1.matchtime,2):
             amountlixi=order.amount * sysparam.interset / 100
         else:
             amountlixi=order.amount * sysparam.interset1 / 100
@@ -500,11 +501,10 @@ class PublicAPIView(viewsets.ViewSet):
 
 
         t = time.mktime(timezone.now().timetuple())
-        order.updtime = t
+        order.confirmtime = t
         order.status = 2
         order.save()
 
-        order1.updtime = t
         order1.status = 2
         order1.save()
 
@@ -571,8 +571,7 @@ class PublicAPIView(viewsets.ViewSet):
             amount=amount,
             userid=user.userid,
             username=user.username,
-            status=0,
-            updtime=time.mktime(timezone.now().timetuple())
+            status=0
         )
         amount1 = amount * 2 /100
         if user.buypower < amount1 :
@@ -604,7 +603,7 @@ class PublicAPIView(viewsets.ViewSet):
     def xsrcquery(self, request, *args, **kwargs):
         user=request.user
 
-        if Order.objects.filter(userid=user.userid).count():
+        if Order.objects.filter(userid=user.userid,umark=0).count():
             return {'data':{"flag":1}}
         else:
             return {'data': {"flag": 2}}
@@ -634,7 +633,7 @@ class PublicFileAPIView(viewsets.ViewSet):
             with open('%s/%s'%(base,file_path.split('/')[-1:][0]), 'rb') as f:
                 new_file.write(f.read())
         url='/nginx_upload/%s/%s'%(date,new_file_name)
-        Order.objects.filter(ordercode=ordercode).update(img=url,updtime=time.mktime(timezone.now().timetuple()))
+        Order.objects.filter(ordercode=ordercode).update(img=url,confirmtime=time.mktime(timezone.now().timetuple()))
         return {'data':{'url':url}}
 
 

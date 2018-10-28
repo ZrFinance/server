@@ -81,7 +81,7 @@ def pdlimit(sysparam):
 
     start = string_toTimestamp(t[:10] + ' 00:00:00')
     end = string_toTimestamp(t[:10] + ' 12:00:00')
-    order=Order.objects.filter(createtime__gte=start,createtime__lt=end,status=0,trantype=0)
+    order=Order.objects.filter(createtime__gte=start,createtime__lt=end,status=0,trantype=0,umark=0)
     if order.exists():
         sum=0
         for item in order:
@@ -91,7 +91,7 @@ def pdlimit(sysparam):
 
     start = string_toTimestamp(t[:10] + ' 12:00:01')
     end = string_toTimestamp(t[:10] + ' 23:59:59')
-    order=Order.objects.filter(createtime__gte=start,createtime__lt=end,status=0,trantype=0)
+    order=Order.objects.filter(createtime__gte=start,createtime__lt=end,status=0,trantype=0,umark=0)
     if order.exists():
         sum=0
         for item in order:
@@ -104,7 +104,7 @@ def daytgbzcount(userid,sysparam):
     t = datetime.now().strftime("%Y-%m-%d %H:%S:%M")
     start = string_toTimestamp(t[:10] + ' 00:00:01')
     end = string_toTimestamp(t[:10] + ' 23:59:59')
-    if Order.objects.filter(userid=userid,createtime__gte=start,createtime__lt=end,trantype=0).count() >= sysparam.count1:
+    if Order.objects.filter(userid=userid,createtime__gte=start,createtime__lt=end,trantype=0,umark=0).count() >= sysparam.count1:
         return True
     else:
         return False
@@ -113,7 +113,7 @@ def daysqbzcount(userid,sysparam):
     t = datetime.now().strftime("%Y-%m-%d %H:%S:%M")
     start = string_toTimestamp(t[:10] + ' 00:00:01')
     end = string_toTimestamp(t[:10] + ' 23:59:59')
-    if Order.objects.filter(userid=userid,createtime__gte=start,createtime__lt=end,trantype=1).count() >= sysparam.count2:
+    if Order.objects.filter(userid=userid,createtime__gte=start,createtime__lt=end,trantype=1,umark=0).count() >= sysparam.count2:
         return True
     else:
         return False
@@ -131,8 +131,8 @@ def tjjr(user,amount,ordercode,sysparm):
                 user1=Users.objects.get(mobile=agent.mobile)
             except Users.DoesNotExist:
                 raise PubErrorCustom("推广奖对应用户不存在!")
-            order = Order.objects.filter(userid=user1.userid, trantype=0, status=2, updtime__gte=d5,
-                                         updtime__lt=send_toTimestamp(t)).order_by('-amount')
+            order = Order.objects.filter(userid=user1.userid, trantype=0, status=2, confirmtime__gte=d5,
+                                         confirmtime__lt=send_toTimestamp(t),umark=0).order_by('-amount')
             if order.exists():
                 order=order[0]
                 if amount > order.amount:

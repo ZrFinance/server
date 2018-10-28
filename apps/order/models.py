@@ -16,11 +16,11 @@ class Order(models.Model):
     username_to = models.CharField(max_length=512,default='')
     ordercode_to = models.CharField(max_length=512,default='')
     status = models.IntegerField(verbose_name='状态:0-未匹配,1-匹配成功,2-已完成')
-    statusname = models.IntegerField(default=0,verbose_name='0-待打款/待收款,1-确认打款/确认收款-(该字段放弃使用)')
-    confirm = models.IntegerField(default=0,verbose_name='0-未确认,2-已确认-(该字段放弃使用)')
+    confirmtime = models.BigIntegerField(default=0,verbose_name='打款时间/收款时间')
+    matchtime = models.BigIntegerField(default=0,verbose_name='匹配时间')
     createtime=models.BigIntegerField(default=0)
-    updtime = models.BigIntegerField(default=0)
     img = models.CharField(max_length=255)
+    umark = models.IntegerField(default=0,verbose_name='状态0-正常,1-删除')
 
     mobile=None
     name=None
@@ -35,8 +35,6 @@ class Order(models.Model):
         t= time.mktime(timezone.now().timetuple())
         if not self.createtime:
             self.createtime = t
-        if not self.updtime:
-            self.updtime = t
         return super(Order, self).save(*args, **kwargs)
 
     def __str__(self):

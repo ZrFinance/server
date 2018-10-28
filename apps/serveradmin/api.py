@@ -48,10 +48,10 @@ class ServerAdmin(viewsets.ViewSet):
 
         order=Order.objects.raw(
             """
-                SELECT t1.`ordercode`,t2.mobile,t1.amount,t2.name,t1.updtime,t1.status
+                SELECT t1.`ordercode`,t2.mobile,t1.amount,t2.name,t1.createtime,t1.status
                 FROM `order` as t1
                 INNER JOIN `user` as t2 ON t1.userid=t2.userid 
-                WHERE 1=1 and t1.status=0 and trantype=0 {} ORDER BY updtime desc
+                WHERE 1=1 and t1.status=0 and trantype=0 and t1.umark=0 {} ORDER BY createtime desc
             """.format(query_params), query_list)
         order=list(order)
 
@@ -62,7 +62,7 @@ class ServerAdmin(viewsets.ViewSet):
                     SELECT t1.ordercode,t1.userid,count(1) as count
                     FROM `order` as t1
                     INNER JOIN `user` as t2 ON t1.userid=t2.userid 
-                    WHERE 1=1 and t1.status=0 and trantype=0 group by t1.userid
+                    WHERE 1=1 and t1.status=0 and trantype=0 and t1.umark=0 group by t1.userid
                 """)
             order1=list(order1)
             if str(flag) == '1':
@@ -115,10 +115,10 @@ class ServerAdmin(viewsets.ViewSet):
 
         order=Order.objects.raw(
             """
-                SELECT t1.`ordercode`,t2.mobile,t1.amount,t2.name,t1.updtime,t1.status
+                SELECT t1.`ordercode`,t2.mobile,t1.amount,t2.name,t1.createtime,t1.status
                 FROM `order` as t1
                 INNER JOIN `user` as t2 ON t1.userid=t2.userid 
-                WHERE 1=1 and t1.status=0 and trantype=1 {} ORDER BY updtime desc
+                WHERE 1=1 and t1.status=0 and trantype=1 and t1.umark=0 {} ORDER BY createtime desc
             """.format(query_params), query_list)
         order=list(order)
 
@@ -129,7 +129,7 @@ class ServerAdmin(viewsets.ViewSet):
                     SELECT t1.ordercode,t1.userid,count(1) as count
                     FROM `order` as t1
                     INNER JOIN `user` as t2 ON t1.userid=t2.userid 
-                    WHERE 1=1 and t1.status=0 and trantype=1 group by t1.userid
+                    WHERE 1=1 and t1.status=0 and trantype=1 and t1.umark=0 group by t1.userid
                 """)
             order1=list(order1)
             if str(flag) == '1':
@@ -167,14 +167,14 @@ class ServerAdmin(viewsets.ViewSet):
     @Core_connector(transaction=True)
     def delorder(self,request,*args,**kwargs):
 
-        Order.objects.filter(ordercode=self.request.data.get('ordercode')).delete()
+        Order.objects.filter(ordercode=self.request.data.get('ordercode')).update(umark=1)
         return None
 
     @list_route(methods=['POST'])
     @Core_connector(transaction=True)
     def matchadd(self, request, *args, **kwargs):
 
-        order=Order.objects.filter(ordercode__in=request.data.get('ordercodes').split(','))
+        order=Order.objects.filter(ordercode__in=request.data.get('ordercodes').split(','),umark=0)
         trantype=request.data.get('trantype')
         if order.exists():
             for item in order:
@@ -206,11 +206,11 @@ class ServerAdmin(viewsets.ViewSet):
 
         order=Order.objects.raw(
             """
-                SELECT t1.`ordercode`,t1.username,t1.amount,t1.updtime,t3.mobile
+                SELECT t1.`ordercode`,t1.username,t1.amount,t1.createtime,t3.mobile
                 FROM `order` as t1
                 INNER JOIN `matchpool` as t2 ON t1.ordercode=t2.ordercode 
                 INNER JOIN `user` as t3 ON t1.userid=t3.userid
-                WHERE 1=1 and t1.status=0 and t2.flag=0 {} ORDER BY t2.createtime desc
+                WHERE 1=1 and t1.status=0 and t2.flag=0 and t1.umark=0 {} ORDER BY t2.createtime desc
             """.format(query_params), query_list)
         order=list(order)
 
@@ -336,8 +336,8 @@ class ServerAdmin(viewsets.ViewSet):
         for (index1,item) in enumerate(match1):
             for (index2,item1) in enumerate(match2):
                 if item.amount == item1.amount and item1.ordercode not in inner_value1:
-                    Order.objects.filter(ordercode=item.ordercode).update(status=1,userid_to=item1.userid,username_to=item1.username,ordercode_to=item1.ordercode)
-                    Order.objects.filter(ordercode=item1.ordercode).update(status=1, userid_to=item.userid,username_to=item.username,ordercode_to=item.ordercode)
+                    Order.objects.filter(ordercode=item.ordercode).update(status=1,userid_to=item1.userid,username_to=item1.username,ordercode_to=item1.ordercode,matchtime=t)
+                    Order.objects.filter(ordercode=item1.ordercode).update(status=1, userid_to=item.userid,username_to=item.username,ordercode_to=item.ordercode,matchtime=t)
                     inner_value1.append(item1.ordercode)
                     index_list2.append(index2)
                     index_list1.append(index1)
@@ -370,15 +370,15 @@ class ServerAdmin(viewsets.ViewSet):
                 if not len(tgbz_obj):
                     if obj1 and obj2:
                         Order.objects.filter(ordercode=obj1.ordercode).update(status=1, userid_to=obj2.userid,
-                                                                          username_to=obj2.username,ordercode_to=obj2.ordercode,updtime=t)
+                                                                          username_to=obj2.username,ordercode_to=obj2.ordercode,matchtime=t)
                         Order.objects.filter(ordercode=obj2.ordercode).update(status=1, userid_to=obj1.userid,
-                                                                           username_to=obj1.username,ordercode_to=obj1.ordercode,updtime=t)
+                                                                           username_to=obj1.username,ordercode_to=obj1.ordercode,matchtime=t)
                 else:
                     if obj1 and obj2:
                         Order.objects.filter(ordercode=obj1.ordercode).update(status=1, userid_to=obj2.userid,
-                                                                          username_to=obj2.username,amount=amountobj1,ordercode_to=obj2.ordercode,updtime=t)
+                                                                          username_to=obj2.username,amount=amountobj1,ordercode_to=obj2.ordercode,matchtime=t)
                         Order.objects.filter(ordercode=obj2.ordercode).update(status=1, userid_to=obj1.userid,
-                                                                           username_to=obj1.username,amount=amountobj1,ordercode_to=obj1.ordercode,updtime=t)
+                                                                           username_to=obj1.username,amount=amountobj1,ordercode_to=obj1.ordercode,matchtime=t)
                     for item in tgbz_obj:
                         if item['obj'].ordercode in inner_value:
                             continue
@@ -389,14 +389,14 @@ class ServerAdmin(viewsets.ViewSet):
                             order.username_to=item['obj'].username
                             order.amount=item['amount']
                             order.ordercode_to=item['obj'].ordercode
-                            order.updtime = t
+                            order.matchtime = t
                             order.save()
 
                             s=Order.objects.get(ordercode=item['obj'].ordercode)
                             s.ordercode_to = "{},{}".format(s.ordercode_to,order.ordercode)
                             s.username_to= "{},{}".format(s.username_to,order.username)
                             s.userid_to = "{},{}".format(s.userid_to, order.userid)
-                            s.updtime = t
+                            s.matchtime = t
                             s.save()
                             tmpamount -= item['amount']
                             inner_value.append(item['obj'].ordercode)
@@ -409,14 +409,14 @@ class ServerAdmin(viewsets.ViewSet):
                             order.username_to=item['obj'].username
                             order.amount=tmpamount
                             order.ordercode_to=item['obj'].ordercode
-                            order.updtime = t
+                            order.matchtime = t
                             order.save()
 
                             s=Order.objects.get(ordercode=item['obj'].ordercode)
                             s.ordercode_to = "{},{}".format(s.ordercode_to,order.ordercode)
                             s.username_to= "{},{}".format(s.username_to,order.username)
                             s.userid_to = "{},{}".format(s.userid_to, order.userid)
-                            s.updtime = t
+                            s.matchtime = t
                             s.save()
                             item['amount'] -= tmpamount
                             tmpamount=0
@@ -431,15 +431,15 @@ class ServerAdmin(viewsets.ViewSet):
                 if not len(jsbz_obj):
                     if obj1 and obj2:
                         Order.objects.filter(ordercode=obj1.ordercode).update(status=1, userid_to=obj2.userid,
-                                                                          username_to=obj2.username,ordercode_to=obj2.ordercode,updtime=t)
+                                                                          username_to=obj2.username,ordercode_to=obj2.ordercode,matchtime=t)
                         Order.objects.filter(ordercode=obj2.ordercode).update(status=1, userid_to=obj1.userid,
-                                                                           username_to=obj1.username,ordercode_to=obj1.ordercode,updtime=t)
+                                                                           username_to=obj1.username,ordercode_to=obj1.ordercode,matchtime=t)
                 else:
                     if obj1 and obj2 :
                             Order.objects.filter(ordercode=obj1.ordercode).update(status=1, userid_to=obj2.userid,
-                                                                              username_to=obj2.username,amount=amountobj2,ordercode_to=obj2.ordercode,updtime=t)
+                                                                              username_to=obj2.username,amount=amountobj2,ordercode_to=obj2.ordercode,matchtime=t)
                             Order.objects.filter(ordercode=obj2.ordercode).update(status=1, userid_to=obj1.userid,
-                                                                               username_to=obj1.username,amount=amountobj2,ordercode_to=obj1.ordercode,updtime=t)
+                                                                               username_to=obj1.username,amount=amountobj2,ordercode_to=obj1.ordercode,matchtime=t)
                     for item in jsbz_obj:
                         if item['obj'].ordercode in inner_value:
                             continue
@@ -450,14 +450,14 @@ class ServerAdmin(viewsets.ViewSet):
                             order.username_to=item['obj'].username
                             order.amount=item['amount']
                             order.ordercode_to=item['obj'].ordercode
-                            order.updtime = t
+                            order.matchtime = t
                             order.save()
 
                             s=Order.objects.get(ordercode=item['obj'].ordercode)
                             s.ordercode_to = "{},{}".format(s.ordercode_to,order.ordercode)
                             s.username_to= "{},{}".format(s.username_to,order.username)
                             s.userid_to = "{},{}".format(s.userid_to, order.userid)
-                            s.updtime = t
+                            s.matchtime = t
                             s.save()
                             tmpamount -= item['amount']
                             inner_value.append(item['obj'].ordercode)
@@ -470,14 +470,14 @@ class ServerAdmin(viewsets.ViewSet):
                             order.username_to=item['obj'].username
                             order.amount=tmpamount
                             order.ordercode_to=item['obj'].ordercode
-                            order.updtime = t
+                            order.matchtime = t
                             order.save()
 
                             s=Order.objects.get(ordercode=item['obj'].ordercode)
                             s.ordercode_to = "{},{}".format(s.ordercode_to,order.ordercode)
                             s.username_to= "{},{}".format(s.username_to,order.username)
                             s.userid_to = "{},{}".format(s.userid_to, order.userid)
-                            s.updtime = t
+                            s.matchtime = t
                             s.save()
                             item['amount'] -= tmpamount
                             tmpamount=0
@@ -494,7 +494,7 @@ class ServerAdmin(viewsets.ViewSet):
                 SELECT t1.*
                 FROM `order` as t1
                 INNER JOIN `matchpool` as t2 ON t1.ordercode = t2.ordercode
-                WHERE t2.trantype=0 and t2.flag=0 order by t1.amount
+                WHERE t2.trantype=0 and t2.flag=0 and t1.umark=0 order by t1.amount
             """
         ))
 
@@ -503,7 +503,7 @@ class ServerAdmin(viewsets.ViewSet):
                 SELECT t1.*
                 FROM `order` as t1
                 INNER JOIN `matchpool` as t2 ON t1.ordercode = t2.ordercode
-                WHERE t2.trantype=1 and t2.flag=0 order by t1.amount
+                WHERE t2.trantype=1 and t2.flag=0 and t1.umark=0 order by t1.amount
             """
         ))
 
@@ -515,7 +515,7 @@ class ServerAdmin(viewsets.ViewSet):
                 for (index,ordercode) in enumerate(ordercodes):
                     if index==0:
                         s=Order.objects.get(ordercode=ordercode)
-                        Order.objects.filter(ordercode=item.ordercode).update(amount=s.amount,userid_to=s.userid,username_to=s.username,ordercode_to=s.ordercode,updtime=t)
+                        Order.objects.filter(ordercode=item.ordercode).update(amount=s.amount,userid_to=s.userid,username_to=s.username,ordercode_to=s.ordercode,matchtime=t)
                     else:
                         s = Order.objects.get(ordercode=ordercode)
                         p=Order.objects.create(**{
@@ -529,7 +529,7 @@ class ServerAdmin(viewsets.ViewSet):
                             'ordercode_to':s.ordercode,
                             'status':item.status,
                             'createtime':item.createtime,
-                            'updtime':t
+                            'matchtime':t
                         })
                         s.ordercode_to=p.ordercode
                         s.save()
@@ -547,7 +547,7 @@ class ServerAdmin(viewsets.ViewSet):
                 for (index,ordercode) in enumerate(ordercodes):
                     if index==0:
                         s=Order.objects.get(ordercode=ordercode)
-                        Order.objects.filter(ordercode=item.ordercode).update(amount=s.amount,userid_to=s.userid,username_to=s.username_to,ordercode_to=s.ordercode,updtime=t)
+                        Order.objects.filter(ordercode=item.ordercode).update(amount=s.amount,userid_to=s.userid,username_to=s.username_to,ordercode_to=s.ordercode,matchtime=t)
                     else:
                         s = Order.objects.get(ordercode=ordercode)
                         p=Order.objects.create(**{
@@ -561,7 +561,7 @@ class ServerAdmin(viewsets.ViewSet):
                             'ordercode_to':s.ordercode,
                             'status':item.status,
                             'createtime':item.createtime,
-                            'updtime':t
+                            'matchtime':t
                         })
                         s.ordercode_to=p.ordercode
                         s.save()
@@ -574,9 +574,6 @@ class ServerAdmin(viewsets.ViewSet):
 
         MatchPool.objects.filter(trantype=0, flag=0).update(flag=1,matchtime=t)
         MatchPool.objects.filter(trantype=1, flag=0).update(flag=1,matchtime=t)
-
-
-
 
         return None
 
@@ -593,7 +590,7 @@ class ServerAdmin(viewsets.ViewSet):
             raise PubErrorCustom("拆分格式错误！")
 
         try:
-            order = Order.objects.get(ordercode=ordercode)
+            order = Order.objects.get(ordercode=ordercode,umark=0)
         except Order.DoesNotExist:
             raise PubErrorCustom("无此订单!")
 
@@ -623,10 +620,8 @@ class ServerAdmin(viewsets.ViewSet):
                     'username_to': order.username_to,
                     'ordercode_to': order.ordercode_to,
                     'status': order.status,
-                    'statusname': order.statusname,
-                    'confirm': order.confirm,
                     'createtime': order.createtime,
-                    'updtime': order.updtime,
+                    'matchtime': order.matchtime,
                     'img': order.img
                 })
                 orders.append(order1.ordercode)

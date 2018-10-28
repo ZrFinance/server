@@ -29,9 +29,9 @@ class OrderAPIView(GenericViewSetCustom):
             raise PubErrorCustom("trantype是空!")
 
         if str(trantype) == '0' or str(trantype) == '1':
-            orderfilter = Order.objects.filter(userid=user.userid, trantype=trantype,status__in=[0,1]).order_by('-updtime')
+            orderfilter = Order.objects.filter(userid=user.userid, trantype=trantype,status__in=[0,1],umark=0).order_by('-confirmtime','-matchtime','-createtime')
         elif str(trantype) == '2' :
-            orderfilter = Order.objects.filter(userid=user.userid, status=2).order_by('-updtime')
+            orderfilter = Order.objects.filter(userid=user.userid, status=2,umark=0).order_by('-confirmtime')
         else:
             raise PubErrorCustom("trantype非法!")
 

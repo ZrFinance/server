@@ -39,7 +39,7 @@ class UsersSerializer(serializers.ModelSerializer):
 			return '禁用'
 
 	def get_endtime(self,obj):
-		order=Order.objects.filter(userid=obj.userid).order_by('-createtime').values('createtime')
+		order=Order.objects.filter(userid=obj.userid,umark=0).order_by('-createtime').values('createtime')
 		if order.exists():
 			return order[0]['createtime']
 

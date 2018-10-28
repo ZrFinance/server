@@ -64,10 +64,6 @@ class logger_traceback:
         """
         try:
             info = sys.exc_info()
-            from libs.middlewares.request import get_x_request_id
-            requestID = get_x_request_id(True)
-            if requestID:
-                message = u"%s【requestID:%s】" % (message, requestID)         
             for filename, lineno, function, text in traceback.extract_tb(info[2]):
                 msg = u"%s line: %s in %s" % (filename, lineno, function)
                 message = u"%s;%s\n%s\n" % (message, msg, text)
