@@ -214,6 +214,7 @@ class ServerAdmin(viewsets.ViewSet):
         """.format(query_params),query_list)
         print(order)
 
+
         return {'data':OrderStatusSerializer(order,many=True).data}
 
     @list_route(methods=['POST'])
