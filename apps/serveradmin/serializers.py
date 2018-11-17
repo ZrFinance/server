@@ -18,3 +18,19 @@ class  OrderStatusSerializer(serializers.Serializer):
 	img=serializers.CharField()
 
 
+
+class  TranlistQuerySerializer(serializers.Serializer):
+	ordercode=serializers.IntegerField()
+	mobile=serializers.CharField()
+	mobile_to=serializers.CharField()
+	amount=serializers.IntegerField()
+	bal=serializers.IntegerField()
+	createtime=serializers.IntegerField()
+	tranname=serializers.CharField()
+
+
+class  TranlistQuerySerializer1(serializers.Serializer):
+	trantype=serializers.IntegerField()
+	tranname=serializers.CharField()
+
+

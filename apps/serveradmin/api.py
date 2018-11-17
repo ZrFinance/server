@@ -9,7 +9,7 @@ from apps.user.models import Users
 from apps.order.serializers import OrderSerializer1
 from apps.serveradmin.serializers import MatchPoolSerializer
 from apps.user.serializers import UsersSerializer,UsersSerializer1
-from apps.serveradmin.serializers import OrderStatusSerializer
+from apps.serveradmin.serializers import OrderStatusSerializer,TranlistQuerySerializer,TranlistQuerySerializer1
 import time
 from django.utils import timezone
 
@@ -105,12 +105,126 @@ class ServerAdmin(viewsets.ViewSet):
 
 
     @list_route(methods=['GET'])
+    @Core_connector()
+    def tranlisttrannamequery(self,request,*args,**kwargs):
+
+        data=[
+        {
+            'trantype':1,
+            'tranname':'认筹权转出'
+        },
+        {
+            'trantype':2,
+            'tranname':'认筹权转入'
+        },
+        {
+            'trantype':3,
+            'tranname':'幸运认筹消耗'
+        },
+        {
+            'trantype':4,
+            'tranname':'激活码转出'
+        },
+        {
+            'trantype':5,
+            'tranname':'激活码转入'
+        },
+        {
+            'trantype':6,
+            'tranname':'转盘投资赠送VIP分'
+        },
+        {
+            'trantype':7,
+            'tranname':'系统赠送股权分红'
+        },
+        {
+            'trantype':8,
+            'tranname':'系统赠送推广股权'
+        },
+        {
+            'trantype':9,
+            'tranname':'投资本金'
+        },
+        {
+            'trantype':10,
+            'tranname':'投资利息'
+        },
+        {
+            'trantype':11,
+            'tranname':'提取收益扣款(推广股权)'
+        },
+        {
+            'trantype':12,
+            'tranname':'提取收益扣款(股份分红)'
+        },
+        {
+            'trantype':13,
+            'tranname':'一代奖金'
+        },
+        {
+            'trantype':14,
+            'tranname':'二代奖金'
+        },
+        {
+            'trantype':15,
+            'tranname':'系统赠送激活码'
+        },
+        {
+            'trantype':16,
+            'tranname':'系统赠送认筹权'
+        },
+        {
+            'trantype':17,
+            'tranname':'提供帮助认筹消耗'
+        },
+        {
+            'trantype':18,
+            'tranname':'提供帮助赠送VIP分'
+        },
+        {
+            'trantype':19,
+            'tranname':'激活码激活用户'
+        },
+        {
+            'trantype':20,
+            'tranname':'规定时间内无匹配, 推荐奖作废'
+        },
+        {
+            'trantype':21,
+            'tranname':'规定时间内无匹配, 推荐奖作废(冻结)'
+        },
+        {
+            'trantype':22,
+            'tranname':'一代奖金(冻结)'
+        },
+        {
+            'trantype':23,
+            'tranname':' 二代奖金(冻结)'
+        },
+        {
+            'trantype':24,
+            'tranname':' 订单拆分'
+        },
+        {
+            'trantype':25,
+            'tranname':' 超过指定时间打款封号'
+        },
+        {
+            'trantype':26,
+            'tranname':' 超过7天未打款清空推荐奖'
+        },
+        {
+            'trantype':27,
+            'tranname':' 超过7天未打款清空推荐奖(冻结)'
+        }]
+        return {'data': data}
+
+    @list_route(methods=['GET'])
     @Core_connector(pagination=True)
-    def jsbzquery(self, request,*args,**kwargs):
-        flag=self.request.query_params.get('flag',None)
-        mobile=self.request.query_params.get('mobile',None)
-        amount=self.request.query_params.get('amount',None)
-        day = self.request.query_params.get('day', 2)
+    def tranlistquery(self, request,*args,**kwargs):
+        mobile = self.request.query_params.get('mobile', None)
+        trantype = self.request.query_params.get('trantype', None)
+        ordercode=self.request.query_params.get('ordercode',None)
 
         query_params = str()
         query_list = list()
@@ -118,66 +232,59 @@ class ServerAdmin(viewsets.ViewSet):
         if mobile:
             query_params = "{} and t2.mobile=%s".format(query_params)
             query_list.append(mobile)
-        if amount:
-            query_params = "{} and t1.amount=%s".format(query_params)
-            query_list.append(amount)
+        if trantype:
+            query_params = "{} and t1.trantype=%s".format(query_params)
+            query_list.append(trantype)
+        if ordercode:
+            query_params = "{} and t1.ordercode=%s".format(query_params)
+            query_list.append(ordercode)
+        tranlist = Tranlist.objects.raw("""
+                   SELECT t1.id,t1.tranname,t2.mobile,t3.mobile as mobile_to,t1.amount,t1.bal,t1.createtime,t1.ordercode
+                   FROM `tranlist` as t1
+                   INNER  JOIN `user` as t2 on t1.userid = t2.userid
+                   INNER  JOIN `user` as t3 on t1.userid_to = t3.userid
+                   WHERE 1=1 {} order by t1.createtime DESC
+               """.format(query_params), query_list)
+        print(tranlist)
 
-        order=Order.objects.raw(
-            """
-                SELECT t1.`ordercode`,t2.mobile,t1.amount,t2.name,t1.createtime,t1.status
-                FROM `order` as t1
-                INNER JOIN `user` as t2 ON t1.userid=t2.userid 
-                WHERE 1=1 and t1.status=0 and trantype=1 and t1.umark=0 {} ORDER BY createtime desc
-            """.format(query_params), query_list)
-        order=list(order)
+        return {'data': TranlistQuerySerializer(tranlist, many=True).data}
 
-        if flag:
-            data=[]
-            order1=Order.objects.raw(
-                """
-                    SELECT t1.ordercode,t1.userid,count(1) as count
-                    FROM `order` as t1
-                    INNER JOIN `user` as t2 ON t1.userid=t2.userid 
-                    WHERE 1=1 and t1.status=0 and trantype=1 and t1.umark=0 group by t1.userid
-                """)
-            order1=list(order1)
-            if str(flag) == '1':
-                for item in order:
-                    isflag=False
-                    for item1 in order1:
-                        if item1.userid==item.userid and item1.count >= 5:
-                            isflag=True
-                    if isflag:
-                        data.append(item)
-            elif str(flag) =='2':
-                for item in order:
-                    isflag=False
-                    for item1 in order1:
-                        if item1.userid==item.userid and item1.count >= 3 and item1.count < 5 :
-                            isflag=True
-                    if isflag:
-                        data.append(item)
-            elif str(flag) == '3':
-                for item in order:
-                    isflag=False
-                    for item1 in order1:
-                        if item1.userid==item.userid and item1.count < 3 :
-                            isflag=True
-                    if isflag:
-                        data.append(item)
-            else:
-                raise PubErrorCustom('isflag错误')
+    @list_route(methods=['GET'])
+    @Core_connector(pagination=True)
+    def orderquery(self,request,*args,**kwargs):
+        status=self.request.query_params.get('status',None)
+        ordercode=self.request.query_params.get('ordercode',None)
+        mobile=self.request.query_params.get('mobile',None)
+        trantype=self.request.query_params.get('trantype',None)
 
-            order=data
-        data=OrderSerializer1(order, many=True).data
-        data1=list()
-        if int(day)==1:
-            for item in data:
-                if item['isday'] >= 6:
-                    data1.append(item)
-            data=data1
-        return {'data':data}
+        if not status:
+            raise PubErrorCustom("查询状态为空!")
 
+        query_params = str()
+        query_list = list()
+
+        if status:
+            query_params = "{} and t1.status=%s".format(query_params)
+            query_list.append(status)
+        if mobile:
+            query_params = "{} and t2.mobile=%s".format(query_params)
+            query_list.append(mobile)
+        if ordercode:
+            query_params = "{} and t1.ordercode=%s".format(query_params)
+            query_list.append(ordercode)
+        if trantype:
+            query_params = "{} and t1.trantype=%s".format(query_params)
+            query_list.append(trantype)
+        order=Order.objects.raw("""
+            SELECT t1.ordercode,t2.mobile,t3.mobile as mobile_to,t1.amount,t1.ordercode_to,t1.confirmtime,t1.img
+            FROM `order` as t1
+            INNER  JOIN `user` as t2 on t1.userid = t2.userid
+            INNER  JOIN `user` as t3 on t1.userid_to = t3.userid
+            WHERE 1=1 {} order by t1.createtime DESC
+        """.format(query_params),query_list)
+        print(order)
+
+        return {'data':OrderStatusSerializer(order,many=True).data}
 
     @list_route(methods=['GET'])
     @Core_connector(pagination=True)
