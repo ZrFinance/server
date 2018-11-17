@@ -23,6 +23,18 @@ class UsersSerializer1(serializers.ModelSerializer):
 			),
 		]
 
+class UsersSerializer1(serializers.ModelSerializer):
+	class Meta:
+		model = Users
+		fields = '__all__'
+
+		validators = [
+			UniqueTogetherValidator(
+				queryset=Users.objects.all(),
+				fields=('mobile',),
+				message="手机号重复！"
+			),
+		]
 
 class UsersSerializer(serializers.ModelSerializer):
 	pay_passwd = serializers.SerializerMethodField()

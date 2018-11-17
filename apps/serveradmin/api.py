@@ -8,7 +8,8 @@ from apps.order.models import Order,MatchPool,Tranlist
 from apps.user.models import Users
 from apps.order.serializers import OrderSerializer1
 from apps.serveradmin.serializers import MatchPoolSerializer
-from apps.user.serializers import UsersSerializer
+from apps.user.serializers import UsersSerializer,UsersSerializer1
+from apps.serveradmin.serializers import OrderStatusSerializer
 import time
 from django.utils import timezone
 
@@ -22,7 +23,6 @@ class ServerAdmin(viewsets.ViewSet):
             user=ServerAdminUser.objects.get(username=request.data.get('username'),passwd=request.data.get('passwd'))
         except ServerAdminUser.DoesNotExist:
             raise PubErrorCustom('登录账号或密码错误！')
-        print("111")
         return {'data':{
             'userid':user.userid,
             'username':user.username
@@ -35,6 +35,7 @@ class ServerAdmin(viewsets.ViewSet):
         flag=self.request.query_params.get('flag',None)
         mobile=self.request.query_params.get('mobile',None)
         amount=self.request.query_params.get('amount',None)
+        day = self.request.query_params.get('day', 2)
 
         query_params = str()
         query_list = list()
@@ -93,7 +94,14 @@ class ServerAdmin(viewsets.ViewSet):
                 raise PubErrorCustom('isflag错误')
 
             order=data
-        return {'data':OrderSerializer1(order,many=True).data}
+        data=OrderSerializer1(order, many=True).data
+        data1=list()
+        if int(day)==1:
+            for item in data:
+                if item['isday'] >= 5:
+                    data1.append(item)
+            data=data1
+        return {'data':data}
 
 
     @list_route(methods=['GET'])
@@ -102,6 +110,7 @@ class ServerAdmin(viewsets.ViewSet):
         flag=self.request.query_params.get('flag',None)
         mobile=self.request.query_params.get('mobile',None)
         amount=self.request.query_params.get('amount',None)
+        day = self.request.query_params.get('day', 2)
 
         query_params = str()
         query_list = list()
@@ -160,8 +169,52 @@ class ServerAdmin(viewsets.ViewSet):
                 raise PubErrorCustom('isflag错误')
 
             order=data
-        return {'data':OrderSerializer1(order,many=True).data}
+        data=OrderSerializer1(order, many=True).data
+        data1=list()
+        if int(day)==1:
+            for item in data:
+                if item['isday'] >= 6:
+                    data1.append(item)
+            data=data1
+        return {'data':data}
 
+
+    @list_route(methods=['GET'])
+    @Core_connector(pagination=True)
+    def orderquery(self,request,*args,**kwargs):
+        status=self.request.query_params.get('status',None)
+        ordercode=self.request.query_params.get('ordercode',None)
+        mobile=self.request.query_params.get('mobile',None)
+        trantype=self.request.query_params.get('trantype',None)
+
+        if not status:
+            raise PubErrorCustom("查询状态为空!")
+
+        query_params = str()
+        query_list = list()
+
+        if status:
+            query_params = "{} and t1.status=%s".format(query_params)
+            query_list.append(status)
+        if mobile:
+            query_params = "{} and t2.mobile=%s".format(query_params)
+            query_list.append(mobile)
+        if ordercode:
+            query_params = "{} and t1.ordercode=%s".format(query_params)
+            query_list.append(ordercode)
+        if trantype:
+            query_params = "{} and t1.trantype=%s".format(query_params)
+            query_list.append(trantype)
+        order=Order.objects.raw("""
+            SELECT t1.ordercode,t2.mobile,t3.mobile as mobile_to,t1.amount,t1.ordercode_to,t1.confirmtime,t1.img
+            FROM `order` as t1
+            INNER  JOIN `user` as t2 on t1.userid = t2.userid
+            INNER  JOIN `user` as t3 on t1.userid_to = t3.userid
+            WHERE 1=1 {} order by t1.createtime DESC
+        """.format(query_params),query_list)
+        print(order)
+
+        return {'data':OrderStatusSerializer(order,many=True).data}
 
     @list_route(methods=['POST'])
     @Core_connector(transaction=True)
@@ -237,7 +290,11 @@ class ServerAdmin(viewsets.ViewSet):
             user=Users.objects.get(userid=request.data.get('userid'))
         except user.DoesNotExist:
             raise PubErrorCustom('用户不存在')
-        serializer = UsersSerializer(user, data=request.data)
+        if not request.data.get('passwd'):
+            request.data['passwd']=user.passwd
+        if not request.data.get('pay_passwd'):
+            request.data['pay_passwd']=user.pay_passwd
+        serializer = UsersSerializer1(user, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 

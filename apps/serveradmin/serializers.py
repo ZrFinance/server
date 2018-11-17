@@ -8,5 +8,13 @@ class MatchPoolSerializer(serializers.ModelSerializer):
 		fields='__all__'
 
 
+class  OrderStatusSerializer(serializers.Serializer):
+	ordercode=serializers.IntegerField()
+	mobile=serializers.CharField()
+	mobile_to=serializers.CharField()
+	amount=serializers.IntegerField()
+	ordercode_to=serializers.IntegerField()
+	confirmtime=serializers.IntegerField()
+	img=serializers.CharField()
 
 
