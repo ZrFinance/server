@@ -13,6 +13,7 @@ from apps.serveradmin.serializers import OrderStatusSerializer,TranlistQuerySeri
 import time
 from django.utils import timezone
 from apps.public.models import SysParam
+from libs.utils.mytime import string_toTimestamp
 
 class ServerAdmin(viewsets.ViewSet):
 
@@ -347,6 +348,43 @@ class ServerAdmin(viewsets.ViewSet):
 
         return {'data': TranlistQuerySerializer(tranlist, many=True).data}
 
+    # @list_route(methods=['GET'])
+    # @Core_connector(pagination=True)
+    # def orderquery(self,request,*args,**kwargs):
+    #     status=self.request.query_params.get('status',None)
+    #     ordercode=self.request.query_params.get('ordercode',None)
+    #     mobile=self.request.query_params.get('mobile',None)
+    #     trantype=self.request.query_params.get('trantype',None)
+    #
+    #     if not status:
+    #         raise PubErrorCustom("查询状态为空!")
+    #
+    #     query_params = str()
+    #     query_list = list()
+    #
+    #     if status:
+    #         query_params = "{} and t1.status=%s".format(query_params)
+    #         query_list.append(status)
+    #     if mobile:
+    #         query_params = "{} and t2.mobile=%s".format(query_params)
+    #         query_list.append(mobile)
+    #     if ordercode:
+    #         query_params = "{} and t1.ordercode=%s".format(query_params)
+    #         query_list.append(ordercode)
+    #     if trantype:
+    #         query_params = "{} and t1.trantype=%s".format(query_params)
+    #         query_list.append(trantype)
+    #     order=Order.objects.raw("""
+    #         SELECT t1.ordercode,t2.mobile,t3.mobile as mobile_to,t1.amount,t1.ordercode_to,t1.confirmtime,t1.img
+    #         FROM `order` as t1
+    #         INNER  JOIN `user` as t2 on t1.userid = t2.userid
+    #         INNER  JOIN `user` as t3 on t1.userid_to = t3.userid
+    #         WHERE 1=1 {} order by t1.createtime DESC
+    #     """.format(query_params),query_list)
+    #     print(order)
+    #
+    #     return {'data':OrderStatusSerializer(order,many=True).data}
+
     @list_route(methods=['GET'])
     @Core_connector(pagination=True)
     def orderquery(self,request,*args,**kwargs):
@@ -378,44 +416,7 @@ class ServerAdmin(viewsets.ViewSet):
             FROM `order` as t1
             INNER  JOIN `user` as t2 on t1.userid = t2.userid
             INNER  JOIN `user` as t3 on t1.userid_to = t3.userid
-            WHERE 1=1 {} order by t1.createtime DESC
-        """.format(query_params),query_list)
-        print(order)
-
-        return {'data':OrderStatusSerializer(order,many=True).data}
-
-    @list_route(methods=['GET'])
-    @Core_connector(pagination=True)
-    def orderquery(self,request,*args,**kwargs):
-        status=self.request.query_params.get('status',None)
-        ordercode=self.request.query_params.get('ordercode',None)
-        mobile=self.request.query_params.get('mobile',None)
-        trantype=self.request.query_params.get('trantype',None)
-
-        if not status:
-            raise PubErrorCustom("查询状态为空!")
-
-        query_params = str()
-        query_list = list()
-
-        if status:
-            query_params = "{} and t1.status=%s".format(query_params)
-            query_list.append(status)
-        if mobile:
-            query_params = "{} and t2.mobile=%s".format(query_params)
-            query_list.append(mobile)
-        if ordercode:
-            query_params = "{} and t1.ordercode=%s".format(query_params)
-            query_list.append(ordercode)
-        if trantype:
-            query_params = "{} and t1.trantype=%s".format(query_params)
-            query_list.append(trantype)
-        order=Order.objects.raw("""
-            SELECT t1.ordercode,t2.mobile,t3.mobile as mobile_to,t1.amount,t1.ordercode_to,t1.confirmtime,t1.img
-            FROM `order` as t1
-            INNER  JOIN `user` as t2 on t1.userid = t2.userid
-            INNER  JOIN `user` as t3 on t1.userid_to = t3.userid
-            WHERE 1=1 {} order by t1.createtime DESC
+            WHERE t1.umark=0 {} order by t1.createtime DESC
         """.format(query_params),query_list)
         print(order)
 
@@ -898,5 +899,38 @@ class ServerAdmin(viewsets.ViewSet):
             'username':order.username,
             'ordercode':order.ordercode
         })
+
+    @list_route(methods=['GET'])
+    @Core_connector()
+    def ordercount(self,request,*args,**kwargs):
+
+        startdate=request.query_params.get('startdate',None)
+        enddate=request.query_params.get('enddate',None)
+        order=Order.objects.filter(umark=0)
+        print(startdate,enddate)
+        if startdate and enddate:
+            startdate=string_toTimestamp(startdate)
+            enddate=string_toTimestamp(enddate)
+            order=order.filter(createtime__gte=startdate,createtime__lte=enddate)
+        tgbzcount=0
+        jsbzcount=0
+        tgbztx=0
+        jsbztx=0
+        for item in order:
+            if item.trantype == 1:
+                tgbzcount+=item.amount
+                if item.status==2:
+                    tgbztx+=item.amount
+            else:
+                jsbzcount+=item.amount
+                if item.status==2:
+                    jsbztx+=item.amount
+
+        return {'data':[{
+            'tgbzcount':tgbzcount,
+            'jsbzcount':jsbzcount,
+            'tgbztx':tgbztx,
+            'jsbztx':jsbztx
+        }]}
 
 
