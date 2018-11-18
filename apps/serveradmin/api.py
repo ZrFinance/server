@@ -9,9 +9,10 @@ from apps.user.models import Users
 from apps.order.serializers import OrderSerializer1
 from apps.serveradmin.serializers import MatchPoolSerializer
 from apps.user.serializers import UsersSerializer,UsersSerializer1
-from apps.serveradmin.serializers import OrderStatusSerializer,TranlistQuerySerializer,TranlistQuerySerializer1
+from apps.serveradmin.serializers import OrderStatusSerializer,TranlistQuerySerializer,SysParamQuerySerializer
 import time
 from django.utils import timezone
+from apps.public.models import SysParam
 
 class ServerAdmin(viewsets.ViewSet):
 
@@ -103,6 +104,30 @@ class ServerAdmin(viewsets.ViewSet):
             data=data1
         return {'data':data}
 
+    @list_route(methods=['GET'])
+    @Core_connector()
+    def sysparamquery(self,request,*args,**kwargs):
+        return {'data':SysParamQuerySerializer(SysParam.objects.get(),many=False).data}
+
+
+    @list_route(methods=['POST'])
+    @Core_connector(transaction=True)
+    def sysparamupd(self,request,*args,**kwargs):
+        try:
+            sysparam=SysParam.objects.get()
+        except SysParam.DoesNotExist:
+            raise PubErrorCustom('参数不存在')
+        morning=request.data.get('morning1')+'-'+request.data.get('morning2')
+        after = request.data.get('after1') + '-'+request.data.get('after2')
+
+        request.data['morning']=morning
+        request.data['after'] = after
+        print(request.data)
+        serializer = SysParamQuerySerializer(sysparam, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return None
 
     @list_route(methods=['GET'])
     @Core_connector()
