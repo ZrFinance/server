@@ -29,7 +29,6 @@ class ServerAdmin(viewsets.ViewSet):
             'username':user.username
         }}
 
-
     @list_route(methods=['GET'])
     @Core_connector(pagination=True)
     def tgbzquery(self, request,*args,**kwargs):
@@ -105,10 +104,84 @@ class ServerAdmin(viewsets.ViewSet):
         return {'data':data}
 
     @list_route(methods=['GET'])
+    @Core_connector(pagination=True)
+    def jsbzquery(self, request,*args,**kwargs):
+        flag=self.request.query_params.get('flag',None)
+        mobile=self.request.query_params.get('mobile',None)
+        amount=self.request.query_params.get('amount',None)
+        day = self.request.query_params.get('day', 2)
+
+        query_params = str()
+        query_list = list()
+
+        if mobile:
+            query_params = "{} and t2.mobile=%s".format(query_params)
+            query_list.append(mobile)
+        if amount:
+            query_params = "{} and t1.amount=%s".format(query_params)
+            query_list.append(amount)
+
+        order=Order.objects.raw(
+            """
+                SELECT t1.`ordercode`,t2.mobile,t1.amount,t2.name,t1.createtime,t1.status
+                FROM `order` as t1
+                INNER JOIN `user` as t2 ON t1.userid=t2.userid 
+                WHERE 1=1 and t1.status=0 and trantype=1 and t1.umark=0 {} ORDER BY createtime desc
+            """.format(query_params), query_list)
+        order=list(order)
+
+        if flag:
+            data=[]
+            order1=Order.objects.raw(
+                """
+                    SELECT t1.ordercode,t1.userid,count(1) as count
+                    FROM `order` as t1
+                    INNER JOIN `user` as t2 ON t1.userid=t2.userid 
+                    WHERE 1=1 and t1.status=0 and trantype=1 and t1.umark=0 group by t1.userid
+                """)
+            order1=list(order1)
+            if str(flag) == '1':
+                for item in order:
+                    isflag=False
+                    for item1 in order1:
+                        if item1.userid==item.userid and item1.count >= 5:
+                            isflag=True
+                    if isflag:
+                        data.append(item)
+            elif str(flag) =='2':
+                for item in order:
+                    isflag=False
+                    for item1 in order1:
+                        if item1.userid==item.userid and item1.count >= 3 and item1.count < 5 :
+                            isflag=True
+                    if isflag:
+                        data.append(item)
+            elif str(flag) == '3':
+                for item in order:
+                    isflag=False
+                    for item1 in order1:
+                        if item1.userid==item.userid and item1.count < 3 :
+                            isflag=True
+                    if isflag:
+                        data.append(item)
+            else:
+                raise PubErrorCustom('isflag错误')
+
+            order=data
+        data=OrderSerializer1(order, many=True).data
+        data1=list()
+        if int(day)==1:
+            for item in data:
+                if item['isday'] >= 6:
+                    data1.append(item)
+            data=data1
+        return {'data':data}
+
+
+    @list_route(methods=['GET'])
     @Core_connector()
     def sysparamquery(self,request,*args,**kwargs):
         return {'data':SysParamQuerySerializer(SysParam.objects.get(),many=False).data}
-
 
     @list_route(methods=['POST'])
     @Core_connector(transaction=True)
@@ -378,7 +451,7 @@ class ServerAdmin(viewsets.ViewSet):
         return None
 
     @list_route(methods=['GET'])
-    @Core_connector(pagination=True)
+    @Core_connector()
     def matchquery(self, request, *args, **kwargs):
 
         trantype=self.request.query_params.get('trantype')

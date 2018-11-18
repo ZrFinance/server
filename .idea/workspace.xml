@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1a352d01-af29-4564-9d5c-3e500cff74d5" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/public/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/public/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/serveradmin/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/serveradmin/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/serveradmin/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/serveradmin/serializers.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,17 +16,15 @@
       <file leaf-file-name="api.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/serveradmin/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="119" column="74" lean-forward="true" selection-start-line="119" selection-start-column="74" selection-end-line="119" selection-end-column="74" />
+            <state relative-caret-position="305">
+              <caret line="172" column="23" lean-forward="true" selection-start-line="172" selection-start-column="23" selection-end-line="172" selection-end-column="23" />
               <folding>
                 <element signature="e#849#1170#0" />
                 <element signature="e#1079#1170#0" />
                 <element signature="e#1087#1169#0" />
-                <element signature="e#1300#4031#0" />
                 <element signature="e#1612#1707#0" />
                 <element signature="e#1739#1834#0" />
                 <element signature="e#1881#2189#0" />
-                <element signature="e#2280#3773#0" />
                 <element signature="e#2342#2635#0" />
                 <element signature="e#2718#2998#0" />
                 <element signature="e#2757#2998#0" />
@@ -40,9 +35,8 @@
                 <element signature="e#3402#3682#0" />
                 <element signature="e#3441#3682#0" />
                 <element signature="e#3519#3609#0" />
-                <element signature="e#3884#4002#0" />
-                <element signature="e#3918#3979#0" />
                 <element signature="e#4148#4227#0" />
+                <element signature="e#4345#4349#0" />
                 <element signature="e#4353#6606#0" />
                 <element signature="e#4358#6576#0" />
                 <element signature="e#4368#4436#0" />
@@ -98,6 +92,7 @@
                 <element signature="e#12273#12372#0" />
                 <element signature="e#12419#12797#0" />
                 <element signature="e#13053#13439#0" />
+                <element signature="e#13570#14072#0" />
                 <element signature="e#14207#15800#0" />
                 <element signature="e#14468#14738#0" />
                 <element signature="e#14802#15074#0" />
@@ -181,20 +176,8 @@
       <file leaf-file-name="2018-11-18.log" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/logs/2018-11-18.log">
           <provider selected="true" editor-type-id="LogFileEditorProvider">
-            <state relative-caret-position="798">
+            <state relative-caret-position="19">
               <caret line="42" column="78" selection-start-line="42" selection-start-column="40" selection-end-line="42" selection-end-column="78" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="serializers.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/serveradmin/serializers.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="401">
-              <caret line="45" column="36" lean-forward="true" selection-start-line="45" selection-start-column="36" selection-end-line="45" selection-end-column="36" />
-              <folding>
-                <element signature="e#1#39#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -354,7 +337,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../server" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
@@ -417,13 +400,14 @@
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32881773" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17776152" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Concurrent Activities Diagram" weight="0.32881773" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39901477" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -443,7 +427,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="3" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -455,11 +439,9 @@
             <element signature="e#849#1170#0" />
             <element signature="e#1079#1170#0" />
             <element signature="e#1087#1169#0" />
-            <element signature="e#1300#4031#0" />
             <element signature="e#1612#1707#0" />
             <element signature="e#1739#1834#0" />
             <element signature="e#1881#2189#0" />
-            <element signature="e#2280#3773#0" />
             <element signature="e#2342#2635#0" />
             <element signature="e#2718#2998#0" />
             <element signature="e#2757#2998#0" />
@@ -470,9 +452,8 @@
             <element signature="e#3402#3682#0" />
             <element signature="e#3441#3682#0" />
             <element signature="e#3519#3609#0" />
-            <element signature="e#3884#4002#0" />
-            <element signature="e#3918#3979#0" />
             <element signature="e#4148#4227#0" />
+            <element signature="e#4345#4349#0" />
             <element signature="e#4353#6606#0" />
             <element signature="e#4358#6576#0" />
             <element signature="e#4368#4436#0" />
@@ -528,6 +509,7 @@
             <element signature="e#12273#12372#0" />
             <element signature="e#12419#12797#0" />
             <element signature="e#13053#13439#0" />
+            <element signature="e#13570#14072#0" />
             <element signature="e#14207#15800#0" />
             <element signature="e#14468#14738#0" />
             <element signature="e#14802#15074#0" />
@@ -664,11 +646,9 @@
             <element signature="e#849#1170#0" />
             <element signature="e#1079#1170#0" />
             <element signature="e#1087#1169#0" />
-            <element signature="e#1300#4031#0" />
             <element signature="e#1612#1707#0" />
             <element signature="e#1739#1834#0" />
             <element signature="e#1881#2189#0" />
-            <element signature="e#2280#3773#0" />
             <element signature="e#2342#2635#0" />
             <element signature="e#2718#2998#0" />
             <element signature="e#2757#2998#0" />
@@ -679,9 +659,8 @@
             <element signature="e#3402#3682#0" />
             <element signature="e#3441#3682#0" />
             <element signature="e#3519#3609#0" />
-            <element signature="e#3884#4002#0" />
-            <element signature="e#3918#3979#0" />
             <element signature="e#4148#4227#0" />
+            <element signature="e#4345#4349#0" />
             <element signature="e#4353#6606#0" />
             <element signature="e#4358#6576#0" />
             <element signature="e#4368#4436#0" />
@@ -737,6 +716,7 @@
             <element signature="e#12273#12372#0" />
             <element signature="e#12419#12797#0" />
             <element signature="e#13053#13439#0" />
+            <element signature="e#13570#14072#0" />
             <element signature="e#14207#15800#0" />
             <element signature="e#14468#14738#0" />
             <element signature="e#14802#15074#0" />
@@ -837,13 +817,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/logs/2018-11-18.log">
-      <provider selected="true" editor-type-id="LogFileEditorProvider">
-        <state relative-caret-position="798">
-          <caret line="42" column="78" selection-start-line="42" selection-start-column="40" selection-end-line="42" selection-end-column="78" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/order/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1007">
@@ -871,16 +844,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/serveradmin/serializers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="45" column="36" lean-forward="true" selection-start-line="45" selection-start-column="36" selection-end-line="45" selection-end-column="36" />
-          <folding>
-            <element signature="e#1#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/serveradmin/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="38">
@@ -898,19 +861,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/apps/serveradmin/serializers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="401">
+          <caret line="45" column="36" lean-forward="true" selection-start-line="45" selection-start-column="36" selection-end-line="45" selection-end-column="36" />
+          <folding>
+            <element signature="e#1#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logs/2018-11-18.log">
+      <provider selected="true" editor-type-id="LogFileEditorProvider">
+        <state relative-caret-position="19">
+          <caret line="42" column="78" selection-start-line="42" selection-start-column="40" selection-end-line="42" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/apps/serveradmin/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="119" column="74" lean-forward="true" selection-start-line="119" selection-start-column="74" selection-end-line="119" selection-end-column="74" />
+        <state relative-caret-position="305">
+          <caret line="172" column="23" lean-forward="true" selection-start-line="172" selection-start-column="23" selection-end-line="172" selection-end-column="23" />
           <folding>
             <element signature="e#849#1170#0" />
             <element signature="e#1079#1170#0" />
             <element signature="e#1087#1169#0" />
-            <element signature="e#1300#4031#0" />
             <element signature="e#1612#1707#0" />
             <element signature="e#1739#1834#0" />
             <element signature="e#1881#2189#0" />
-            <element signature="e#2280#3773#0" />
             <element signature="e#2342#2635#0" />
             <element signature="e#2718#2998#0" />
             <element signature="e#2757#2998#0" />
@@ -921,9 +899,8 @@
             <element signature="e#3402#3682#0" />
             <element signature="e#3441#3682#0" />
             <element signature="e#3519#3609#0" />
-            <element signature="e#3884#4002#0" />
-            <element signature="e#3918#3979#0" />
             <element signature="e#4148#4227#0" />
+            <element signature="e#4345#4349#0" />
             <element signature="e#4353#6606#0" />
             <element signature="e#4358#6576#0" />
             <element signature="e#4368#4436#0" />
@@ -979,6 +956,7 @@
             <element signature="e#12273#12372#0" />
             <element signature="e#12419#12797#0" />
             <element signature="e#13053#13439#0" />
+            <element signature="e#13570#14072#0" />
             <element signature="e#14207#15800#0" />
             <element signature="e#14468#14738#0" />
             <element signature="e#14802#15074#0" />
