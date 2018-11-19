@@ -195,7 +195,7 @@ def query_agent_limit(mobile,mobile_to):
 
 def orderrclimit(user,amount):
 
-    order=Order.objects.filter(userid=user.userid,umark=0)
+    order=Order.objects.filter(userid=user.userid,umark=0,trantype=0)
 
     obj=list()
     diffamount=list()
