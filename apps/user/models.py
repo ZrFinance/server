@@ -51,6 +51,7 @@ class Users(models.Model):
     referee_name=models.CharField(max_length=60,verbose_name='推荐人手机号',default='')
     createtime=models.BigIntegerField(default=0)
     agent = models.TextField(verbose_name='所有下线代理,逗号分隔',null=True,default='')
+    rcqlimit=models.IntegerField(default=0,null=True)
     lastindex = models.IntegerField(default=0,verbose_name='上一次指定转盘奖品索引',null=True)
     status = models.IntegerField(default='1',verbose_name="状态:0-正常,1-未激活,2-禁用",null=True)
     stopstatus = models.IntegerField(default='0',verbose_name='是否申请解冻,0-否,1-是')

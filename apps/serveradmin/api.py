@@ -492,6 +492,8 @@ class ServerAdmin(viewsets.ViewSet):
             request.data['passwd']=user.passwd
         if not request.data.get('pay_passwd'):
             request.data['pay_passwd']=user.pay_passwd
+        if not request.data.get('rcqlimit'):
+            request.data['rcqlimit'] = 0
         serializer = UsersSerializer1(user, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()

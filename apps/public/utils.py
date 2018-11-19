@@ -195,39 +195,42 @@ def query_agent_limit(mobile,mobile_to):
 
 def orderrclimit(user,amount):
 
-    order=Order.objects.filter(userid=user.userid,umark=0,trantype=0)
+    if user.rcqlimit > 0 :
+        if amount < user.rcqlimit:
+            raise PubErrorCustom("不能低于上次认筹金额%d" % (user.rcqlimit))
+    else:
+        order=Order.objects.filter(userid=user.userid,umark=0,trantype=0)
 
-    obj=list()
-    diffamount=list()
-    for item in order:
-        obj.append({'ordercode':item.ordercode,'amount':item.amount})
-    b = list()
-    if len(obj):
+        obj=list()
+        diffamount=list()
+        for item in order:
+            obj.append({'ordercode':item.ordercode,'amount':item.amount})
+        b = list()
+        if len(obj):
+            for item in obj:
+                if item['ordercode'] in b:
+                    continue
+                t=list()
+                for t_item in Tranlist.objects.filter(trantype=24,ordercode=item['ordercode']):
+                    for j in t_item.tranname.split('[')[1].replace(']','')[:-1].split(','):
+                        t.append(int(j))
+                for j in list(set(t)):
+                    if j!=item['ordercode']:
+                        try:
+                            order = Order.objects.get(ordercode=j, umark=0)
+                            item['amount']+=order.amount
+                            b.append(j)
+                        except Order.DoesNotExist:
+                            pass
+
         for item in obj:
             if item['ordercode'] in b:
                 continue
-            t=list()
-            for t_item in Tranlist.objects.filter(trantype=24,ordercode=item['ordercode']):
-                for j in t_item.tranname.split('[')[1].replace(']','')[:-1].split(','):
-                    t.append(int(j))
-            for j in list(set(t)):
-                if j!=item['ordercode']:
-                    try:
-                        order = Order.objects.get(ordercode=j, umark=0)
-                        item['amount']+=order.amount
-                        b.append(j)
-                    except Order.DoesNotExist:
-                        pass
+            diffamount.append(item['amount'])
 
-    for item in obj:
-        if item['ordercode'] in b:
-            continue
-        diffamount.append(item['amount'])
-
-    print(diffamount)
-    if len(diffamount):
-        maxamount=max(diffamount)
-        if amount<maxamount:
-            raise PubErrorCustom("不能低于上次认筹金额%d"%(maxamount))
+        if len(diffamount):
+            maxamount=max(diffamount)
+            if amount<maxamount:
+                raise PubErrorCustom("不能低于上次认筹金额%d"%(maxamount))
 
 
