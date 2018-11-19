@@ -332,8 +332,8 @@ class ServerAdmin(viewsets.ViewSet):
         tranlist = Tranlist.objects.raw("""
                    SELECT t1.id,t1.tranname,t2.mobile,t3.mobile as mobile_to,t1.amount,t1.bal,t1.createtime,t1.ordercode
                    FROM `tranlist` as t1
-                   INNER  JOIN `user` as t2 on t1.userid = t2.userid
-                   INNER  JOIN `user` as t3 on t1.userid_to = t3.userid
+                   LEFT  JOIN `user` as t2 on t1.userid = t2.userid
+                   LEFT  JOIN `user` as t3 on t1.userid_to = t3.userid
                    WHERE 1=1 {} order by t1.createtime DESC
                """.format(query_params), query_list)
         print(tranlist)

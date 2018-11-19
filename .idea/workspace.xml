@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1a352d01-af29-4564-9d5c-3e500cff74d5" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/public/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/public/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/serveradmin/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/serveradmin/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/user/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/user/models.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,11 +13,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="api.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="api.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/serveradmin/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="492" column="46" lean-forward="true" selection-start-line="492" selection-start-column="46" selection-end-line="492" selection-end-column="46" />
+            <state relative-caret-position="287">
+              <caret line="334" column="67" lean-forward="true" selection-start-line="334" selection-start-column="67" selection-end-line="334" selection-end-column="67" />
               <folding>
                 <element signature="e#898#1219#0" />
                 <element signature="e#1128#1219#0" />
@@ -92,12 +89,8 @@
                 <element signature="e#9758#9833#0" />
                 <element signature="e#9843#9920#0" />
                 <element signature="e#9930#10011#0" />
-                <element signature="e#10175#11377#0" />
                 <element signature="e#10453#10548#0" />
-                <element signature="e#10582#10681#0" />
                 <element signature="e#10716#10817#0" />
-                <element signature="e#10858#11243#0" />
-                <element signature="e#20#374#0" />
                 <element signature="e#11383#11413#0" />
                 <element signature="e#13105#14498#0" />
                 <element signature="e#13505#13600#0" />
@@ -116,8 +109,7 @@
                 <element signature="e#15931#16309#0" />
                 <element signature="e#17#370#0" />
                 <element signature="e#16565#16951#0" />
-                <element signature="e#17719#19312#0" />
-                <element signature="e#17980#18250#0" />
+                <element signature="e#17082#17658#0" />
                 <element signature="e#18314#18586#0" />
                 <element signature="e#18651#18931#0" />
                 <element signature="e#18996#19272#0" />
@@ -196,7 +188,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="utils.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/public/utils.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="305">
@@ -243,8 +235,8 @@
         <option value="$PROJECT_DIR$/apps/public/models.py" />
         <option value="$PROJECT_DIR$/apps/public/api.py" />
         <option value="$PROJECT_DIR$/apps/user/models.py" />
-        <option value="$PROJECT_DIR$/apps/serveradmin/api.py" />
         <option value="$PROJECT_DIR$/apps/public/utils.py" />
+        <option value="$PROJECT_DIR$/apps/serveradmin/api.py" />
       </list>
     </option>
   </component>
@@ -279,12 +271,6 @@
               <item name="server" type="b2602c69:ProjectViewProjectNode" />
               <item name="server" type="462c0819:PsiDirectoryNode" />
               <item name="apps" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="apps" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="server" type="b2602c69:ProjectViewProjectNode" />
@@ -372,14 +358,14 @@
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32881773" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17776152" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17776152" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Concurrent Activities Diagram" weight="0.32881773" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.39901477" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39901477" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -476,12 +462,8 @@
             <element signature="e#9758#9833#0" />
             <element signature="e#9843#9920#0" />
             <element signature="e#9930#10011#0" />
-            <element signature="e#10175#11377#0" />
             <element signature="e#10453#10548#0" />
-            <element signature="e#10582#10681#0" />
             <element signature="e#10716#10817#0" />
-            <element signature="e#10858#11243#0" />
-            <element signature="e#20#374#0" />
             <element signature="e#11383#11413#0" />
             <element signature="e#13105#14498#0" />
             <element signature="e#13505#13600#0" />
@@ -500,8 +482,7 @@
             <element signature="e#15931#16309#0" />
             <element signature="e#17#370#0" />
             <element signature="e#16565#16951#0" />
-            <element signature="e#17719#19312#0" />
-            <element signature="e#17980#18250#0" />
+            <element signature="e#17082#17658#0" />
             <element signature="e#18314#18586#0" />
             <element signature="e#18651#18931#0" />
             <element signature="e#18996#19272#0" />
@@ -715,12 +696,8 @@
             <element signature="e#9758#9833#0" />
             <element signature="e#9843#9920#0" />
             <element signature="e#9930#10011#0" />
-            <element signature="e#10175#11377#0" />
             <element signature="e#10453#10548#0" />
-            <element signature="e#10582#10681#0" />
             <element signature="e#10716#10817#0" />
-            <element signature="e#10858#11243#0" />
-            <element signature="e#20#374#0" />
             <element signature="e#11383#11413#0" />
             <element signature="e#13105#14498#0" />
             <element signature="e#13505#13600#0" />
@@ -739,8 +716,7 @@
             <element signature="e#15931#16309#0" />
             <element signature="e#17#370#0" />
             <element signature="e#16565#16951#0" />
-            <element signature="e#17719#19312#0" />
-            <element signature="e#17980#18250#0" />
+            <element signature="e#17082#17658#0" />
             <element signature="e#18314#18586#0" />
             <element signature="e#18651#18931#0" />
             <element signature="e#18996#19272#0" />
@@ -920,6 +896,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/apps/user/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="34" column="18" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/user/api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/serveradmin/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/public/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="199" column="59" selection-start-line="199" selection-start-column="59" selection-end-line="199" selection-end-column="59" />
+          <folding>
+            <element signature="e#522#874#0" />
+            <element signature="e#917#1046#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/apps/user/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
@@ -929,8 +937,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/serveradmin/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="492" column="46" lean-forward="true" selection-start-line="492" selection-start-column="46" selection-end-line="492" selection-end-column="46" />
+        <state relative-caret-position="287">
+          <caret line="334" column="67" lean-forward="true" selection-start-line="334" selection-start-column="67" selection-end-line="334" selection-end-column="67" />
           <folding>
             <element signature="e#898#1219#0" />
             <element signature="e#1128#1219#0" />
@@ -1002,12 +1010,8 @@
             <element signature="e#9758#9833#0" />
             <element signature="e#9843#9920#0" />
             <element signature="e#9930#10011#0" />
-            <element signature="e#10175#11377#0" />
             <element signature="e#10453#10548#0" />
-            <element signature="e#10582#10681#0" />
             <element signature="e#10716#10817#0" />
-            <element signature="e#10858#11243#0" />
-            <element signature="e#20#374#0" />
             <element signature="e#11383#11413#0" />
             <element signature="e#13105#14498#0" />
             <element signature="e#13505#13600#0" />
@@ -1026,8 +1030,7 @@
             <element signature="e#15931#16309#0" />
             <element signature="e#17#370#0" />
             <element signature="e#16565#16951#0" />
-            <element signature="e#17719#19312#0" />
-            <element signature="e#17980#18250#0" />
+            <element signature="e#17082#17658#0" />
             <element signature="e#18314#18586#0" />
             <element signature="e#18651#18931#0" />
             <element signature="e#18996#19272#0" />
@@ -1092,38 +1095,6 @@
             <element signature="e#36272#36421#0" />
             <element signature="e#36280#36420#0" />
             <element signature="e#36281#36419#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/user/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="34" column="18" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/user/api.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/serveradmin/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/public/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="199" column="59" selection-start-line="199" selection-start-column="59" selection-end-line="199" selection-end-column="59" />
-          <folding>
-            <element signature="e#522#874#0" />
-            <element signature="e#917#1046#0" />
           </folding>
         </state>
       </provider>
