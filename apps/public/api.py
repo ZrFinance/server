@@ -20,7 +20,7 @@ from libs.utils.mytime import islimit_time
 
 from auth.authentication import Authentication
 
-from apps.public.utils import after_c,pdlimit,daytgbzcount,daysqbzcount,query_agent_limit
+from apps.public.utils import after_c,pdlimit,daytgbzcount,daysqbzcount,query_agent_limit,orderrclimit
 
 import time
 import os
@@ -136,6 +136,7 @@ class PublicAPIView(viewsets.ViewSet):
             vip=3
         else:
             name = '未知'
+        orderrclimit(user,amount)
         Lucky.objects.create(userid=user.userid,index=user.lastindex,name=name)
         Order.objects.create(
             trantype=0,

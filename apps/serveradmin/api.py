@@ -293,14 +293,6 @@ class ServerAdmin(viewsets.ViewSet):
             'tranname':'规定时间内无匹配, 推荐奖作废(冻结)'
         },
         {
-            'trantype':22,
-            'tranname':'一代奖金(冻结)'
-        },
-        {
-            'trantype':23,
-            'tranname':' 二代奖金(冻结)'
-        },
-        {
             'trantype':24,
             'tranname':' 订单拆分'
         },

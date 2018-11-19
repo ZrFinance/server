@@ -58,8 +58,6 @@ def smssend(mobile=None,flag=0,vercode=None):
             }
         )
 
-
-
 def after_c(sysparam):
 
     t=datetime.now().strftime("%Y-%m-%d %H:%S:%M")[11:16]
@@ -98,7 +96,6 @@ def pdlimit(sysparam):
             sum += item.amount
         if sum > sysparam.after_amount:
             raise PubErrorCustom("下午排单已超限额!")
-
 
 def daytgbzcount(userid,sysparam):
     t = datetime.now().strftime("%Y-%m-%d %H:%S:%M")
@@ -151,8 +148,8 @@ def tjjr(user,amount,ordercode,sysparm):
                         spread=amount * sysparm.amount8 / 100
 
                 #推荐奖分两部分(冻结部分待开放)
-                amount2 = spread * sysparm.flag1 / 100
-                amount1 = spread - amount2
+                # amount2 = spread * sysparm.flag1 / 100
+                # amount1 = spread - amount2
 
                 if item == 1:
                     trantype=13
@@ -163,29 +160,28 @@ def tjjr(user,amount,ordercode,sysparm):
                     userid=user1.userid,
                     username=user1.username,
                     bal=user1.spread,
-                    amount=amount1,
+                    amount=spread,
                     ordercode=ordercode
                 )
 
-                if item == 1:
-                    trantype=22
-                elif item == 2:
-                    trantype=23
-                Tranlist.objects.create(
-                    trantype=trantype,
-                    userid=user1.userid,
-                    username=user1.username,
-                    bal=user1.spreadstop,
-                    amount=amount2,
-                    ordercode=ordercode
-                )
+                # if item == 1:
+                #     trantype=22
+                # elif item == 2:
+                #     trantype=23
+                # Tranlist.objects.create(
+                #     trantype=trantype,
+                #     userid=user1.userid,
+                #     username=user1.username,
+                #     bal=user1.spreadstop,
+                #     amount=amount2,
+                #     ordercode=ordercode
+                # )
+                # user1.spreadstop += amount2
 
-                user1.spread += amount1
-                user1.spreadstop += amount2
+                user1.spread += spread
                 user1.save()
         except Agent.DoesNotExist:
             pass
-
 
 def query_agent_limit(mobile,mobile_to):
 
@@ -196,5 +192,42 @@ def query_agent_limit(mobile,mobile_to):
         return True
 
     return False
+
+def orderrclimit(user,amount):
+
+    order=Order.objects.filter(userid=user.userid,umark=0)
+
+    obj=list()
+    diffamount=list()
+    for item in order:
+        obj.append({'ordercode':item.ordercode,'amount':item.amount})
+    b = list()
+    if len(obj):
+        for item in obj:
+            if item['ordercode'] in b:
+                continue
+            t=list()
+            for t_item in Tranlist.objects.filter(trantype=24,ordercode=item['ordercode']):
+                for j in t_item.tranname.split('[')[1].replace(']','')[:-1].split(','):
+                    t.append(int(j))
+            for j in list(set(t)):
+                if j!=item['ordercode']:
+                    try:
+                        order = Order.objects.get(ordercode=j, umark=0)
+                        item['amount']+=order.amount
+                        b.append(j)
+                    except Order.DoesNotExist:
+                        pass
+
+    for item in obj:
+        if item['ordercode'] in b:
+            continue
+        diffamount.append(item['amount'])
+
+    print(diffamount)
+    if len(diffamount):
+        maxamount=max(diffamount)
+        if amount<maxamount:
+            raise PubErrorCustom("不能低于上次认筹金额%d"%(maxamount))
 
 
