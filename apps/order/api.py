@@ -77,10 +77,11 @@ class OrderAPIView(GenericViewSetCustom):
             oneagentcount=0
             for item in oneagent:
                 t=Order.objects.raw("""
-                    SELECT * FROM `order` as t1
+                    SELECT t1.ordercode FROM `order` as t1
                     INNER JOIN user as t2 on t1.userid=t2.userid
-                    where t1.trantype='0' and t1.umark='0' and t1.status='2' and t2.umark='0' and t2.mobile='%s'
-                """,[item.mobile1])
+                    where t1.trantype='0' and t1.umark='0' and t1.status='2' and t2.status='0' and %s
+                """%(" t2.mobile=%s"),[item.mobile1])
+                t=list(t)
                 if len(t)>0:
                     oneagentcount+=1
 
@@ -89,10 +90,11 @@ class OrderAPIView(GenericViewSetCustom):
 
             for item in twoagent:
                 t=Order.objects.raw("""
-                    SELECT * FROM `order` as t1
+                    SELECT t1.ordercode FROM `order` as t1
                     INNER JOIN user as t2 on t1.userid=t2.userid
-                    where t1.trantype='0' and t1.umark='0' and t1.status='2' and t2.umark='0' and t2.mobile='%s'
-                """,[item.mobile1])
+                    where t1.trantype='0' and t1.umark='0' and t1.status='2' and t2.status='0' and %s
+                """%(" t2.mobile=%s"),[item.mobile1])
+                t=list(t)
                 if len(t)>0:
                     twoagentcount+=1
             if oneagentcount>=2 and twoagentcount>=4:
