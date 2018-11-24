@@ -90,10 +90,8 @@ class PublicAPIView(viewsets.ViewSet):
 
     def luckyrandom(self,param):
 
-
-
         a = [0, 1, 5, 3, 7]
-        b = [param.bfbwzj/100, param.bfb1000/ 100, param.bfb2000/ 100, param.bfb5000 / 100, param.bfb10000/ 100]
+        b = [param.bfbwzj/100.0, param.bfb1000/100.0, param.bfb2000/100.0, param.bfb5000/100.0, param.bfb10000/100.0]
         index = myrandom(a, b)
         return index
 
@@ -161,6 +159,8 @@ class PublicAPIView(viewsets.ViewSet):
             trantype=6,
             userid=user.userid,
             username=user.username,
+            userid_to=user.userid,
+            username_to=user.username,
             bal=user.integral,
             amount=vip
         )

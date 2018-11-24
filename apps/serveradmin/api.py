@@ -500,11 +500,14 @@ class ServerAdmin(viewsets.ViewSet):
 
         username=self.request.query_params.get('username',None)
         name=self.request.query_params.get('name',None)
+        referee_name=self.request.query_params.get('referee_name',None)
         userquery=Users.objects.all()
         if username:
             userquery=userquery.filter(username=username)
         if name:
             userquery=userquery.filter(name=name)
+        if referee_name:
+            userquery=userquery.filter(referee_name=referee_name)
 
         return {'data':UsersSerializer(userquery.order_by('-createtime'),many=True).data}
 
@@ -539,50 +542,32 @@ class ServerAdmin(viewsets.ViewSet):
         amount = request.data.get('amount')
 
         if str(request.data.get('type')) == '7':
-            Tranlist.objects.create(
-                trantype=request.data.get('type'),
-                userid=user.userid,
-                username=user.username,
-                bal=user.bonus,
-                amount=int(amount)
-            )
+            bal=user.bonus
             user.bonus += int(amount)
         elif str(request.data.get('type')) == '8':
-            Tranlist.objects.create(
-                trantype=request.data.get('type'),
-                userid=user.userid,
-                username=user.username,
-                bal=user.spread,
-                amount=int(amount)
-            )
+            bal = user.spread
             user.spread += int(amount)
         elif str(request.data.get('type')) == '15':
-            Tranlist.objects.create(
-                trantype=request.data.get('type'),
-                userid=user.userid,
-                username=user.username,
-                bal=user.activation,
-                amount=int(amount)
-            )
+            bal=user.activation
             user.activation += int(amount)
         elif str(request.data.get('type')) == '16':
-            Tranlist.objects.create(
-                trantype=request.data.get('type'),
-                userid=user.userid,
-                username=user.username,
-                bal=user.buypower,
-                amount=int(amount)
-            )
+            bal = user.buypower
             user.buypower += int(amount)
         elif str(request.data.get('type')) == '28':
-            Tranlist.objects.create(
-                trantype=request.data.get('type'),
-                userid=user.userid,
-                username=user.username,
-                bal=user.integral,
-                amount=int(amount)
-            )
+            bal = user.integral
             user.integral += int(amount)
+        else:
+            raise PubErrorCustom("类型有误!")
+
+        Tranlist.objects.create(
+            trantype=request.data.get('type'),
+            userid=user.userid,
+            username=user.username,
+            userid_to=user.userid,
+            username_to=user.username,
+            bal=bal,
+            amount=int(amount)
+        )
         user.save()
         return None
 
@@ -593,28 +578,40 @@ class ServerAdmin(viewsets.ViewSet):
         print("match start...")
         match1=list(Order.objects.raw(
             """
-                SELECT t1.*
+                SELECT t1.*,t3.mobile
                 FROM `order` as t1
                 INNER JOIN `matchpool` as t2 ON t1.ordercode = t2.ordercode
+                INNER JOIN `user` as t3 ON t1.userid=t3.userid and t3.status='0'
                 WHERE t2.trantype=0 and t2.flag=0 order by t1.amount
             """
         ))
 
         match2=list(Order.objects.raw(
             """
-                SELECT t1.*
+                SELECT t1.*,t3.mobile
                 FROM `order` as t1
                 INNER JOIN `matchpool` as t2 ON t1.ordercode = t2.ordercode
-                WHERE t2.trantype=1 and t2.flag=0 order by t1.amount
+                INNER JOIN `user` as t3 ON t1.userid=t3.userid and t3.status='0'
+                WHERE t2.trantype=1 and t2.flag=0  and t1.umark=0 order by t1.amount
             """
         ))
+        match1=list(match1)
+        match2=list(match2)
+
+        for item in match1:
+            for item1 in match2:
+                if item.userid==item1.userid:
+                    raise PubErrorCustom("用户[%s]不能匹配自己"%(item.username))
 
         t = time.mktime(timezone.now().timetuple())
         sum1=0
         sum2=0
+        mobile_list=list()
         for item in match1:
             sum1 += item.amount
+            mobile_list.append(item.mobile)
         for item in match2:
+            mobile_list.append(item.mobile)
             sum2 += item.amount
 
         if sum1 != sum2 :
@@ -867,6 +864,10 @@ class ServerAdmin(viewsets.ViewSet):
 
         MatchPool.objects.filter(trantype=0, flag=0).update(flag=1,matchtime=t)
         MatchPool.objects.filter(trantype=1, flag=0).update(flag=1,matchtime=t)
+
+        if len(mobile_list):
+            from apps.public.utils import smssend
+            smssend(mobile=list(set(mobile_list)),flag=1)
 
         return None
 

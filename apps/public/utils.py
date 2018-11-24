@@ -37,26 +37,28 @@ def myrandom(num_,r_):
 
 
 def smssend(mobile=None,flag=0,vercode=None):
+
+    if isinstance(mobile, list):
+        mobiletmp = ''
+        for item in mobile:
+            mobiletmp = '{},'.format(item)
+        mobile = mobiletmp[:-1]
     if flag==0:
-        'http://dx110.ipyy.net/smsJson.aspx'
+        content='您现在正在注册众瑞金融账户，您的验证码是{}【众瑞金融】'.format(vercode)
+    elif flag==1:
+        content = '【众瑞金融】尊敬的会员您好！您的订单已匹配成功, 请登录查询'
+    send_request(
+        url="http://dx110.ipyy.net/smsJson.aspx",
+        method='post',
+        data={
+            'account': '8MYX00159',
+            'password': md5pass('8MYX0015998'),
+            'mobile' : mobile,
+            'content' : content,
+            'action' : 'send',
+        }
+    )
 
-        if isinstance(mobile,list):
-            mobiletmp=''
-            for item in mobile:
-                mobiletmp='{},'.format(item)
-            mobile=mobiletmp[:-1]
-
-        send_request(
-            url="http://dx110.ipyy.net/smsJson.aspx",
-            method='post',
-            data={
-                'account': '8MYX00159',
-                'password': md5pass('8MYX0015998'),
-                'mobile' : mobile,
-                'content' : '您现在正在注册众瑞金融账户，您的验证码是{}【众瑞金融】'.format(vercode),
-                'action' : 'send',
-            }
-        )
 
 def after_c(sysparam):
 

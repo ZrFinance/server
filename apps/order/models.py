@@ -140,6 +140,8 @@ class Tranlist(models.Model):
             self.tranname = '一代奖金(冻结)'
         elif self.trantype == 23:
             self.tranname = '二代奖金(冻结)'
+        elif self.trantype == 28:
+            self.tranname = '系统赠送VIP分'
         if not self.createtime:
             self.createtime = t
         return super(Tranlist, self).save(*args, **kwargs)
