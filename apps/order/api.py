@@ -15,6 +15,8 @@ from apps.public.utils import daysqbzcount
 
 from apps.user.models import Agent,Users
 
+from libs.utils.log import logger
+
 class OrderAPIView(GenericViewSetCustom):
 
     def get_authenticators(self):
@@ -51,6 +53,7 @@ class OrderAPIView(GenericViewSetCustom):
         if daysqbzcount(user.userid,sysparam):
             raise PubErrorCustom("当天申请帮助次数已超！")
 
+        logger.debug("[%s]"%(str(request.data)))
 
         if request.data.get('defaultValue')=='gffh':
             if int(request.data.get('amount')) < sysparam.amount1 :

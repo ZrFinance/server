@@ -118,12 +118,24 @@
       <file leaf-file-name="api.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/order/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="90" column="104" selection-start-line="90" selection-start-column="104" selection-end-line="90" selection-end-column="104" />
+            <state relative-caret-position="209">
+              <caret line="53" column="47" lean-forward="true" selection-start-line="53" selection-start-column="47" selection-end-line="53" selection-end-column="47" />
               <folding>
                 <element signature="e#1#36#0" expanded="true" />
                 <element signature="e#540#584#0" />
                 <element signature="e#714#1429#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="response.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libs/core/decorator/response.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="172">
+              <caret line="83" column="20" selection-start-line="83" selection-start-column="8" selection-end-line="83" selection-end-column="20" />
+              <folding>
+                <element signature="e#1#12#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -220,15 +232,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="381">
               <caret line="33" column="83" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="83" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/education/settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="153" selection-start-line="153" selection-end-line="153" />
             </state>
           </provider>
         </entry>
@@ -424,13 +427,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/apps/serveradmin/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/public/utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3230">
@@ -1255,10 +1251,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/libs/core/decorator/response.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="83" column="20" selection-start-line="83" selection-start-column="8" selection-end-line="83" selection-end-column="20" />
+          <folding>
+            <element signature="e#1#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/apps/order/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="90" column="104" selection-start-line="90" selection-start-column="104" selection-end-line="90" selection-end-column="104" />
+        <state relative-caret-position="209">
+          <caret line="53" column="47" lean-forward="true" selection-start-line="53" selection-start-column="47" selection-end-line="53" selection-end-column="47" />
           <folding>
             <element signature="e#1#36#0" expanded="true" />
             <element signature="e#540#584#0" />
