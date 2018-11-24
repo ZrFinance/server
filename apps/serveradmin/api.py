@@ -307,6 +307,10 @@ class ServerAdmin(viewsets.ViewSet):
         {
             'trantype':27,
             'tranname':' 超过7天未打款清空推荐奖(冻结)'
+        },
+        {
+            'trantype': 28,
+            'tranname': '系统赠送VIP分'
         }]
         return {'data': data}
 
@@ -547,6 +551,15 @@ class ServerAdmin(viewsets.ViewSet):
                 amount=int(amount)
             )
             user.buypower += int(amount)
+        elif str(request.data.get('type')) == '28':
+            Tranlist.objects.create(
+                trantype=request.data.get('type'),
+                userid=user.userid,
+                username=user.username,
+                bal=user.integral,
+                amount=int(amount)
+            )
+            user.integral += int(amount)
         user.save()
         return None
 

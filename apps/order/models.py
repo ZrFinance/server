@@ -80,6 +80,7 @@ class Tranlist(models.Model):
             25-超过指定时间打款封号
             26-超过7天未打款清空推荐奖
             27-超过7天未打款清空推荐奖(冻结)
+            28-系统赠送VIP分
             """, default=0)
     tranname = models.CharField(max_length=100,default='')
     userid = models.BigIntegerField(default=0)
