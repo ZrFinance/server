@@ -104,17 +104,38 @@ class OrderAPIView(GenericViewSetCustom):
                 if int(request.data.get('amount')) > user.spread / 2.0:
                     raise PubErrorCustom("满足一代2人,二代4人能提取100%,否则提取50%")
 
-            if user.integral <= 100:
+            if user.integral <= 200:
                 if int(request.data.get('amount')) > 500:
                     raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral <= 300:
+            elif user.integral <= 320:
                 if int(request.data.get('amount')) > 1000:
                     raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral <= 600:
+            elif user.integral <= 440:
+                if int(request.data.get('amount')) > 1500:
+                    raise PubErrorCustom('诚心值积分不够！')
+            elif user.integral <= 560:
                 if int(request.data.get('amount')) > 2000:
                     raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral <= 1000:
+            elif user.integral <= 760:
+                if int(request.data.get('amount')) > 2500:
+                    raise PubErrorCustom('诚心值积分不够！')
+            elif user.integral <= 960:
                 if int(request.data.get('amount')) > 3000:
+                    raise PubErrorCustom('诚心值积分不够！')
+            elif user.integral <= 1160:
+                if int(request.data.get('amount')) > 3500:
+                    raise PubErrorCustom('诚心值积分不够！')
+            elif user.integral <= 1560:
+                if int(request.data.get('amount')) > 4000:
+                    raise PubErrorCustom('诚心值积分不够！')
+            elif user.integral <= 2000:
+                if int(request.data.get('amount')) > 5000:
+                    raise PubErrorCustom('诚心值积分不够！')
+            elif user.integral <= 2500:
+                if int(request.data.get('amount')) > 7000:
+                    raise PubErrorCustom('诚心值积分不够！')
+            else:
+                if int(request.data.get('amount')) > 10000:
                     raise PubErrorCustom('诚心值积分不够！')
             type=1
             trantype=11
