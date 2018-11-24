@@ -13,6 +13,8 @@ from apps.public.models import SysParam
 from apps.utils import GenericViewSetCustom
 from apps.public.utils import daysqbzcount
 
+from apps.user.models import Agent
+
 class OrderAPIView(GenericViewSetCustom):
 
     def get_authenticators(self):
@@ -67,35 +69,27 @@ class OrderAPIView(GenericViewSetCustom):
             if user.spread < int(request.data.get('amount')):
                 raise  PubErrorCustom('推广股权余额不足')
 
-            if user.integral < 50:
+            #必须满足推荐人才能提取，1代2个提50%,2代4个提100%(必须满足1代)
+            oneagent=Agent.objects.filter(mobile=user.mobile,level=1).count()
+            twoagent=Agent.objects.filter(mobile=user.mobile,level=2).count()
+            if oneagent>=2 and twoagent>=4:
+                pass
+                #提取全部
+            else:
+                if int(request.data.get('amount')) > user.spread / 2.0:
+                    raise PubErrorCustom("满足一代2人,二代4人能提取100%,否则提取50%")
+
+            if user.integral <= 100:
                 if int(request.data.get('amount')) > 500:
                     raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral < 100:
+            elif user.integral <= 300:
                 if int(request.data.get('amount')) > 1000:
                     raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral < 150:
+            elif user.integral <= 600:
+                if int(request.data.get('amount')) > 2000:
+                    raise PubErrorCustom('诚心值积分不够！')
+            elif user.integral <= 1000:
                 if int(request.data.get('amount')) > 3000:
-                    raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral < 220:
-                if int(request.data.get('amount')) > 4000:
-                    raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral < 300:
-                if int(request.data.get('amount')) > 5000:
-                    raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral < 420:
-                if int(request.data.get('amount')) > 6000:
-                    raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral < 550:
-                if int(request.data.get('amount')) > 7000:
-                    raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral < 700:
-                if int(request.data.get('amount')) > 8000:
-                    raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral < 850:
-                if int(request.data.get('amount')) > 9000:
-                    raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral < 1000:
-                if int(request.data.get('amount')) > 10000:
                     raise PubErrorCustom('诚心值积分不够！')
             type=1
             trantype=11

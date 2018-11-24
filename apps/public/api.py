@@ -71,7 +71,6 @@ class PublicAPIView(viewsets.ViewSet):
 
         return {"data":data}
 
-
     @list_route(methods=['GET'])
     @Core_connector()
     def getnotice(self, request, *args, **kwargs):
@@ -608,8 +607,6 @@ class PublicAPIView(viewsets.ViewSet):
             return {'data':{"flag":1}}
         else:
             return {'data': {"flag": 2}}
-
-
 
 class PublicFileAPIView(viewsets.ViewSet):
 
