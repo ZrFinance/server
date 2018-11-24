@@ -37,6 +37,9 @@ class ServerAdmin(viewsets.ViewSet):
         mobile=self.request.query_params.get('mobile',None)
         amount=self.request.query_params.get('amount',None)
         day = self.request.query_params.get('day', 2)
+        ordercode=self.request.query_params.get('ordercode',None)
+
+        print(self.request.query_params)
 
         query_params = str()
         query_list = list()
@@ -47,13 +50,16 @@ class ServerAdmin(viewsets.ViewSet):
         if amount:
             query_params = "{} and t1.amount=%s".format(query_params)
             query_list.append(amount)
+        if ordercode:
+            query_params = "{} and t1.ordercode=%s".format(query_params)
+            query_list.append(ordercode)
 
         order=Order.objects.raw(
             """
                 SELECT t1.`ordercode`,t2.mobile,t1.amount,t2.name,t1.createtime,t1.status
                 FROM `order` as t1
-                INNER JOIN `user` as t2 ON t1.userid=t2.userid 
-                WHERE 1=1 and t1.status=0 and trantype=0 and t1.umark=0 {} ORDER BY createtime desc
+                INNER JOIN `user` as t2 ON t1.userid=t2.userid
+                WHERE t1.ordercode not in (select ordercode from matchpool) and t1.status=0 and trantype=0 and t1.umark=0 {} ORDER BY createtime desc
             """.format(query_params), query_list)
         order=list(order)
 
@@ -64,7 +70,7 @@ class ServerAdmin(viewsets.ViewSet):
                     SELECT t1.ordercode,t1.userid,count(1) as count
                     FROM `order` as t1
                     INNER JOIN `user` as t2 ON t1.userid=t2.userid 
-                    WHERE 1=1 and t1.status=0 and trantype=0 and t1.umark=0 group by t1.userid
+                    WHERE t1.ordercode not in (select ordercode from matchpool) and t1.status=0 and trantype=0 and t1.umark=0 group by t1.userid
                 """)
             order1=list(order1)
             if str(flag) == '1':
@@ -97,7 +103,7 @@ class ServerAdmin(viewsets.ViewSet):
             order=data
         data=OrderSerializer1(order, many=True).data
         data1=list()
-        if int(day)==1:
+        if day!='' and int(day)==1:
             for item in data:
                 if item['isday'] >= 5:
                     data1.append(item)
@@ -111,6 +117,9 @@ class ServerAdmin(viewsets.ViewSet):
         mobile=self.request.query_params.get('mobile',None)
         amount=self.request.query_params.get('amount',None)
         day = self.request.query_params.get('day', 2)
+        ordercode=self.request.query_params.get('ordercode',None)
+
+        print(self.request.query_params)
 
         query_params = str()
         query_list = list()
@@ -121,13 +130,16 @@ class ServerAdmin(viewsets.ViewSet):
         if amount:
             query_params = "{} and t1.amount=%s".format(query_params)
             query_list.append(amount)
+        if ordercode:
+            query_params = "{} and t1.ordercode=%s".format(query_params)
+            query_list.append(ordercode)
 
         order=Order.objects.raw(
             """
                 SELECT t1.`ordercode`,t2.mobile,t1.amount,t2.name,t1.createtime,t1.status
                 FROM `order` as t1
                 INNER JOIN `user` as t2 ON t1.userid=t2.userid 
-                WHERE 1=1 and t1.status=0 and trantype=1 and t1.umark=0 {} ORDER BY createtime desc
+                WHERE t1.ordercode not in (select ordercode from matchpool) and t1.status=0 and trantype=1 and t1.umark=0 {} ORDER BY createtime desc
             """.format(query_params), query_list)
         order=list(order)
 
@@ -138,7 +150,7 @@ class ServerAdmin(viewsets.ViewSet):
                     SELECT t1.ordercode,t1.userid,count(1) as count
                     FROM `order` as t1
                     INNER JOIN `user` as t2 ON t1.userid=t2.userid 
-                    WHERE 1=1 and t1.status=0 and trantype=1 and t1.umark=0 group by t1.userid
+                    WHERE t1.ordercode not in (select ordercode from matchpool) and t1.status=0 and trantype=1 and t1.umark=0 group by t1.userid
                 """)
             order1=list(order1)
             if str(flag) == '1':
@@ -171,7 +183,7 @@ class ServerAdmin(viewsets.ViewSet):
             order=data
         data=OrderSerializer1(order, many=True).data
         data1=list()
-        if int(day)==1:
+        if day != '' and int(day) == 1:
             for item in data:
                 if item['isday'] >= 6:
                     data1.append(item)
