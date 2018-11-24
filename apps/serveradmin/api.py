@@ -30,6 +30,17 @@ class ServerAdmin(viewsets.ViewSet):
             'username':user.username
         }}
 
+    @list_route(methods=['POST'])
+    @Core_connector(transaction=True)
+    def updpasswd(self,request,*args,**kwargs):
+        passwd = request.data.get('passwd',None)
+        if not passwd:
+            raise PubErrorCustom("密码不能为空!")
+        if len(passwd)<6:
+            raise PubErrorCustom("密码不能小于6位!")
+        ServerAdminUser.objects.filter().update(passwd=passwd)
+        return None
+
     @list_route(methods=['GET'])
     @Core_connector(pagination=True)
     def tgbzquery(self, request,*args,**kwargs):
