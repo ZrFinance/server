@@ -13,7 +13,7 @@ from apps.public.models import SysParam
 from apps.utils import GenericViewSetCustom
 from apps.public.utils import daysqbzcount
 
-from apps.user.models import Agent
+from apps.user.models import Agent,Users
 
 class OrderAPIView(GenericViewSetCustom):
 
@@ -70,9 +70,29 @@ class OrderAPIView(GenericViewSetCustom):
                 raise  PubErrorCustom('推广股权余额不足')
 
             #必须满足推荐人才能提取，1代2个提50%,2代4个提100%(必须满足1代)
-            oneagent=Agent.objects.filter(mobile=user.mobile,level=1).count()
-            twoagent=Agent.objects.filter(mobile=user.mobile,level=2).count()
-            if oneagent>=2 and twoagent>=4:
+            oneagent=Agent.objects.filter(mobile=user.mobile,level=1)
+            oneagentcount=0
+            for item in oneagent:
+                t=Order.objects.raw("""
+                    SELECT * FROM `order` as t1
+                    INNER JOIN user as t2 on t1.userid=t2.userid
+                    where t1.trantype='0' and t1.umark='0' and t1.status='2' and t2.umark='0' and t2.mobile='%s'
+                """,[item.mobile1])
+                if len(t)>0:
+                    oneagentcount+=1
+
+            twoagent=Agent.objects.filter(mobile=user.mobile,level=2)
+            twoagentcount=0
+
+            for item in twoagent:
+                t=Order.objects.raw("""
+                    SELECT * FROM `order` as t1
+                    INNER JOIN user as t2 on t1.userid=t2.userid
+                    where t1.trantype='0' and t1.umark='0' and t1.status='2' and t2.umark='0' and t2.mobile='%s'
+                """,[item.mobile1])
+                if len(t)>0:
+                    twoagentcount+=1
+            if oneagentcount>=2 and twoagentcount>=4:
                 pass
                 #提取全部
             else:

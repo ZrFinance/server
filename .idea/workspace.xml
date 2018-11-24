@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1a352d01-af29-4564-9d5c-3e500cff74d5" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/order/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/order/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/public/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/public/api.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -120,8 +118,8 @@
       <file leaf-file-name="api.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/order/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="79" column="70" lean-forward="true" selection-start-line="79" selection-start-column="70" selection-end-line="79" selection-end-column="70" />
+            <state relative-caret-position="162">
+              <caret line="90" column="104" selection-start-line="90" selection-start-column="104" selection-end-line="90" selection-end-column="104" />
               <folding>
                 <element signature="e#1#36#0" expanded="true" />
                 <element signature="e#540#584#0" />
@@ -132,10 +130,19 @@
         </entry>
       </file>
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/order/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="133">
+              <caret line="9" column="58" selection-start-line="9" selection-start-column="54" selection-end-line="9" selection-end-column="58" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/user/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="88" column="9" selection-start-line="88" selection-start-column="4" selection-end-line="88" selection-end-column="9" />
+            <state relative-caret-position="96">
+              <caret line="55" column="46" selection-start-line="55" selection-start-column="46" selection-end-line="55" selection-end-column="89" />
             </state>
           </provider>
         </entry>
@@ -204,6 +211,15 @@
                 <element signature="e#18956#19018#0" />
                 <element signature="e#19381#19488#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/public/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="381">
+              <caret line="33" column="83" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="83" />
             </state>
           </provider>
         </entry>
@@ -287,6 +303,12 @@
               <item name="server" type="462c0819:PsiDirectoryNode" />
               <item name="apps" type="462c0819:PsiDirectoryNode" />
               <item name="order" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+              <item name="apps" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="server" type="b2602c69:ProjectViewProjectNode" />
@@ -398,7 +420,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="4" />
+      <option name="time" value="5" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -1031,20 +1053,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/public/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="362">
-          <caret line="41" column="63" selection-start-line="41" selection-start-column="56" selection-end-line="41" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/order/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="58" selection-start-line="9" selection-start-column="54" selection-end-line="9" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/user/utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="193">
@@ -1073,59 +1081,6 @@
           <folding>
             <element signature="e#529#1428#0" />
             <element signature="e#1460#2771#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/public/api.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="438">
-          <caret line="510" column="10" selection-start-line="510" selection-start-column="10" selection-end-line="510" selection-end-column="10" />
-          <folding>
-            <element signature="e#1222#1343#0" />
-            <element signature="e#1460#1801#0" />
-            <element signature="e#1532#1726#0" />
-            <element signature="e#1590#1693#0" />
-            <element signature="e#1602#1692#0" />
-            <element signature="e#2008#2263#0" />
-            <element signature="e#2171#2233#0" />
-            <element signature="e#2381#2724#0" />
-            <element signature="e#2477#2658#0" />
-            <element signature="e#2513#2658#0" />
-            <element signature="e#2770#2954#0" />
-            <element signature="e#3074#3395#0" />
-            <element signature="e#3119#3243#0" />
-            <element signature="e#3529#5307#0" />
-            <element signature="e#3591#3648#0" />
-            <element signature="e#3693#3750#0" />
-            <element signature="e#3797#3856#0" />
-            <element signature="e#3903#3964#0" />
-            <element signature="e#4914#5112#0" />
-            <element signature="e#5163#5213#0" />
-            <element signature="e#5439#5579#0" />
-            <element signature="e#5710#6662#0" />
-            <element signature="e#5777#6021#0" />
-            <element signature="e#6121#6369#0" />
-            <element signature="e#6438#6662#0" />
-            <element signature="e#6446#6661#0" />
-            <element signature="e#6796#7609#0" />
-            <element signature="e#7725#7806#0" />
-            <element signature="e#7937#8300#0" />
-            <element signature="e#8437#8661#0" />
-            <element signature="e#8794#9001#0" />
-            <element signature="e#9136#10454#0" />
-            <element signature="e#10592#11920#0" />
-            <element signature="e#12979#13713#0" />
-            <element signature="e#13003#13573#0" />
-            <element signature="e#16063#16233#0" />
-            <element signature="e#16353#16576#0" />
-            <element signature="e#16705#18229#0" />
-            <element signature="e#18346#18527#0" />
-            <element signature="e#18579#19697#0" />
-            <element signature="e#18617#18738#0" />
-            <element signature="e#18868#19697#0" />
-            <element signature="e#18956#19018#0" />
-            <element signature="e#19381#19488#0" />
           </folding>
         </state>
       </provider>
@@ -1226,17 +1181,84 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/apps/public/api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="438">
+          <caret line="510" column="10" selection-start-line="510" selection-start-column="10" selection-end-line="510" selection-end-column="10" />
+          <folding>
+            <element signature="e#1222#1343#0" />
+            <element signature="e#1460#1801#0" />
+            <element signature="e#1532#1726#0" />
+            <element signature="e#1590#1693#0" />
+            <element signature="e#1602#1692#0" />
+            <element signature="e#2008#2263#0" />
+            <element signature="e#2171#2233#0" />
+            <element signature="e#2381#2724#0" />
+            <element signature="e#2477#2658#0" />
+            <element signature="e#2513#2658#0" />
+            <element signature="e#2770#2954#0" />
+            <element signature="e#3074#3395#0" />
+            <element signature="e#3119#3243#0" />
+            <element signature="e#3529#5307#0" />
+            <element signature="e#3591#3648#0" />
+            <element signature="e#3693#3750#0" />
+            <element signature="e#3797#3856#0" />
+            <element signature="e#3903#3964#0" />
+            <element signature="e#4914#5112#0" />
+            <element signature="e#5163#5213#0" />
+            <element signature="e#5439#5579#0" />
+            <element signature="e#5710#6662#0" />
+            <element signature="e#5777#6021#0" />
+            <element signature="e#6121#6369#0" />
+            <element signature="e#6438#6662#0" />
+            <element signature="e#6446#6661#0" />
+            <element signature="e#6796#7609#0" />
+            <element signature="e#7725#7806#0" />
+            <element signature="e#7937#8300#0" />
+            <element signature="e#8437#8661#0" />
+            <element signature="e#8794#9001#0" />
+            <element signature="e#9136#10454#0" />
+            <element signature="e#10592#11920#0" />
+            <element signature="e#12979#13713#0" />
+            <element signature="e#13003#13573#0" />
+            <element signature="e#16063#16233#0" />
+            <element signature="e#16353#16576#0" />
+            <element signature="e#16705#18229#0" />
+            <element signature="e#18346#18527#0" />
+            <element signature="e#18579#19697#0" />
+            <element signature="e#18617#18738#0" />
+            <element signature="e#18868#19697#0" />
+            <element signature="e#18956#19018#0" />
+            <element signature="e#19381#19488#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/public/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="381">
+          <caret line="33" column="83" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="83" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/apps/user/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="88" column="9" selection-start-line="88" selection-start-column="4" selection-end-line="88" selection-end-column="9" />
+        <state relative-caret-position="96">
+          <caret line="55" column="46" selection-start-line="55" selection-start-column="46" selection-end-line="55" selection-end-column="89" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/order/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="9" column="58" selection-start-line="9" selection-start-column="54" selection-end-line="9" selection-end-column="58" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/order/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="79" column="70" lean-forward="true" selection-start-line="79" selection-start-column="70" selection-end-line="79" selection-end-column="70" />
+        <state relative-caret-position="162">
+          <caret line="90" column="104" selection-start-line="90" selection-start-column="104" selection-end-line="90" selection-end-column="104" />
           <folding>
             <element signature="e#1#36#0" expanded="true" />
             <element signature="e#540#584#0" />
