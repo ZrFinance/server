@@ -46,7 +46,7 @@ def smssend(mobile=None,flag=0,vercode=None):
     if flag==0:
         content='您现在正在注册众瑞金融账户，您的验证码是{}【众瑞金融】'.format(vercode)
     elif flag==1:
-        content = '【众瑞金融】尊敬的会员您好！您的订单已匹配成功, 请登录查询'
+        content = '【众瑞金融】尊敬的会员您好！您的订单已匹配成功, 请登录查询。退订回T'
     send_request(
         url="http://dx110.ipyy.net/smsJson.aspx",
         method='post',
@@ -187,8 +187,19 @@ def tjjr(user,amount,ordercode,sysparm):
 
 def query_agent_limit(mobile,mobile_to):
 
-    if Agent.objects.filter(mobile=mobile,mobile1=mobile_to).count():
-        return True
+    isFind=False
+
+    agent=Agent.objects.filter(mobile=mobile)
+    if agent.exists():
+        for item in agent:
+            if mobile_to==item.mobile1:
+                isFind=True
+
+    try:
+        agent=Agent.objects.get(mobile=mobile,mobile1=mobile_to)
+    except Agent.DoesNotExist:
+        pass
+
 
     if Agent.objects.filter(mobile=mobile_to,mobile1=mobile).count():
         return True
