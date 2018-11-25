@@ -265,7 +265,9 @@ class PublicAPIView(viewsets.ViewSet):
     def userupd(self, request, *args, **kwargs):
         if request.user.pay_passwd != request.data.get('pay_passwd') :
             raise PubErrorCustom("二级密码错误！")
-        if len(request.user.idcard) > 0:
+        if len(request.user.alipay) > 0:
+            raise PubErrorCustom("已修改一次，不能再修改！")
+        if len(request.user.wechat) > 0:
             raise PubErrorCustom("已修改一次，不能再修改！")
         serializer = UsersSerializer(request.user, data=request.data)
         serializer.is_valid(raise_exception=True)
