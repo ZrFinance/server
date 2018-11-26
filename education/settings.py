@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 import sys
-from datetime import datetime
+import time
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -129,7 +129,6 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = False
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
@@ -195,7 +194,7 @@ LOGGING = {
         'root': {
             'class': LOG_CLASS,
             'formatter': 'verbose',
-            'filename': os.path.join(LOGGING_DIR, '%s.log' % datetime.now().strftime('%Y-%m-%d')),
+            'filename': os.path.join(LOGGING_DIR, '%s.log' % time.strftime('%Y-%m-%d',time.localtime(time.time()))),
             'maxBytes': 1024 * 1024 * 10,
             'backupCount': 5
         },

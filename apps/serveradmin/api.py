@@ -49,6 +49,7 @@ class ServerAdmin(viewsets.ViewSet):
         amount=self.request.query_params.get('amount',None)
         day = self.request.query_params.get('day', 2)
         ordercode=self.request.query_params.get('ordercode',None)
+        value2=self.request.query_params.get('value2',None)
 
         print(self.request.query_params)
 
@@ -64,6 +65,13 @@ class ServerAdmin(viewsets.ViewSet):
         if ordercode:
             query_params = "{} and t1.ordercode=%s".format(query_params)
             query_list.append(ordercode)
+        if value2:
+            query_params = "{} and t1.createtime>=%s and t1.createtime<=%s".format(query_params)
+            query_list.append(string_toTimestamp(value2[:10] + ' 00:00:01'))
+            query_list.append(string_toTimestamp(value2[:10] + ' 23:59:59'))
+
+        print(query_params)
+        print(query_list)
 
         order=Order.objects.raw(
             """
@@ -129,6 +137,7 @@ class ServerAdmin(viewsets.ViewSet):
         amount=self.request.query_params.get('amount',None)
         day = self.request.query_params.get('day', 2)
         ordercode=self.request.query_params.get('ordercode',None)
+        value2=self.request.query_params.get('value2',None)
 
         print(self.request.query_params)
 
@@ -144,7 +153,13 @@ class ServerAdmin(viewsets.ViewSet):
         if ordercode:
             query_params = "{} and t1.ordercode=%s".format(query_params)
             query_list.append(ordercode)
+        if value2:
+            query_params = "{} and t1.createtime>=%s and t1.createtime<=%s".format(query_params)
+            query_list.append(string_toTimestamp(value2[:10]+' 00:00:01'))
+            query_list.append(string_toTimestamp(value2[:10] + ' 23:59:59'))
 
+        print(query_params)
+        print(query_list)
         order=Order.objects.raw(
             """
                 SELECT t1.`ordercode`,t2.mobile,t1.amount,t2.name,t1.createtime,t1.status
@@ -948,7 +963,7 @@ class ServerAdmin(viewsets.ViewSet):
         tgbztx=0
         jsbztx=0
         for item in order:
-            if item.trantype == 1:
+            if item.trantype == 0:
                 tgbzcount+=item.amount
                 if item.status==2:
                     tgbztx+=item.amount

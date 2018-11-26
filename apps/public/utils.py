@@ -14,6 +14,8 @@ from apps.order.models import Tranlist
 from libs.utils.http_request import send_request
 from libs.utils.string_extension import md5pass
 
+from django.utils import timezone
+
 def check_verification_code(kwargs):
     verification_code=kwargs.get('verification_code')
     mobile=kwargs.get('mobile')
@@ -38,15 +40,19 @@ def myrandom(num_,r_):
 
 def smssend(mobile=None,flag=0,vercode=None):
 
+    print(mobile)
     if isinstance(mobile, list):
         mobiletmp = ''
         for item in mobile:
-            mobiletmp = '{},'.format(item)
+            mobiletmp += '{},'.format(item)
+            print(mobiletmp)
         mobile = mobiletmp[:-1]
     if flag==0:
         content='您现在正在注册众瑞金融账户，您的验证码是{}【众瑞金融】'.format(vercode)
     elif flag==1:
-        content = '【众瑞金融】尊敬的会员您好！您的订单已匹配成功, 请登录查询。退订回T'
+        content = '尊敬的会员您好！您的订单已匹配成功, 请登录查询。退订回T【众瑞金融】'
+    print(mobile)
+    print(content)
     send_request(
         url="http://dx110.ipyy.net/smsJson.aspx",
         method='post',
@@ -62,7 +68,7 @@ def smssend(mobile=None,flag=0,vercode=None):
 
 def after_c(sysparam):
 
-    t=datetime.now().strftime("%Y-%m-%d %H:%S:%M")[11:16]
+    t=timezone.now().strftime("%Y-%m-%d %H:%S:%M")[11:16]
 
     s=sysparam.morning.split('-')
     start=s[0]
@@ -77,7 +83,7 @@ def after_c(sysparam):
 
 def pdlimit(sysparam):
 
-    t = datetime.now().strftime("%Y-%m-%d %H:%S:%M")
+    t = timezone.now().strftime("%Y-%m-%d %H:%S:%M")
 
     start = string_toTimestamp(t[:10] + ' 00:00:00')
     end = string_toTimestamp(t[:10] + ' 12:00:00')
@@ -100,16 +106,17 @@ def pdlimit(sysparam):
             raise PubErrorCustom("下午排单已超限额!")
 
 def daytgbzcount(userid,sysparam):
-    t = datetime.now().strftime("%Y-%m-%d %H:%S:%M")
+    t = timezone.now().strftime("%Y-%m-%d %H:%S:%M")
     start = string_toTimestamp(t[:10] + ' 00:00:01')
     end = string_toTimestamp(t[:10] + ' 23:59:59')
-    if Order.objects.filter(userid=userid,createtime__gte=start,createtime__lt=end,trantype=0,umark=0).count() >= sysparam.count1:
+    count=Order.objects.filter(userid=userid, createtime__gte=start, createtime__lt=end, trantype=0, umark=0).count()
+    if count >= sysparam.count1:
         return True
     else:
         return False
 
 def daysqbzcount(userid,sysparam):
-    t = datetime.now().strftime("%Y-%m-%d %H:%S:%M")
+    t = timezone.now().strftime("%Y-%m-%d %H:%S:%M")
     start = string_toTimestamp(t[:10] + ' 00:00:01')
     end = string_toTimestamp(t[:10] + ' 23:59:59')
     if Order.objects.filter(userid=userid,createtime__gte=start,createtime__lt=end,trantype=1,umark=0).count() >= sysparam.count2:
@@ -119,7 +126,7 @@ def daysqbzcount(userid,sysparam):
 
 def tjjr(user,amount,ordercode,sysparm):
 
-    t=datetime.now()
+    t=timezone.now()
     d5 = send_toTimestamp(t - timedelta(days=5))
     #代理
     agent_list=[1,2]
@@ -185,24 +192,35 @@ def tjjr(user,amount,ordercode,sysparm):
         except Agent.DoesNotExist:
             pass
 
-def query_agent_limit(mobile,mobile_to):
+def query_agent_limit_ex(mobile):
 
-    isFind=False
-
+    mobile_main=list()
     agent=Agent.objects.filter(mobile=mobile)
     if agent.exists():
         for item in agent:
-            if mobile_to==item.mobile1:
-                isFind=True
+            mobile_main.append(item.mobile1)
 
-    try:
-        agent=Agent.objects.get(mobile=mobile,mobile1=mobile_to)
-    except Agent.DoesNotExist:
-        pass
+    return  mobile_main
 
 
-    if Agent.objects.filter(mobile=mobile_to,mobile1=mobile).count():
-        return True
+def query_agent_limit(mobile,mobile_to):
+
+    mobile_main=list()
+    mobile_main1=[mobile]
+    while True:
+        if len(mobile_main1):
+            for item in mobile_main1:
+                mobile_main.append(item)
+            mobile_main1=list()
+        else:
+            break
+        for item in mobile_main:
+            res=query_agent_limit_ex(item)
+            for item1 in res:
+                if mobile_to==item1:
+                    return True
+                mobile_main1.append(item1)
+        mobile_main=list()
 
     return False
 
@@ -217,7 +235,7 @@ def orderrclimit(user,amount):
         obj=list()
         diffamount=list()
         for item in order:
-            obj.append({'ordercode':item.ordercode,'amount':item.amount})
+            obj.append({'ordercode':item.ordercode,'amount':item.amount,'createtime':item.createtime})
         b = list()
         if len(obj):
             for item in obj:
@@ -239,6 +257,9 @@ def orderrclimit(user,amount):
         for item in obj:
             if item['ordercode'] in b:
                 continue
+            t = timestamp_toDatetime(item['createtime']).strftime("%Y-%m-%d")
+            if t < "2018-11-26" and item['amount']<5000 and item['amount']>2000:
+                item['amount']=2000
             diffamount.append(item['amount'])
 
         if len(diffamount):

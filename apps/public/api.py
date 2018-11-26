@@ -26,12 +26,6 @@ import time
 import os
 from education.settings import BASE_DIR
 
-date = time.strftime('%Y%m%d')
-UPLOAD_FILE_PATH = '%s/media/%s/' % (BASE_DIR, date)
-isExists = os.path.exists(UPLOAD_FILE_PATH)
-if not isExists:
-    os.makedirs(UPLOAD_FILE_PATH)
-
 class PublicAPIView(viewsets.ViewSet):
 
     def get_authenticators(self):
@@ -133,6 +127,17 @@ class PublicAPIView(viewsets.ViewSet):
             vip=3
         else:
             name = '未知'
+
+        try:
+            param=SysParam.objects.get()
+            pdlimit(param)
+            if daytgbzcount(user.userid, param):
+                raise PubErrorCustom('当天提供帮助次数已超!')
+            index=self.luckyrandom(param)
+        except SysParam.DoesNotExist:
+            raise PubErrorCustom("无参数表数据")
+            index=0
+
         orderrclimit(user,amount)
         Lucky.objects.create(userid=user.userid,index=user.lastindex,name=name)
         Order.objects.create(
@@ -165,16 +170,6 @@ class PublicAPIView(viewsets.ViewSet):
             amount=vip
         )
         user.integral += vip
-
-        try:
-            param=SysParam.objects.get()
-            pdlimit(param)
-            if daytgbzcount(user.userid, param):
-                raise PubErrorCustom('当天提供帮助次数已超!')
-            index=self.luckyrandom(param)
-        except SysParam.DoesNotExist:
-            raise PubErrorCustom("无参数表数据")
-            index=0
 
         user.lastindex = index
         user.save()
@@ -265,10 +260,12 @@ class PublicAPIView(viewsets.ViewSet):
     def userupd(self, request, *args, **kwargs):
         if request.user.pay_passwd != request.data.get('pay_passwd') :
             raise PubErrorCustom("二级密码错误！")
-        if len(request.user.alipay) > 0:
+        print(request.user.agent)
+        if request.user.alipay and len(request.user.alipay) > 0:
             raise PubErrorCustom("已修改一次，不能再修改！")
-        if len(request.user.wechat) > 0:
+        if request.user.wechat and len(request.user.wechat) > 0:
             raise PubErrorCustom("已修改一次，不能再修改！")
+        request.data['agent']='1'
         serializer = UsersSerializer(request.user, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -620,17 +617,23 @@ class PublicFileAPIView(viewsets.ViewSet):
     @Core_connector(transaction=True)
     def upload(self,request, *args, **kwargs):
 
+        date = time.strftime('%Y%m%d')
+        UPLOAD_FILE_PATH = '/var/nginx_upload/%s/' % (date)
+        isExists = os.path.exists(UPLOAD_FILE_PATH)
+        if not isExists:
+            os.makedirs(UPLOAD_FILE_PATH)
+
         print(self.request.data)
         file_path = self.request.data.get('file_path')
-        # file_name = self.request.data.get('file_name').split('.')[1]
-        # file_md5 = self.request.data.get('file_md5')
         ordercode = self.request.data.get('ordercode')
 
-        base='%s/media/%s'%(BASE_DIR,file_path.split('/')[-2:][0])
         new_file_name = '%s.%s' % (ordercode,'jpeg')
+        print(new_file_name)
         new_file_path = ''.join([UPLOAD_FILE_PATH, new_file_name])
+        print(new_file_path)
+        print(UPLOAD_FILE_PATH)
         with open(new_file_path, 'wb') as new_file:
-            with open('%s/%s'%(base,file_path.split('/')[-1:][0]), 'rb') as f:
+            with open(file_path, 'rb') as f:
                 new_file.write(f.read())
         url='/nginx_upload/%s/%s'%(date,new_file_name)
         Order.objects.filter(ordercode=ordercode).update(img=url,confirmtime=time.mktime(timezone.now().timetuple()))

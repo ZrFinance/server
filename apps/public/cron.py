@@ -4,6 +4,7 @@ import sys
 import django
 from datetime import datetime ,timedelta
 from libs.utils.mytime import send_toTimestamp
+from django.utils import timezone
 
 pathname = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, pathname)
@@ -48,7 +49,7 @@ def task1():
 #7天无打款推荐奖清空
 def task2():
     print("7天无打款推荐奖清空处理start...")
-    t=datetime.now()
+    t=timezone.now()
     d7 = send_toTimestamp(t - timedelta(days=7))
 
     users=Users.objects.filter()
