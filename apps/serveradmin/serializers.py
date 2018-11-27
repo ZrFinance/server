@@ -19,6 +19,8 @@ class  OrderStatusSerializer(serializers.Serializer):
 	ordercode_to=serializers.IntegerField()
 	confirmtime=serializers.IntegerField()
 	img=serializers.CharField()
+	name=serializers.CharField()
+	name_to=serializers.CharField()
 
 class  TranlistQuerySerializer(serializers.Serializer):
 	ordercode=serializers.IntegerField()

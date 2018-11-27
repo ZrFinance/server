@@ -5,11 +5,11 @@
 
 import os
 
-DBHOST = os.environ.get('DBHOST', '132.232.49.116')
-DBPORT = os.environ.get('DBPORT', '9106')
+DBHOST = os.environ.get('DBHOST', 'localhost')
+DBPORT = os.environ.get('DBPORT', '3306')
 DBNAME = os.environ.get('DBNAME', 'sso')
 DBUSER = os.environ.get('DBUSER', 'root')
-DBPASS = os.environ.get('DBPASS', '!@#tc123')
+DBPASS = os.environ.get('DBPASS', '123456')
 
 # ===============================================================================
 # 数据库设置

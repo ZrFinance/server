@@ -14,6 +14,7 @@ import time
 from django.utils import timezone
 from apps.public.models import SysParam
 from libs.utils.mytime import string_toTimestamp
+from apps.user.models import Agent,Login
 
 class ServerAdmin(viewsets.ViewSet):
 
@@ -371,6 +372,12 @@ class ServerAdmin(viewsets.ViewSet):
         if ordercode:
             query_params = "{} and t1.ordercode=%s".format(query_params)
             query_list.append(ordercode)
+        value2=self.request.query_params.get('value2',None)
+        if value2:
+            query_params = "{} and t1.createtime>=%s and t1.createtime<=%s".format(query_params)
+            query_list.append(string_toTimestamp(value2[:10]+' 00:00:01'))
+            query_list.append(string_toTimestamp(value2[:10] + ' 23:59:59'))
+
         tranlist = Tranlist.objects.raw("""
                    SELECT t1.id,t1.tranname,t2.mobile,t3.mobile as mobile_to,t1.amount,t1.bal,t1.createtime,t1.ordercode
                    FROM `tranlist` as t1
@@ -445,8 +452,17 @@ class ServerAdmin(viewsets.ViewSet):
         if trantype:
             query_params = "{} and t1.trantype=%s".format(query_params)
             query_list.append(trantype)
+        value2=self.request.query_params.get('value2',None)
+        if value2:
+            if str(status)=='1':
+                query_params = "{} and t1.matchtime>=%s and t1.matchtime<=%s".format(query_params)
+            else:
+                query_params = "{} and t1.confirmtime>=%s and t1.confirmtime<=%s".format(query_params)
+            query_list.append(string_toTimestamp(value2[:10]+' 00:00:01'))
+            query_list.append(string_toTimestamp(value2[:10] + ' 23:59:59'))
+
         order=Order.objects.raw("""
-            SELECT t1.ordercode,t2.mobile,t3.mobile as mobile_to,t1.amount,t1.ordercode_to,t1.confirmtime,t1.img
+            SELECT t1.ordercode,t2.mobile,t3.mobile as mobile_to,t1.amount,t1.ordercode_to,t1.confirmtime,t1.img,t2.name,t3.name as name_to
             FROM `order` as t1
             INNER  JOIN `user` as t2 on t1.userid = t2.userid
             INNER  JOIN `user` as t3 on t1.userid_to = t3.userid
@@ -469,13 +485,42 @@ class ServerAdmin(viewsets.ViewSet):
 
         order=Order.objects.filter(ordercode__in=request.data.get('ordercodes').split(','),umark=0)
         trantype=request.data.get('trantype')
+
+        if trantype==0:
+            trantype1=1
+        else:
+            trantype1=0
+
+        usernames = list()
+        r_usernames = list()
+        order1 = Order.objects.raw("""
+                   SELECT t1.*
+                   FROM `order` as t1
+                   INNER JOIN matchpool as t2 on t1.ordercode=t2.ordercode
+                   where {}
+               """.format('t1.trantype=%s and username in (select username from `order` where ordercode in %s)'),
+                                  [trantype1, request.data.get('ordercodes').split(',')])
+        for item in list(order1):
+            usernames.append(item.username)
+
         if order.exists():
             for item in order:
                 if MatchPool.objects.filter(ordercode=item.ordercode).count():
                     raise PubErrorCustom("添加重复！")
+                if item.username in usernames:
+                    r_usernames.append(item.username)
+                    continue
+
                 MatchPool.objects.create(ordercode=item.ordercode,trantype=trantype,flag=0)
 
-        return None
+
+        r_usernames=list(set(r_usernames))
+        if len(r_usernames):
+            msg="添加成功,用户重复部分,已剔除%s"%(str(r_usernames))
+        else:
+            msg="添加成功!"
+
+        return {"data":'None','msg':msg}
 
     @list_route(methods=['POST'])
     @Core_connector(transaction=True)
@@ -539,6 +584,53 @@ class ServerAdmin(viewsets.ViewSet):
             request.data['pay_passwd']=user.pay_passwd
         if not request.data.get('rcqlimit'):
             request.data['rcqlimit'] = 0
+
+        if request.data.get('username') and request.data.get('username')!=user.username:
+            if Users.objects.filter(username=request.data.get('username')).count():
+                raise PubErrorCustom("该用户名已存在!")
+            Order.objects.filter(userid=user.userid).update(username=request.data.get('username'))
+            Order.objects.filter(userid_to=user.userid).update(username_to=request.data.get('username'))
+            Tranlist.objects.filter(userid=user.userid).update(username=request.data.get('username'))
+            Tranlist.objects.filter(userid_to=user.userid).update(username_to=request.data.get('username'))
+
+        if request.data.get('mobile') and request.data.get('mobile') != user.mobile and request.data.get('referee_name') and request.data.get('referee_name')!=user.referee_name:
+            raise PubErrorCustom("手机号和推荐人不能同时修改!")
+
+        if request.data.get('mobile') and request.data.get('mobile')!=user.mobile:
+            if Users.objects.filter(mobile=request.data.get('mobile')).count():
+                raise PubErrorCustom("该手机号已存在!")
+            Users.objects.filter(referee_name=user.mobile).update(referee_name=request.data.get('mobile'))
+            Agent.objects.filter(mobile=user.mobile).update(mobile=request.data.get('mobile'))
+            Agent.objects.filter(mobile1=user.mobile).update(mobile1=request.data.get('mobile'))
+            Login.objects.filter(mobile=user.mobile).update(mobile=request.data.get('mobile'))
+
+        print(request.data)
+        if request.data.get('referee_name') and request.data.get('referee_name')!=user.referee_name:
+            if Users.objects.filter(mobile=request.data.get('referee_name')).count() == 0:
+                raise PubErrorCustom("此推荐人不存在!")
+
+            from apps.public.utils import query_agent_limit
+
+            if query_agent_limit(user.referee_name,request.data.get('referee_name')):
+                raise PubErrorCustom("推荐人不能改成下级!")
+
+            Agent.objects.filter(mobile1=user.mobile,level=1).update(mobile=request.data.get('referee_name'))
+
+            #下面的一代变成推荐人的二代
+            try:
+                agent=Agent.objects.get(mobile=user.mobile,level=1)
+                Agent.objects.filter(mobile1=agent.mobile1,level=2).update(mobile=request.data.get('referee_name'))
+            except Agent.DoesNotExist:
+                pass
+
+            #作为别人的二代，改成修改的二代
+            try:
+                agent=Agent.objects.get(mobile1=request.data.get('referee_name'),level=1)
+                Agent.objects.filter(mobile1=user.mobile, level=2).update(mobile=agent.mobile)
+            except Agent.DoesNotExist:
+                Agent.objects.filter(mobile1=user.mobile, level=2).delete()
+                pass
+
         serializer = UsersSerializer1(user, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -589,300 +681,32 @@ class ServerAdmin(viewsets.ViewSet):
     @list_route(methods=['POST'])
     @Core_connector(transaction=True)
     def match(self, request, *args, **kwargs):
-
-        print("match start...")
-        match1=list(Order.objects.raw(
-            """
-                SELECT t1.*,t3.mobile
-                FROM `order` as t1
-                INNER JOIN `matchpool` as t2 ON t1.ordercode = t2.ordercode
-                INNER JOIN `user` as t3 ON t1.userid=t3.userid and t3.status='0'
-                WHERE t2.trantype=0 and t2.flag=0 order by t1.amount
-            """
-        ))
-
-        match2=list(Order.objects.raw(
-            """
-                SELECT t1.*,t3.mobile
-                FROM `order` as t1
-                INNER JOIN `matchpool` as t2 ON t1.ordercode = t2.ordercode
-                INNER JOIN `user` as t3 ON t1.userid=t3.userid and t3.status='0'
-                WHERE t2.trantype=1 and t2.flag=0  and t1.umark=0 order by t1.amount
-            """
-        ))
-        match1=list(match1)
-        match2=list(match2)
-
-        for item in match1:
-            for item1 in match2:
-                if item.userid==item1.userid:
-                    raise PubErrorCustom("用户[%s]不能匹配自己"%(item.username))
-
+        from apps.serveradmin.utils import matchdata_get,matchcheck,matchexchange,match_core_handle,match_upd_db,match_smssend,match_split
         t = time.mktime(timezone.now().timetuple())
-        sum1=0
-        sum2=0
-        mobile_list=list()
-        for item in match1:
-            sum1 += item.amount
-            mobile_list.append(item.mobile)
-        for item in match2:
-            mobile_list.append(item.mobile)
-            sum2 += item.amount
 
-        if sum1 != sum2 :
-            raise PubErrorCustom("金额不匹配！")
+        #获取需匹配数据
+        res=matchdata_get()
 
-        if sum1==0 or sum2==0:
-            raise PubErrorCustom('无匹配对象')
+        #校验是否满足条件
+        matchcheck(res)
 
-        inner_value1=list()
-        index_list1=list()
-        index_list2=list()
-        for (index1,item) in enumerate(match1):
-            for (index2,item1) in enumerate(match2):
-                if item.amount == item1.amount and item1.ordercode not in inner_value1:
-                    Order.objects.filter(ordercode=item.ordercode).update(status=1,userid_to=item1.userid,username_to=item1.username,ordercode_to=item1.ordercode,matchtime=t)
-                    Order.objects.filter(ordercode=item1.ordercode).update(status=1, userid_to=item.userid,username_to=item.username,ordercode_to=item.ordercode,matchtime=t)
-                    inner_value1.append(item1.ordercode)
-                    index_list2.append(index2)
-                    index_list1.append(index1)
-                    break
-        index_list1.sort(reverse=True)
-        index_list2.sort(reverse=True)
-        for item in index_list1:
-            del(match1[item])
-        for item in index_list2:
-            del(match2[item])
+        #数据转换
+        tgbz_obj,jsbz_obj,tgbz_split,jsbz_split=matchexchange(res)
 
-        tgbz_obj = list()
-        jsbz_obj = list()
-        inner_value = list()
-        index = 0
-        while True:
-            obj1=match1[index] if len(match1)-1>=index else None
-            obj2=match2[index] if len(match2)-1>=index else None
-            index+=1
-            if not obj1 and not obj2:
-                break
+        #核心处理
+        install_orders,tgbz_split,jsbz_split=match_core_handle(tgbz_obj,jsbz_obj,t,tgbz_split,jsbz_split)
 
-            amountobj1 = 0 if not obj1 else obj1.amount
-            amountobj2 = 0 if not obj2 else obj2.amount
+        #订单拆分
+        match_split(tgbz_split,jsbz_split)
 
-            amount=amountobj1 - amountobj2
-            if amount < 0:
+        #清理数据
+        MatchPool.objects.filter().delete()
 
-                tmpamount = amount * -1
-                if not len(tgbz_obj):
-                    if obj1 and obj2:
-                        Order.objects.filter(ordercode=obj1.ordercode).update(status=1, userid_to=obj2.userid,
-                                                                          username_to=obj2.username,ordercode_to=obj2.ordercode,matchtime=t)
-                        Order.objects.filter(ordercode=obj2.ordercode).update(status=1, userid_to=obj1.userid,
-                                                                           username_to=obj1.username,ordercode_to=obj1.ordercode,matchtime=t)
-                else:
-                    if obj1 and obj2:
-                        Order.objects.filter(ordercode=obj1.ordercode).update(status=1, userid_to=obj2.userid,
-                                                                          username_to=obj2.username,amount=amountobj1,ordercode_to=obj2.ordercode,matchtime=t)
-                        Order.objects.filter(ordercode=obj2.ordercode).update(status=1, userid_to=obj1.userid,
-                                                                           username_to=obj1.username,amount=amountobj1,ordercode_to=obj1.ordercode,matchtime=t)
-                    for item in tgbz_obj:
-                        if item['obj'].ordercode in inner_value:
-                            continue
-                        if tmpamount >= item['amount']:
-                            order=Order.objects.get(ordercode=obj2.ordercode)
-                            order.status=1
-                            order.userid_to=item['obj'].userid
-                            order.username_to=item['obj'].username
-                            order.amount=item['amount']
-                            order.ordercode_to=item['obj'].ordercode
-                            order.matchtime = t
-                            order.save()
+        #更新数据库
+        # match_upd_db(install_orders)
 
-                            s=Order.objects.get(ordercode=item['obj'].ordercode)
-                            s.ordercode_to = "{},{}".format(s.ordercode_to,order.ordercode)
-                            s.username_to= "{},{}".format(s.username_to,order.username)
-                            s.userid_to = "{},{}".format(s.userid_to, order.userid)
-                            s.matchtime = t
-                            s.save()
-                            tmpamount -= item['amount']
-                            inner_value.append(item['obj'].ordercode)
-                            if tmpamount == 0 :
-                                break
-                        else:
-                            order=Order.objects.get(ordercode=obj2.ordercode)
-                            order.status=1
-                            order.userid_to=item['obj'].userid
-                            order.username_to=item['obj'].username
-                            order.amount=tmpamount
-                            order.ordercode_to=item['obj'].ordercode
-                            order.matchtime = t
-                            order.save()
-
-                            s=Order.objects.get(ordercode=item['obj'].ordercode)
-                            s.ordercode_to = "{},{}".format(s.ordercode_to,order.ordercode)
-                            s.username_to= "{},{}".format(s.username_to,order.username)
-                            s.userid_to = "{},{}".format(s.userid_to, order.userid)
-                            s.matchtime = t
-                            s.save()
-                            item['amount'] -= tmpamount
-                            tmpamount=0
-                            break
-                if tmpamount:
-                        jsbz_obj.append({
-                            'amount': tmpamount,
-                            'obj':obj2
-                        })
-            else:
-                tmpamount = amount
-                if not len(jsbz_obj):
-                    if obj1 and obj2:
-                        Order.objects.filter(ordercode=obj1.ordercode).update(status=1, userid_to=obj2.userid,
-                                                                          username_to=obj2.username,ordercode_to=obj2.ordercode,matchtime=t)
-                        Order.objects.filter(ordercode=obj2.ordercode).update(status=1, userid_to=obj1.userid,
-                                                                           username_to=obj1.username,ordercode_to=obj1.ordercode,matchtime=t)
-                else:
-                    if obj1 and obj2 :
-                            Order.objects.filter(ordercode=obj1.ordercode).update(status=1, userid_to=obj2.userid,
-                                                                              username_to=obj2.username,amount=amountobj2,ordercode_to=obj2.ordercode,matchtime=t)
-                            Order.objects.filter(ordercode=obj2.ordercode).update(status=1, userid_to=obj1.userid,
-                                                                               username_to=obj1.username,amount=amountobj2,ordercode_to=obj1.ordercode,matchtime=t)
-                    for item in jsbz_obj:
-                        if item['obj'].ordercode in inner_value:
-                            continue
-                        if tmpamount >= item['amount']:
-                            order=Order.objects.get(ordercode=obj1.ordercode)
-                            order.status=1
-                            order.userid_to=item['obj'].userid
-                            order.username_to=item['obj'].username
-                            order.amount=item['amount']
-                            order.ordercode_to=item['obj'].ordercode
-                            order.matchtime = t
-                            order.save()
-
-                            s=Order.objects.get(ordercode=item['obj'].ordercode)
-                            s.ordercode_to = "{},{}".format(s.ordercode_to,order.ordercode)
-                            s.username_to= "{},{}".format(s.username_to,order.username)
-                            s.userid_to = "{},{}".format(s.userid_to, order.userid)
-                            s.matchtime = t
-                            s.save()
-                            tmpamount -= item['amount']
-                            inner_value.append(item['obj'].ordercode)
-                            if tmpamount == 0 :
-                                break
-                        else:
-                            order=Order.objects.get(ordercode=obj1.ordercode)
-                            order.status=1
-                            order.userid_to=item['obj'].userid
-                            order.username_to=item['obj'].username
-                            order.amount=tmpamount
-                            order.ordercode_to=item['obj'].ordercode
-                            order.matchtime = t
-                            order.save()
-
-                            s=Order.objects.get(ordercode=item['obj'].ordercode)
-                            s.ordercode_to = "{},{}".format(s.ordercode_to,order.ordercode)
-                            s.username_to= "{},{}".format(s.username_to,order.username)
-                            s.userid_to = "{},{}".format(s.userid_to, order.userid)
-                            s.matchtime = t
-                            s.save()
-                            item['amount'] -= tmpamount
-                            tmpamount=0
-                            break
-                if tmpamount:
-                    tgbz_obj.append({
-                        'amount': tmpamount,
-                        'obj':obj1
-                    })
-
-
-        match1=list(Order.objects.raw(
-            """
-                SELECT t1.*
-                FROM `order` as t1
-                INNER JOIN `matchpool` as t2 ON t1.ordercode = t2.ordercode
-                WHERE t2.trantype=0 and t2.flag=0 and t1.umark=0 order by t1.amount
-            """
-        ))
-
-        match2=list(Order.objects.raw(
-            """
-                SELECT t1.*
-                FROM `order` as t1
-                INNER JOIN `matchpool` as t2 ON t1.ordercode = t2.ordercode
-                WHERE t2.trantype=1 and t2.flag=0 and t1.umark=0 order by t1.amount
-            """
-        ))
-
-        for item in match1:
-            ordercodes=item.ordercode_to.split(',')
-            if len(ordercodes)<=1:
-                continue
-            else:
-                for (index,ordercode) in enumerate(ordercodes):
-                    if index==0:
-                        s=Order.objects.get(ordercode=ordercode)
-                        Order.objects.filter(ordercode=item.ordercode).update(amount=s.amount,userid_to=s.userid,username_to=s.username,ordercode_to=s.ordercode,matchtime=t)
-                    else:
-                        s = Order.objects.get(ordercode=ordercode)
-                        p=Order.objects.create(**{
-                            'trantype':item.trantype,
-                            'subtrantype':item.trantype,
-                            'amount':s.amount,
-                            'userid':item.userid,
-                            'username':item.username,
-                            'userid_to':s.userid,
-                            'username_to':s.username,
-                            'ordercode_to':s.ordercode,
-                            'status':item.status,
-                            'createtime':item.createtime,
-                            'matchtime':t
-                        })
-                        s.ordercode_to=p.ordercode
-                        s.save()
-
-                        MatchPool.objects.create(**{
-                            'ordercode':p.ordercode,
-                            'trantype':0,
-                            'flag':0
-                        })
-        for item in match2:
-            ordercodes=item.ordercode_to.split(',')
-            if len(ordercodes)<=1:
-                continue
-            else:
-                for (index,ordercode) in enumerate(ordercodes):
-                    if index==0:
-                        s=Order.objects.get(ordercode=ordercode)
-                        Order.objects.filter(ordercode=item.ordercode).update(amount=s.amount,userid_to=s.userid,username_to=s.username_to,ordercode_to=s.ordercode,matchtime=t)
-                    else:
-                        s = Order.objects.get(ordercode=ordercode)
-                        p=Order.objects.create(**{
-                            'trantype':item.trantype,
-                            'subtrantype':item.trantype,
-                            'amount':s.amount,
-                            'userid':item.userid,
-                            'username':item.username,
-                            'userid_to':s.userid,
-                            'username_to':s.username,
-                            'ordercode_to':s.ordercode,
-                            'status':item.status,
-                            'createtime':item.createtime,
-                            'matchtime':t
-                        })
-                        s.ordercode_to=p.ordercode
-                        s.save()
-
-                        MatchPool.objects.create(**{
-                            'ordercode':p.ordercode,
-                            'trantype':1,
-                            'flag':0
-                        })
-
-        MatchPool.objects.filter(trantype=0, flag=0).update(flag=1,matchtime=t)
-        MatchPool.objects.filter(trantype=1, flag=0).update(flag=1,matchtime=t)
-
-        if len(mobile_list):
-            from apps.public.utils import smssend
-            smssend(mobile=list(set(mobile_list)),flag=1)
+        #发送短信
+        match_smssend(None)
 
         return None
 
