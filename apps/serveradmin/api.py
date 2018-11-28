@@ -14,7 +14,7 @@ import time
 from django.utils import timezone
 from apps.public.models import SysParam
 from libs.utils.mytime import string_toTimestamp
-from apps.user.models import Agent,Login
+from apps.user.models import Agent,Login,Token
 
 class ServerAdmin(viewsets.ViewSet):
 
@@ -688,7 +688,7 @@ class ServerAdmin(viewsets.ViewSet):
         res=matchdata_get()
 
         #校验是否满足条件
-        matchcheck(res)
+        mobiles=matchcheck(res)
 
         #数据转换
         tgbz_obj,jsbz_obj,tgbz_split,jsbz_split=matchexchange(res)
@@ -706,7 +706,7 @@ class ServerAdmin(viewsets.ViewSet):
         # match_upd_db(install_orders)
 
         #发送短信
-        match_smssend(None)
+        match_smssend(mobiles)
 
         return None
 

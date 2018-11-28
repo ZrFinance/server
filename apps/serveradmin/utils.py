@@ -37,17 +37,21 @@ def matchcheck(res):
 
     sum1 = 0
     sum2 = 0
-
+    mobiles=list()
     for item in match1:
         sum1 += item.amount
+        mobiles.append(item.mobile)
     for item in match2:
         sum2 += item.amount
+        mobiles.append(item.mobile)
 
     if sum1 != sum2:
         raise PubErrorCustom("金额不匹配！")
 
     if sum1 == 0 or sum2 == 0:
         raise PubErrorCustom('无匹配对象')
+
+    return mobiles
 
 def matchexchange(res):
     match1=res['match1']
