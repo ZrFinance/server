@@ -270,7 +270,8 @@ def orderrclimit(user,amount):
 
 
 def orderconfirmex(ordercode):
-
+    from libs.utils.mytime import islimit_time
+    import time
     try:
         order=Order.objects.get(ordercode=ordercode,umark=0)
         if order.status==2:
@@ -281,7 +282,7 @@ def orderconfirmex(ordercode):
         raise PubErrorCustom("订单号不存在！")
 
     try:
-        order1=Order.objects.get(ordercode=order.ordercode_to,umark=0,status=1)
+        order1=Order.objects.get(ordercode=order.ordercode_to,umark=0)
     except Order.DoesNotExist:
         raise PubErrorCustom("订单号不存在！")
 
