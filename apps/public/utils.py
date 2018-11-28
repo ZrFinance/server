@@ -1,7 +1,7 @@
 
 from utils.mytime import datetime_toTimestamp,string_toTimestamp
 from utils.exceptions import PubErrorCustom
-from apps.public.models import Verification
+from apps.public.models import Verification,SysParam
 
 from apps.order.models import Order
 from apps.user.models import Agent,Users
@@ -268,3 +268,79 @@ def orderrclimit(user,amount):
                 raise PubErrorCustom("不能低于上次认筹金额%d"%(maxamount))
 
 
+
+def orderconfirmex(ordercode):
+
+    try:
+        order=Order.objects.get(ordercode=ordercode,umark=0)
+        if order.status==2:
+            raise PubErrorCustom("已确认!")
+        if order.status==0:
+            raise PubErrorCustom("未匹配")
+    except Order.DoesNotExist:
+        raise PubErrorCustom("订单号不存在！")
+
+    try:
+        order1=Order.objects.get(ordercode=order.ordercode_to,umark=0,status=1)
+    except Order.DoesNotExist:
+        raise PubErrorCustom("订单号不存在！")
+
+    if order.trantype == 0:
+        raise PubErrorCustom("只有收款方可确认！")
+
+    try:
+        sysparam=SysParam.objects.get()
+    except SysParam.DoesNotExist:
+        raise PubErrorCustom("无规则")
+
+    if islimit_time(order1.matchtime,2):
+        amountlixi=order.amount * sysparam.interset / 100
+    else:
+        amountlixi=order.amount * sysparam.interset1 / 100
+
+    try:
+        user=Users.objects.get(userid=order.userid)
+    except Users.DoesNotExist:
+        raise PubErrorCustom("该用户不存在!")
+
+    try:
+        user1=Users.objects.get(userid=order1.userid)
+    except Users.DoesNotExist:
+        raise PubErrorCustom("该用户不存在!")
+
+    #本金
+    Tranlist.objects.create(
+        trantype=9,
+        userid=user1.userid,
+        username=user1.username,
+        userid_to=order1.userid_to,
+        username_to=order1.username_to,
+        bal=user1.bonus,
+        amount=order1.amount,
+        ordercode=order1.ordercode
+    )
+
+    user1.bonus +=order1.amount
+    #利息
+    Tranlist.objects.create(
+        trantype=10,
+        userid=user1.userid,
+        username=user1.username,
+        userid_to=order1.userid_to,
+        username_to=order1.username_to,
+        bal=user1.bonus,
+        amount=amountlixi,
+        ordercode = order1.ordercode
+    )
+    user1.bonus += amountlixi
+    user1.save()
+
+    t = time.mktime(timezone.now().timetuple())
+    order.confirmtime = t
+    order.status = 2
+    order.save()
+
+    order1.status = 2
+    order1.save()
+
+    tjjr(user1,order.amount,order.ordercode,sysparam)

@@ -12,3 +12,4 @@ openpyxl
 apscheduler
 django-apscheduler
 django-crontab
+django-redis

@@ -24,4 +24,4 @@ INSTALLED_APPS_CUSTOM = [
 # 本地开发环境日志级别
 LOG_LEVEL_DEVELOP = 'DEBUG'
 # 正式环境日志级别
-LOG_LEVEL_PRODUCT = os.environ.get('LOG_LEVEL', 'ERROR')
+LOG_LEVEL_PRODUCT = os.environ.get('LOG_LEVEL', 'DEBUG')

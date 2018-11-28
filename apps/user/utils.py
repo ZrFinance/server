@@ -5,6 +5,7 @@ from utils.exceptions import PubErrorCustom
 
 from apps.user.models import Users,Agent
 
+from utils.log import logger
 
 def check_passwd(userid,passwd):
     if not Users.objects.filter(userid=userid,passwd=passwd).exists():
@@ -30,16 +31,13 @@ def add_referee_name(kwargs):
     referee_name=kwargs.get('referee_name')
     mobile=kwargs.get('mobile')
     user=check_referee_name(kwargs)
-    if not user.agent:
-        user.agent = mobile
-    else:
-        user.agent += ',{}'.format(mobile)
-    user.save()
 
+    logger.info("推荐人:%s"%(user.mobile))
     Agent.objects.create(mobile=user.mobile,mobile1=mobile,level=1)
     try:
         agent=Agent.objects.get(mobile1=user.mobile,level=1)
         Agent.objects.create(mobile=agent.mobile,mobile1=mobile,level=2)
+        logger.info("推荐人的推荐人:%s"%(agent.mobile))
     except Agent.DoesNotExist:
         pass
 
