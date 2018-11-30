@@ -614,21 +614,27 @@ class ServerAdmin(viewsets.ViewSet):
             if query_agent_limit(user.referee_name,request.data.get('referee_name')):
                 raise PubErrorCustom("推荐人不能改成下级!")
 
+            #修改自己的下级为推荐人的二级
+
+            agent=Agent.objects.filter(mobile=user.mobile,level=1)
+            if agent.exists():
+                for item in agent:
+                    Agent.objects.filter(mobile1=item.mobile1,level=2).update(mobile=request.data.get('referee_name'))
+
+            #修改推荐人
             Agent.objects.filter(mobile1=user.mobile,level=1).update(mobile=request.data.get('referee_name'))
 
-            #下面的一代变成推荐人的二代
-            try:
-                agent=Agent.objects.get(mobile=user.mobile,level=1)
-                Agent.objects.filter(mobile1=agent.mobile1,level=2).update(mobile=request.data.get('referee_name'))
-            except Agent.DoesNotExist:
-                pass
+            Agent.objects.filter(mobile1=user.mobile,level=2).delete()
 
-            #作为别人的二代，改成修改的二代
+            #修改为推荐人的推荐人的二级
             try:
                 agent=Agent.objects.get(mobile1=request.data.get('referee_name'),level=1)
-                Agent.objects.filter(mobile1=user.mobile, level=2).update(mobile=agent.mobile)
+                Agent.objects.create(
+                    mobile=agent.mobile,
+                    mobile1=user.mobile,
+                    level=2
+                )
             except Agent.DoesNotExist:
-                Agent.objects.filter(mobile1=user.mobile, level=2).delete()
                 pass
 
         serializer = UsersSerializer1(user, data=request.data)

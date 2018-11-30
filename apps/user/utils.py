@@ -21,7 +21,7 @@ def check_pay_passwd(userid,passwd):
 def check_referee_name(kwargs):
     referee_name = kwargs.get('referee_name')
     try:
-        user=Users.objects.get(Q(mobile=referee_name),Q(username=referee_name))
+        user=Users.objects.get(Q(mobile=referee_name)  | Q(username=referee_name))
         kwargs['referee_name']=user.mobile
     except Users.DoesNotExist:
         raise PubErrorCustom("推荐人不存在！")
