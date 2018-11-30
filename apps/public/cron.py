@@ -29,7 +29,7 @@ def task1():
         order=Order.objects.filter(status=0,trantype=0,umark=0)
         if order.exists():
             for item in order:
-                if not islimit_time(item.updtime,sysparam.amount_term):
+                if not islimit_time(item.matchtime,sysparam.amount_term):
                     try:
                         user=Users.objects.get(userid=item.userid,status=9)
                         user.status=2
