@@ -16,6 +16,8 @@ from libs.utils.string_extension import md5pass
 
 from django.utils import timezone
 
+from libs.utils.log import logger
+
 def check_verification_code(kwargs):
     verification_code=kwargs.get('verification_code')
     mobile=kwargs.get('mobile')
@@ -68,7 +70,10 @@ def smssend(mobile=None,flag=0,vercode=None):
 
 def after_c(sysparam):
 
-    t=timezone.now().strftime("%Y-%m-%d %H:%S:%M")[11:16]
+    t=timezone.now().strftime("%Y-%m-%d %H:%S:%M")
+    logger.info(t)
+    t=t[11:19]
+    logger.info(t)
 
     s=sysparam.morning.split('-')
     start=s[0]

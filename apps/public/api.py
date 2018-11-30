@@ -132,6 +132,7 @@ class PublicAPIView(viewsets.ViewSet):
 
         try:
             param=SysParam.objects.get()
+            after_c(param)
             pdlimit(param)
             if daytgbzcount(user.userid, param):
                 raise PubErrorCustom('当天提供帮助次数已超!')
