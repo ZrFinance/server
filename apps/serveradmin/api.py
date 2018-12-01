@@ -611,7 +611,7 @@ class ServerAdmin(viewsets.ViewSet):
 
             from apps.public.utils import query_agent_limit
 
-            if query_agent_limit(user.referee_name,request.data.get('referee_name')):
+            if query_agent_limit(user.mobile,request.data.get('referee_name')):
                 raise PubErrorCustom("推荐人不能改成下级!")
 
             #修改自己的下级为推荐人的二级
