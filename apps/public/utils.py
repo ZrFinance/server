@@ -70,7 +70,7 @@ def smssend(mobile=None,flag=0,vercode=None):
 
 def after_c(sysparam):
 
-    t=timezone.now().strftime("%Y-%m-%d %H:%S:%M")
+    t=timezone.now().strftime("%Y-%m-%d %H:%M:%S")
     logger.info(t)
     t=t[11:19]
     logger.info(t)
@@ -88,7 +88,7 @@ def after_c(sysparam):
 
 def pdlimit(sysparam):
 
-    t = timezone.now().strftime("%Y-%m-%d %H:%S:%M")
+    t = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
 
     start = string_toTimestamp(t[:10] + ' 00:00:00')
     end = string_toTimestamp(t[:10] + ' 12:00:00')
@@ -111,7 +111,7 @@ def pdlimit(sysparam):
             raise PubErrorCustom("下午排单已超限额!")
 
 def daytgbzcount(userid,sysparam):
-    t = timezone.now().strftime("%Y-%m-%d %H:%S:%M")
+    t = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
     start = string_toTimestamp(t[:10] + ' 00:00:01')
     end = string_toTimestamp(t[:10] + ' 23:59:59')
     count=Order.objects.filter(userid=userid, createtime__gte=start, createtime__lt=end, trantype=0, umark=0).count()
@@ -121,7 +121,7 @@ def daytgbzcount(userid,sysparam):
         return False
 
 def daysqbzcount(userid,sysparam):
-    t = timezone.now().strftime("%Y-%m-%d %H:%S:%M")
+    t = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
     start = string_toTimestamp(t[:10] + ' 00:00:01')
     end = string_toTimestamp(t[:10] + ' 23:59:59')
     if Order.objects.filter(userid=userid,createtime__gte=start,createtime__lt=end,trantype=1,umark=0).count() >= sysparam.count2:
