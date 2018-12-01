@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1a352d01-af29-4564-9d5c-3e500cff74d5" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/apps/serveradmin/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/serveradmin/api.py" afterDir="false" />
-    </list>
+    <list default="true" id="1a352d01-af29-4564-9d5c-3e500cff74d5" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,8 +14,8 @@
       <file leaf-file-name="api.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/public/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-741">
-              <caret line="141" column="19" lean-forward="true" selection-start-line="141" selection-start-column="19" selection-end-line="141" selection-end-column="19" />
+            <state relative-caret-position="893">
+              <caret line="194" column="31" lean-forward="true" selection-start-line="194" selection-start-column="31" selection-end-line="194" selection-end-column="31" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -46,20 +44,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="prod.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="prod.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/education/config/prod.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="9" column="40" lean-forward="true" selection-start-line="9" selection-start-column="40" selection-end-line="9" selection-end-column="40" />
+            <state relative-caret-position="209">
+              <caret line="11" column="45" lean-forward="true" selection-start-line="11" selection-start-column="45" selection-end-line="11" selection-end-column="45" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="api.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="api.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/serveradmin/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="610" lean-forward="true" selection-start-line="610" selection-end-line="610" />
+            <state relative-caret-position="1362">
+              <caret line="634" column="27" lean-forward="true" selection-start-line="634" selection-start-column="27" selection-end-line="634" selection-end-column="27" />
               <folding>
                 <element signature="e#1#36#0" expanded="true" />
               </folding>
@@ -72,6 +70,11 @@
           <provider selected="true" editor-type-id="LogFileEditorProvider">
             <state relative-caret-position="-1100" />
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dev.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/education/config/dev.py">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
@@ -153,8 +156,8 @@
         <option value="$PROJECT_DIR$/apps/public/api.py" />
         <option value="$PROJECT_DIR$/apps/public/utils.py" />
         <option value="$PROJECT_DIR$/apps/user/utils.py" />
-        <option value="$PROJECT_DIR$/education/config/prod.py" />
         <option value="$PROJECT_DIR$/apps/serveradmin/api.py" />
+        <option value="$PROJECT_DIR$/education/config/prod.py" />
       </list>
     </option>
   </component>
@@ -201,6 +204,12 @@
               <item name="server" type="b2602c69:ProjectViewProjectNode" />
               <item name="server" type="462c0819:PsiDirectoryNode" />
               <item name="education" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+              <item name="education" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="server" type="b2602c69:ProjectViewProjectNode" />
@@ -280,13 +289,13 @@
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32881773" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18653987" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18653987" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.3633005" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.3633005" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -584,9 +593,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/education/config/dev.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/education/config/common.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="182">
@@ -623,30 +629,33 @@
         <state relative-caret-position="-1100" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/education/config/dev.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/apps/public/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-741">
-          <caret line="141" column="19" lean-forward="true" selection-start-line="141" selection-start-column="19" selection-end-line="141" selection-end-column="19" />
+        <state relative-caret-position="893">
+          <caret line="194" column="31" lean-forward="true" selection-start-line="194" selection-start-column="31" selection-end-line="194" selection-end-column="31" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/education/config/prod.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="40" lean-forward="true" selection-start-line="9" selection-start-column="40" selection-end-line="9" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/serveradmin/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="610" lean-forward="true" selection-start-line="610" selection-end-line="610" />
+        <state relative-caret-position="1362">
+          <caret line="634" column="27" lean-forward="true" selection-start-line="634" selection-start-column="27" selection-end-line="634" selection-end-column="27" />
           <folding>
             <element signature="e#1#36#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/education/config/prod.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="11" column="45" lean-forward="true" selection-start-line="11" selection-start-column="45" selection-end-line="11" selection-end-column="45" />
         </state>
       </provider>
     </entry>
