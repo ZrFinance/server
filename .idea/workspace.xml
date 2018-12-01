@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1a352d01-af29-4564-9d5c-3e500cff74d5" name="Default" comment="" />
+    <list default="true" id="1a352d01-af29-4564-9d5c-3e500cff74d5" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/apps/serveradmin/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/serveradmin/api.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,7 +16,7 @@
       <file leaf-file-name="api.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/public/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="893">
+            <state relative-caret-position="266">
               <caret line="194" column="31" lean-forward="true" selection-start-line="194" selection-start-column="31" selection-end-line="194" selection-end-column="31" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
@@ -44,7 +46,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="prod.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="prod.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/education/config/prod.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="209">
@@ -53,11 +55,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="api.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="api.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/serveradmin/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1362">
-              <caret line="634" column="27" lean-forward="true" selection-start-line="634" selection-start-column="27" selection-end-line="634" selection-end-column="27" />
+            <state relative-caret-position="146">
+              <caret line="609" column="63" lean-forward="true" selection-start-line="609" selection-start-column="63" selection-end-line="609" selection-end-column="63" />
               <folding>
                 <element signature="e#1#36#0" expanded="true" />
               </folding>
@@ -156,8 +158,8 @@
         <option value="$PROJECT_DIR$/apps/public/api.py" />
         <option value="$PROJECT_DIR$/apps/public/utils.py" />
         <option value="$PROJECT_DIR$/apps/user/utils.py" />
-        <option value="$PROJECT_DIR$/apps/serveradmin/api.py" />
         <option value="$PROJECT_DIR$/education/config/prod.py" />
+        <option value="$PROJECT_DIR$/apps/serveradmin/api.py" />
       </list>
     </option>
   </component>
@@ -632,9 +634,16 @@
     <entry file="file://$PROJECT_DIR$/education/config/dev.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/education/config/prod.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="11" column="45" lean-forward="true" selection-start-line="11" selection-start-column="45" selection-end-line="11" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/apps/public/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="893">
+        <state relative-caret-position="266">
           <caret line="194" column="31" lean-forward="true" selection-start-line="194" selection-start-column="31" selection-end-line="194" selection-end-column="31" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
@@ -644,18 +653,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/serveradmin/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1362">
-          <caret line="634" column="27" lean-forward="true" selection-start-line="634" selection-start-column="27" selection-end-line="634" selection-end-column="27" />
+        <state relative-caret-position="146">
+          <caret line="609" column="63" lean-forward="true" selection-start-line="609" selection-start-column="63" selection-end-line="609" selection-end-column="63" />
           <folding>
             <element signature="e#1#36#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/education/config/prod.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="11" column="45" lean-forward="true" selection-start-line="11" selection-start-column="45" selection-end-line="11" selection-end-column="45" />
         </state>
       </provider>
     </entry>

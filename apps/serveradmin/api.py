@@ -606,8 +606,13 @@ class ServerAdmin(viewsets.ViewSet):
 
         print(request.data)
         if request.data.get('referee_name') and request.data.get('referee_name')!=user.referee_name:
+
+            if request.data.get('referee_name') == user.mobile:
+                raise PubErrorCustom("推荐人不能修改成自己!")
+
             if Users.objects.filter(mobile=request.data.get('referee_name')).count() == 0:
                 raise PubErrorCustom("此推荐人不存在!")
+
 
             from apps.public.utils import query_agent_limit
 
