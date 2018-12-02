@@ -20,7 +20,7 @@ def get_user(request):
 
     user=Users.objects.get(userid=result.userid)
     if user.status == 1:
-        return (None, '未激活,请联系团队领导人激活!', 200, ResCode.Token_Missing)
+        return (None, '未激活,请联系团队领导人激活!',200, ResCode.Token_Missing)
     elif user.status == 2:
         return (None, '已禁用！', 200, ResCode.Token_Missing)
 

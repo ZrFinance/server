@@ -30,9 +30,9 @@ from education.settings import BASE_DIR
 
 class PublicAPIView(viewsets.ViewSet):
 
-    # def get_authenticators(self):
-    #     if self.action_map.get('post') not in ['get_verification_code']:
-    #         return [auth() for auth in [Authentication]]
+    def get_authenticators(self):
+        if self.action_map.get('post') not in ['get_verification_code']:
+            return [auth() for auth in [Authentication]]
 
     @list_route(methods=['GET'])
     @Core_connector()
