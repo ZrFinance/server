@@ -143,57 +143,40 @@ def tjjr(user,amount,ordercode,sysparm):
             except Users.DoesNotExist:
                 raise PubErrorCustom("推广奖对应用户不存在!")
             order = Order.objects.filter(userid=user1.userid, trantype=0, status=2, confirmtime__gte=d5,
-                                         confirmtime__lt=send_toTimestamp(t),umark=0).order_by('-amount')
+                                         confirmtime__lt=send_toTimestamp(t),umark=0)
             if order.exists():
-                order=order[0]
-                if amount > order.amount:
-                    amount = order.amount
-                if item==1:
-                    #直推是否有5人间推是否有15人
-                    if Agent.objects.filter(mobile=user1.mobile,level=1).count()>=5 and Agent.objects.filter(mobile=user1.mobile,level=2).count()>=15:
-                        spread=amount * sysparm.amount9 / 100
-                    else:
-                        spread=amount * sysparm.amount7 / 100
-                elif item==2:
-                    #直推是否有5人间推是否有15人
-                    if Agent.objects.filter(mobile=user1.mobile,level=1).count()>=5 and Agent.objects.filter(mobile=user1.mobile,level=2).count()>=15:
-                        spread=amount * sysparm.amount10 / 100
-                    else:
-                        spread=amount * sysparm.amount8 / 100
+                maxamount=max(get_order_amounts(order))
+                if amount > maxamount:
+                    amount = maxamount
 
-                #推荐奖分两部分(冻结部分待开放)
-                # amount2 = spread * sysparm.flag1 / 100
-                # amount1 = spread - amount2
+            if item==1:
+                #直推是否有5人间推是否有15人
+                if Agent.objects.filter(mobile=user1.mobile,level=1).count()>=5 and Agent.objects.filter(mobile=user1.mobile,level=2).count()>=15:
+                    spread=amount * sysparm.amount9 / 100
+                else:
+                    spread=amount * sysparm.amount7 / 100
+            elif item==2:
+                #直推是否有5人间推是否有15人
+                if Agent.objects.filter(mobile=user1.mobile,level=1).count()>=5 and Agent.objects.filter(mobile=user1.mobile,level=2).count()>=15:
+                    spread=amount * sysparm.amount10 / 100
+                else:
+                    spread=amount * sysparm.amount8 / 100
 
-                if item == 1:
-                    trantype=13
-                elif item == 2:
-                    trantype=14
-                Tranlist.objects.create(
-                    trantype=trantype,
-                    userid=user1.userid,
-                    username=user1.username,
-                    bal=user1.spread,
-                    amount=spread,
-                    ordercode=ordercode
-                )
+            if item == 1:
+                trantype=13
+            elif item == 2:
+                trantype=14
+            Tranlist.objects.create(
+                trantype=trantype,
+                userid=user1.userid,
+                username=user1.username,
+                bal=user1.spread,
+                amount=spread,
+                ordercode=ordercode
+            )
 
-                # if item == 1:
-                #     trantype=22
-                # elif item == 2:
-                #     trantype=23
-                # Tranlist.objects.create(
-                #     trantype=trantype,
-                #     userid=user1.userid,
-                #     username=user1.username,
-                #     bal=user1.spreadstop,
-                #     amount=amount2,
-                #     ordercode=ordercode
-                # )
-                # user1.spreadstop += amount2
-
-                user1.spread += spread
-                user1.save()
+            user1.spread += spread
+            user1.save()
         except Agent.DoesNotExist:
             pass
 
@@ -350,3 +333,39 @@ def orderconfirmex(ordercode):
     order1.save()
 
     tjjr(user1,order.amount,order.ordercode,sysparam)
+
+
+#获取订单范围内金额集合(包含订单拆分)
+def get_order_amounts(order=None):
+
+    if not order:
+        return []
+
+    obj = list()
+    diffamount = list()
+    for item in order:
+        obj.append({'ordercode': item.ordercode, 'amount': item.amount, 'createtime': item.createtime})
+    b = list()
+    if len(obj):
+        for item in obj:
+            if item['ordercode'] in b:
+                continue
+            t = list()
+            for t_item in Tranlist.objects.filter(trantype=24, ordercode=item['ordercode']):
+                for j in t_item.tranname.split('[')[1].replace(']', '')[:-1].split(','):
+                    t.append(int(j))
+            for j in list(set(t)):
+                if j != item['ordercode']:
+                    try:
+                        order = Order.objects.get(ordercode=j, umark=0)
+                        item['amount'] += order.amount
+                        b.append(j)
+                    except Order.DoesNotExist:
+                        pass
+
+    for item in obj:
+        if item['ordercode'] in b:
+            continue
+        diffamount.append(item['amount'])
+
+    return diffamount

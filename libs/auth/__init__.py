@@ -11,16 +11,16 @@ def get_user(request):
 
     token = request.META.get('HTTP_AUTHORIZATION')
     if not token:
-        return (None,'token不存在', 200, ResCode.Token_Missing)
+        return (None,'token不存在,请退出后重新登录！', 200, ResCode.Token_Missing)
 
     try:
         result=Token.objects.get(key=token)
     except Token.DoesNotExist:
-        return (None,'token失效！', 200, ResCode.Token_Missing)
+        return (None,'token已失效,请退出后重新登录！', 200, ResCode.Token_Missing)
 
     user=Users.objects.get(userid=result.userid)
     if user.status == 1:
-        return (None, '未激活！', 200, ResCode.Token_Missing)
+        return (None, '未激活,请联系团队领导人激活!', 200, ResCode.Token_Missing)
     elif user.status == 2:
         return (None, '已禁用！', 200, ResCode.Token_Missing)
 

@@ -432,7 +432,8 @@ class ServerAdmin(viewsets.ViewSet):
         status=self.request.query_params.get('status',None)
         ordercode=self.request.query_params.get('ordercode',None)
         mobile=self.request.query_params.get('mobile',None)
-        trantype=self.request.query_params.get('trantype',None)
+        ordercode_to=self.request.query_params.get('ordercode_to',None)
+        mobile_to=self.request.query_params.get('mobile_to',None)
 
         if not status:
             raise PubErrorCustom("查询状态为空!")
@@ -449,9 +450,13 @@ class ServerAdmin(viewsets.ViewSet):
         if ordercode:
             query_params = "{} and t1.ordercode=%s".format(query_params)
             query_list.append(ordercode)
-        if trantype:
-            query_params = "{} and t1.trantype=%s".format(query_params)
-            query_list.append(trantype)
+        if mobile_to:
+            query_params = "{} and t3.mobile=%s".format(query_params)
+            query_list.append(mobile_to)
+        if ordercode_to:
+            query_params = "{} and t1.ordercode_to=%s".format(query_params)
+            query_list.append(ordercode_to)
+
         value2=self.request.query_params.get('value2',None)
         if value2:
             if str(status)=='1':
@@ -461,12 +466,15 @@ class ServerAdmin(viewsets.ViewSet):
             query_list.append(string_toTimestamp(value2[:10]+' 00:00:01'))
             query_list.append(string_toTimestamp(value2[:10] + ' 23:59:59'))
 
+        print(query_params)
+        print(query_list)
+
         order=Order.objects.raw("""
             SELECT t1.ordercode,t2.mobile,t3.mobile as mobile_to,t1.amount,t1.ordercode_to,t1.confirmtime,t1.img,t2.name,t3.name as name_to
             FROM `order` as t1
             INNER  JOIN `user` as t2 on t1.userid = t2.userid
             INNER  JOIN `user` as t3 on t1.userid_to = t3.userid
-            WHERE t1.umark=0 {} order by t1.createtime DESC
+            WHERE t1.umark=0 and t1.trantype=0 {} order by t1.createtime DESC
         """.format(query_params),query_list)
         print(order)
 
@@ -815,3 +823,36 @@ class ServerAdmin(viewsets.ViewSet):
         }]}
 
 
+    @list_route(methods=['POST'])
+    @Core_connector(transaction=True)
+    def orderserverdel(self,request,*args,**kwargs):
+        ordercodes=self.request.data.get('ordercodes',None)
+
+        for ordercode in ordercodes.split(','):
+            print(ordercode)
+            try:
+                order=Order.objects.get(ordercode=ordercode)
+            except Order.DoesNotExist:
+                raise PubErrorCustom("订单号不存在!")
+
+            try:
+                order_to=Order.objects.get(ordercode=order.ordercode_to)
+            except Order.DoesNotExist:
+                raise PubErrorCustom("对方订单号不存在!")
+
+            order.umark=1
+            order_to.umark=1
+            order.save()
+            order_to.save()
+
+        return None
+
+    @list_route(methods=['POST'])
+    @Core_connector(transaction=True)
+    def tranlistserverdel(self,request,*args,**kwargs):
+        ids=self.request.data.get('ids',None)
+
+        for id in ids.split(','):
+            print(id)
+            Tranlist.objects.filter(id=id).delete()
+        return None

@@ -30,6 +30,7 @@ class  TranlistQuerySerializer(serializers.Serializer):
 	bal=serializers.IntegerField()
 	createtime=serializers.IntegerField()
 	tranname=serializers.CharField()
+	id=serializers.IntegerField()
 
 
 class  TranlistQuerySerializer1(serializers.Serializer):
