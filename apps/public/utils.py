@@ -149,34 +149,34 @@ def tjjr(user,amount,ordercode,sysparm):
                 if amount > maxamount:
                     amount = maxamount
 
-            if item==1:
-                #直推是否有5人间推是否有15人
-                if Agent.objects.filter(mobile=user1.mobile,level=1).count()>=5 and Agent.objects.filter(mobile=user1.mobile,level=2).count()>=15:
-                    spread=amount * sysparm.amount9 / 100
-                else:
-                    spread=amount * sysparm.amount7 / 100
-            elif item==2:
-                #直推是否有5人间推是否有15人
-                if Agent.objects.filter(mobile=user1.mobile,level=1).count()>=5 and Agent.objects.filter(mobile=user1.mobile,level=2).count()>=15:
-                    spread=amount * sysparm.amount10 / 100
-                else:
-                    spread=amount * sysparm.amount8 / 100
+                if item==1:
+                    #直推是否有5人间推是否有15人
+                    if Agent.objects.filter(mobile=user1.mobile,level=1).count()>=5 and Agent.objects.filter(mobile=user1.mobile,level=2).count()>=15:
+                        spread=amount * sysparm.amount9 / 100
+                    else:
+                        spread=amount * sysparm.amount7 / 100
+                elif item==2:
+                    #直推是否有5人间推是否有15人
+                    if Agent.objects.filter(mobile=user1.mobile,level=1).count()>=5 and Agent.objects.filter(mobile=user1.mobile,level=2).count()>=15:
+                        spread=amount * sysparm.amount10 / 100
+                    else:
+                        spread=amount * sysparm.amount8 / 100
 
-            if item == 1:
-                trantype=13
-            elif item == 2:
-                trantype=14
-            Tranlist.objects.create(
-                trantype=trantype,
-                userid=user1.userid,
-                username=user1.username,
-                bal=user1.spread,
-                amount=spread,
-                ordercode=ordercode
-            )
+                if item == 1:
+                    trantype=13
+                elif item == 2:
+                    trantype=14
+                Tranlist.objects.create(
+                    trantype=trantype,
+                    userid=user1.userid,
+                    username=user1.username,
+                    bal=user1.spread,
+                    amount=spread,
+                    ordercode=ordercode
+                )
 
-            user1.spread += spread
-            user1.save()
+                user1.spread += spread
+                user1.save()
         except Agent.DoesNotExist:
             pass
 
