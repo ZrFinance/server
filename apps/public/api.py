@@ -440,7 +440,7 @@ class PublicAPIView(viewsets.ViewSet):
     def orderobconfirm(self,request,*args,**kwargs):
         ordercode=request.data.get('ordercode')
 
-        logger.info(request.data)
+        #logger.info(request.data)
 
         from apps.public.utils import orderconfirmex
         from django.core.cache import cache

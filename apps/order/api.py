@@ -100,6 +100,8 @@ class OrderAPIView(GenericViewSetCustom):
             if oneagentcount>=2 and twoagentcount>=4:
                 pass
                 #提取全部
+            elif oneagentcount<2:
+                raise PubErrorCustom("一代不足2人,不能提取!")
             else:
                 if int(request.data.get('amount')) > user.spread / 2.0:
                     raise PubErrorCustom("满足一代2人,二代4人能提取100%,否则提取50%")

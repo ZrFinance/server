@@ -71,9 +71,7 @@ def smssend(mobile=None,flag=0,vercode=None):
 def after_c(sysparam):
 
     t=timezone.now().strftime("%Y-%m-%d %H:%M:%S")
-    logger.info(t)
     t=t[11:19]
-    logger.info(t)
 
     s=sysparam.morning.split('-')
     start=s[0]
