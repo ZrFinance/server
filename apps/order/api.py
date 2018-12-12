@@ -60,6 +60,8 @@ class OrderAPIView(GenericViewSetCustom):
                 raise PubErrorCustom('小于最低额%d'%(sysparam.amount1))
             if int(request.data.get('amount')) % sysparam.amount2 > 0:
                 raise PubErrorCustom('必须为%d倍数'%(sysparam.amount2))
+            if int(request.data.get('amount')) > sysparam.amount3:
+                raise PubErrorCustom('高于最高额%d' % (sysparam.amount3))
             if user.bonus < int(request.data.get('amount')):
                 raise PubErrorCustom("股份分红余额不足")
             type=2
@@ -69,6 +71,8 @@ class OrderAPIView(GenericViewSetCustom):
                 raise PubErrorCustom('小于最低额%d'%(sysparam.amount4))
             if int(request.data.get('amount')) % sysparam.amount5 > 0:
                 raise PubErrorCustom('必须为%d倍数'%(sysparam.amount5))
+            if int(request.data.get('amount')) > sysparam.amount6:
+                raise PubErrorCustom('高于最高额%d' % (sysparam.amount6))
             if user.spread < int(request.data.get('amount')):
                 raise  PubErrorCustom('推广股权余额不足')
 
