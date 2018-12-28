@@ -209,7 +209,6 @@ class PublicAPIView(viewsets.ViewSet):
         )
         agent2=list(agent2)
 
-        return {}
         return {'data':{
             'level1count': len(agent1),
             'level2count': len(agent2),
