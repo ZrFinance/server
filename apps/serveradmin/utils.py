@@ -30,6 +30,8 @@ def matchcheck(res):
     match1=res['match1']
     match2=res['match2']
 
+    print("match1:",len(match1),"match2:",len(match2))
+
     for item in match1:
         for item1 in match2:
             if item.userid == item1.userid:
@@ -41,9 +43,11 @@ def matchcheck(res):
     for item in match1:
         sum1 += item.amount
         mobiles.append(item.mobile)
+        print("mobile:",item.mobile)
     for item in match2:
         sum2 += item.amount
         mobiles.append(item.mobile)
+        print("mobile_to:",item.mobile)
 
     if sum1 != sum2:
         raise PubErrorCustom("金额不匹配！")
