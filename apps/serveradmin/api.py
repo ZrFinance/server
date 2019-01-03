@@ -700,33 +700,45 @@ class ServerAdmin(viewsets.ViewSet):
     @list_route(methods=['POST'])
     @Core_connector(transaction=True)
     def match(self, request, *args, **kwargs):
-        from apps.serveradmin.utils import matchdata_get,matchcheck,matchexchange,match_core_handle,match_upd_db,match_smssend,match_split
+
         t = time.mktime(timezone.now().timetuple())
 
-        #获取需匹配数据
-        res=matchdata_get()
+        from django.core.cache import cache
+        lock=cache.get('%s' % ('lock_match'))
 
-        #校验是否满足条件
-        mobiles=matchcheck(res)
+        if lock:
+            raise PubErrorCustom("正在匹配,请稍后!")
+        cache.set('%s'%('lock_match'), '1',timeout=None)
 
-        #数据转换
-        tgbz_obj,jsbz_obj,tgbz_split,jsbz_split=matchexchange(res)
+        try:
+            from apps.serveradmin.utils import matchdata_get, matchcheck, matchexchange, match_core_handle, \
+                match_upd_db, match_smssend, match_split
+            #获取需匹配数据
+            res=matchdata_get()
 
-        #核心处理
-        install_orders,tgbz_split,jsbz_split=match_core_handle(tgbz_obj,jsbz_obj,t,tgbz_split,jsbz_split)
+            #校验是否满足条件
+            mobiles=matchcheck(res)
 
-        #订单拆分
-        match_split(tgbz_split,jsbz_split)
+            #数据转换
+            tgbz_obj,jsbz_obj,tgbz_split,jsbz_split=matchexchange(res)
 
-        #清理数据
-        MatchPool.objects.filter().delete()
+            #核心处理
+            install_orders,tgbz_split,jsbz_split=match_core_handle(tgbz_obj,jsbz_obj,t,tgbz_split,jsbz_split)
 
-        #更新数据库
-        # match_upd_db(install_orders)
+            #订单拆分
+            match_split(tgbz_split,jsbz_split)
 
-        #发送短信
-        match_smssend(mobiles)
+            #清理数据
+            MatchPool.objects.filter().delete()
 
+            #更新数据库
+            # match_upd_db(install_orders)
+
+            #发送短信
+            match_smssend(mobiles)
+        except Exception as e:
+            cache.delete('lock_match')
+            raise PubErrorCustom(str(e))
         return None
 
     @list_route(methods=['POST'])
