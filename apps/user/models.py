@@ -68,6 +68,7 @@ class Users(models.Model):
     wechat=models.CharField(max_length=60,verbose_name="微信",default='',null=True)
     bank=models.CharField(max_length=60,verbose_name="银行名称",default='',null=True)
     bank_account=models.CharField(max_length=60,verbose_name="银行账户",default='',null=True)
+    matchauth=models.CharField(max_length=1,verbose_name="匹配权限,0-白名单,1-黑名单",default='0',null=True)
 
     def save(self, *args, **kwargs):
         t=time.mktime(timezone.now().timetuple())

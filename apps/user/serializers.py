@@ -41,7 +41,14 @@ class UsersSerializer(serializers.ModelSerializer):
 	passwd = serializers.SerializerMethodField()
 	statusname = serializers.SerializerMethodField()
 	endtime = serializers.SerializerMethodField()
+	matchauthname=serializers.SerializerMethodField()
 
+
+	def get_matchauthname(self,obj):
+		if obj.matchauth==0:
+			return '白名单'
+		else:
+			return '黑名单'
 	def get_statusname(self,obj):
 		if obj.status==0:
 			return '正常'
