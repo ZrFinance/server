@@ -146,6 +146,8 @@ class ServerAdmin(viewsets.ViewSet):
         day = self.request.query_params.get('day', 2)
         ordercode=self.request.query_params.get('ordercode',None)
         value2=self.request.query_params.get('value2',None)
+        startdate=self.request.query_params.get('startdate',None)
+        enddate=self.request.query_params.get('enddate',None)
 
         print(self.request.query_params)
 
@@ -165,12 +167,16 @@ class ServerAdmin(viewsets.ViewSet):
             query_params = "{} and t1.createtime>=%s and t1.createtime<=%s".format(query_params)
             query_list.append(string_toTimestamp(value2[:10]+' 00:00:01'))
             query_list.append(string_toTimestamp(value2[:10] + ' 23:59:59'))
+        if startdate and enddate:
+            query_params = "{} and t2.createtime>=%s and t2.createtime<=%s".format(query_params)
+            query_list.append(string_toTimestamp(startdate))
+            query_list.append(string_toTimestamp(enddate))
 
         print(query_params)
         print(query_list)
         order=Order.objects.raw(
             """
-                SELECT t1.`ordercode`,t2.mobile,t1.amount,t2.name,t1.createtime,t1.status
+                SELECT t1.`ordercode`,t2.mobile,t1.amount,t2.name,t1.createtime,t1.status,t2.createtime as registertime
                 FROM `order` as t1
                 INNER JOIN `user` as t2 ON t1.userid=t2.userid 
                 WHERE t1.ordercode not in (select ordercode from matchpool) and t1.status=0 and trantype=1 and t1.umark=0 {} ORDER BY createtime desc
