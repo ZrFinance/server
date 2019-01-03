@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1a352d01-af29-4564-9d5c-3e500cff74d5" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/serveradmin/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/serveradmin/api.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,8 +16,8 @@
       <file leaf-file-name="api.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/public/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="455" selection-start-line="455" selection-end-line="457" selection-end-column="40" />
+            <state relative-caret-position="358">
+              <caret line="454" column="49" lean-forward="true" selection-start-line="454" selection-start-column="49" selection-end-line="454" selection-end-column="49" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -29,7 +28,7 @@
       <file leaf-file-name="api.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/serveradmin/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="491">
+            <state relative-caret-position="377">
               <caret line="736" column="17" lean-forward="true" selection-start-line="736" selection-start-column="17" selection-end-line="736" selection-end-column="17" />
             </state>
           </provider>
@@ -725,8 +724,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/public/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="455" selection-start-line="455" selection-end-line="457" selection-end-column="40" />
+        <state relative-caret-position="358">
+          <caret line="454" column="49" lean-forward="true" selection-start-line="454" selection-start-column="49" selection-end-line="454" selection-end-column="49" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
@@ -735,7 +734,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/serveradmin/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="491">
+        <state relative-caret-position="377">
           <caret line="736" column="17" lean-forward="true" selection-start-line="736" selection-start-column="17" selection-end-line="736" selection-end-column="17" />
         </state>
       </provider>

@@ -736,6 +736,7 @@ class ServerAdmin(viewsets.ViewSet):
 
             #发送短信
             match_smssend(mobiles)
+            cache.delete('lock_match')
         except Exception as e:
             cache.delete('lock_match')
             raise PubErrorCustom(str(e))
