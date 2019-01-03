@@ -83,7 +83,7 @@ class ServerAdmin(viewsets.ViewSet):
 
         order=Order.objects.raw(
             """
-                SELECT t1.`ordercode`,t2.mobile,t1.amount,t2.name,t1.createtime,t1.status
+                SELECT t1.`ordercode`,t2.mobile,t1.amount,t2.name,t1.createtime,t1.status,t2.createtime as registertime
                 FROM `order` as t1
                 INNER JOIN `user` as t2 ON t1.userid=t2.userid
                 WHERE t1.ordercode not in (select ordercode from matchpool) and t1.status=0 and trantype=0 and t1.umark=0 {} ORDER BY createtime desc

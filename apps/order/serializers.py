@@ -68,6 +68,7 @@ class OrderSerializer1(serializers.Serializer):
 	name = serializers.CharField()
 	isday = serializers.SerializerMethodField()
 	updtime = serializers.SerializerMethodField()
+    registertime = serializers.IntegerField()
 
 	def get_type(self,obj):
 		if obj.status==0:
