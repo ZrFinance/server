@@ -52,6 +52,9 @@ class ServerAdmin(viewsets.ViewSet):
         ordercode=self.request.query_params.get('ordercode',None)
         value2=self.request.query_params.get('value2',None)
 
+        startdate=self.request.query_params.get('startdate',None)
+        enddate=self.request.query_params.get('enddate',None)
+
         print(self.request.query_params)
 
         query_params = str()
@@ -70,6 +73,10 @@ class ServerAdmin(viewsets.ViewSet):
             query_params = "{} and t1.createtime>=%s and t1.createtime<=%s".format(query_params)
             query_list.append(string_toTimestamp(value2[:10] + ' 00:00:01'))
             query_list.append(string_toTimestamp(value2[:10] + ' 23:59:59'))
+        if startdate and enddate:
+            query_params = "{} and t2.createtime>=%s and t2.createtime<=%s".format(query_params)
+            query_list.append(string_toTimestamp(startdate))
+            query_list.append(string_toTimestamp(enddate))
 
         print(query_params)
         print(query_list)
