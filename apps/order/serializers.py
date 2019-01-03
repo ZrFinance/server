@@ -60,44 +60,44 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class OrderSerializer1(serializers.Serializer):
 
-	ordercode =serializers.IntegerField()
-	mobile=serializers.CharField()
-	username = serializers.CharField()
-	mobile = serializers.CharField()
-	amount = serializers.IntegerField()
-	name = serializers.CharField()
-	isday = serializers.SerializerMethodField()
-	updtime = serializers.SerializerMethodField()
+    ordercode =serializers.IntegerField()
+    mobile=serializers.CharField()
+    username = serializers.CharField()
+    mobile = serializers.CharField()
+    amount = serializers.IntegerField()
+    name = serializers.CharField()
+    isday = serializers.SerializerMethodField()
+    updtime = serializers.SerializerMethodField()
     registertime = serializers.IntegerField()
 
-	def get_type(self,obj):
-		if obj.status==0:
-			return '等待中'
-		elif obj.status==1:
-			return '匹配成功'
-		else:
-			return '匹配成功'
+    def get_type(self,obj):
+        if obj.status==0:
+            return '等待中'
+        elif obj.status==1:
+            return '匹配成功'
+        else:
+            return '匹配成功'
 
-	def get_istype(self,obj):
-		if obj.status==0:
-			return '未确认'
-		elif obj.status==1:
-			return '未确认'
-		else:
-			return '已确认收款'
+    def get_istype(self,obj):
+        if obj.status==0:
+            return '未确认'
+        elif obj.status==1:
+            return '未确认'
+        else:
+            return '已确认收款'
 
-	def get_isday(self,obj):
-		return diff_day(timestamp_toDatetime(obj.createtime))
+    def get_isday(self,obj):
+        return diff_day(timestamp_toDatetime(obj.createtime))
 
-	def get_updtime(self,obj):
-		return obj.createtime
+    def get_updtime(self,obj):
+        return obj.createtime
 
 class TranlistSerializer(serializers.ModelSerializer):
-	tranname = serializers.CharField()
-	bal = serializers.SerializerMethodField()
-	def get_bal(self,obj):
-		return 0
+    tranname = serializers.CharField()
+    bal = serializers.SerializerMethodField()
+    def get_bal(self,obj):
+        return 0
 
-	class Meta:
-		model=Tranlist
-		fields='__all__'
+    class Meta:
+        model=Tranlist
+        fields='__all__'

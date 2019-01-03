@@ -21,7 +21,7 @@ class Order(models.Model):
     createtime=models.BigIntegerField(default=0)
     img = models.CharField(max_length=255)
     umark = models.IntegerField(default=0,verbose_name='状态0-正常,1-删除')
-    
+
     registertime = None
 
     mobile=None
