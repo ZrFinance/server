@@ -743,6 +743,7 @@ class ServerAdmin(viewsets.ViewSet):
             cache.delete('lock_match')
         except Exception as e:
             cache.delete('lock_match')
+            print(e)
             raise PubErrorCustom(str(e))
         return None
 
