@@ -703,8 +703,12 @@ class ServerAdmin(viewsets.ViewSet):
 
         t = time.mktime(timezone.now().timetuple())
 
+        print("开始匹配")
+
         from django.core.cache import cache
         lock=cache.get('%s' % ('lock_match'))
+
+        print("lock:",lock)
 
         if lock:
             raise PubErrorCustom("正在匹配,请稍后!")
