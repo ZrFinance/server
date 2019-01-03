@@ -55,6 +55,8 @@ class ServerAdmin(viewsets.ViewSet):
         startdate=self.request.query_params.get('startdate',None)
         enddate=self.request.query_params.get('enddate',None)
 
+        matchauth=self.request.query_params.get('matchauth',None)
+
         print(self.request.query_params)
 
         query_params = str()
@@ -77,6 +79,10 @@ class ServerAdmin(viewsets.ViewSet):
             query_params = "{} and t2.createtime>=%s and t2.createtime<=%s".format(query_params)
             query_list.append(string_toTimestamp(startdate))
             query_list.append(string_toTimestamp(enddate))
+
+        if matchauth:
+            query_params = "{} and t2.matchauth=%s".format(query_params)
+            query_list.append(matchauth)
 
         print(query_params)
         print(query_list)
@@ -149,6 +155,8 @@ class ServerAdmin(viewsets.ViewSet):
         startdate=self.request.query_params.get('startdate',None)
         enddate=self.request.query_params.get('enddate',None)
 
+        matchauth=self.request.query_params.get('matchauth',None)
+
         print(self.request.query_params)
 
         query_params = str()
@@ -171,6 +179,10 @@ class ServerAdmin(viewsets.ViewSet):
             query_params = "{} and t2.createtime>=%s and t2.createtime<=%s".format(query_params)
             query_list.append(string_toTimestamp(startdate))
             query_list.append(string_toTimestamp(enddate))
+
+        if matchauth:
+            query_params = "{} and t2.matchauth=%s".format(query_params)
+            query_list.append(matchauth)
 
         print(query_params)
         print(query_list)

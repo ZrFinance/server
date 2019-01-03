@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1a352d01-af29-4564-9d5c-3e500cff74d5" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/apps/user/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/user/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/user/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/user/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/serveradmin/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/serveradmin/api.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -26,16 +25,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="api.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="api.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/serveradmin/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="592" column="35" lean-forward="true" selection-start-line="592" selection-start-column="35" selection-end-line="592" selection-end-column="35" />
+            <state relative-caret-position="290">
+              <caret line="157" column="65" lean-forward="true" selection-start-line="157" selection-start-column="65" selection-end-line="157" selection-end-column="65" />
               <folding>
                 <element signature="e#945#1266#0" />
                 <element signature="e#1396#1658#0" />
-                <element signature="e#1787#5258#0" />
-                <element signature="e#5387#8860#0" />
                 <element signature="e#8978#9057#0" />
                 <element signature="e#9189#9749#0" />
                 <element signature="e#9875#12047#0" />
@@ -48,10 +45,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="serializers.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="serializers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/user/serializers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
+            <state relative-caret-position="380">
               <caret line="51" column="33" lean-forward="true" selection-start-line="51" selection-start-column="33" selection-end-line="51" selection-end-column="33" />
             </state>
           </provider>
@@ -187,9 +184,9 @@
         <option value="$PROJECT_DIR$/apps/order/api.py" />
         <option value="$PROJECT_DIR$/apps/order/models.py" />
         <option value="$PROJECT_DIR$/apps/order/serializers.py" />
-        <option value="$PROJECT_DIR$/apps/serveradmin/api.py" />
         <option value="$PROJECT_DIR$/apps/user/models.py" />
         <option value="$PROJECT_DIR$/apps/user/serializers.py" />
+        <option value="$PROJECT_DIR$/apps/serveradmin/api.py" />
       </list>
     </option>
   </component>
@@ -694,15 +691,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/apps/user/serializers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="51" column="33" lean-forward="true" selection-start-line="51" selection-start-column="33" selection-end-line="51" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/apps/serveradmin/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="592" column="35" lean-forward="true" selection-start-line="592" selection-start-column="35" selection-end-line="592" selection-end-column="35" />
+        <state relative-caret-position="290">
+          <caret line="157" column="65" lean-forward="true" selection-start-line="157" selection-start-column="65" selection-end-line="157" selection-end-column="65" />
           <folding>
             <element signature="e#945#1266#0" />
             <element signature="e#1396#1658#0" />
-            <element signature="e#1787#5258#0" />
-            <element signature="e#5387#8860#0" />
             <element signature="e#8978#9057#0" />
             <element signature="e#9189#9749#0" />
             <element signature="e#9875#12047#0" />
@@ -711,13 +713,6 @@
             <element signature="e#18000#19394#0" />
             <element signature="e#19740#20528#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/user/serializers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="51" column="33" lean-forward="true" selection-start-line="51" selection-start-column="33" selection-end-line="51" selection-end-column="33" />
         </state>
       </provider>
     </entry>
