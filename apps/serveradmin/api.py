@@ -595,6 +595,10 @@ class ServerAdmin(viewsets.ViewSet):
         name=self.request.query_params.get('name',None)
         referee_name=self.request.query_params.get('referee_name',None)
         matchauth=self.request.query_params.get('matchauth',None)
+        startdate=self.request.query_params.get('startdate',None)
+        enddate=self.request.query_params.get('enddate',None)
+
+
         userquery=Users.objects.all()
         if username:
             userquery=userquery.filter(username=username)
@@ -604,6 +608,8 @@ class ServerAdmin(viewsets.ViewSet):
             userquery=userquery.filter(referee_name=referee_name)
         if matchauth:
             userquery = userquery.filter(matchauth=matchauth)
+        if startdate and enddate:
+            userquery = userquery.filter(createtime__gt=string_toTimestamp(startdate),createtime__lt=string_toTimestamp(enddate))
 
         return {'data':UsersSerializer(userquery.order_by('-createtime'),many=True).data}
 
