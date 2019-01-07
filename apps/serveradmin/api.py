@@ -559,7 +559,8 @@ class ServerAdmin(viewsets.ViewSet):
     @Core_connector(transaction=True)
     def matchdel(self, request, *args, **kwargs):
 
-        MatchPool.objects.filter(ordercode=request.data.get('ordercode')).delete()
+        ordercode=request.data.get('ordercode').split(',')
+        MatchPool.objects.filter(ordercode__in=ordercode).delete()
 
         return None
 

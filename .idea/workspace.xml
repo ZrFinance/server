@@ -28,8 +28,8 @@
       <file leaf-file-name="api.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/serveradmin/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="611" column="129" lean-forward="true" selection-start-line="611" selection-start-column="129" selection-end-line="611" selection-end-column="129" />
+            <state relative-caret-position="377">
+              <caret line="560" lean-forward="true" selection-start-line="560" selection-end-line="560" />
               <folding>
                 <element signature="e#945#1266#0" />
                 <element signature="e#1396#1658#0" />
@@ -656,8 +656,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/serveradmin/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="611" column="129" lean-forward="true" selection-start-line="611" selection-start-column="129" selection-end-line="611" selection-end-column="129" />
+        <state relative-caret-position="377">
+          <caret line="560" lean-forward="true" selection-start-line="560" selection-end-line="560" />
           <folding>
             <element signature="e#945#1266#0" />
             <element signature="e#1396#1658#0" />
