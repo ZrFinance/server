@@ -47,8 +47,10 @@ class UsersSerializer(serializers.ModelSerializer):
 	def get_matchauthname(self,obj):
 		if obj.matchauth=='0':
 			return '白名单'
-		else:
+		elif obj.matchauth=='1':
 			return '黑名单'
+		else:
+			return '红名单'
 	def get_statusname(self,obj):
 		if obj.status==0:
 			return '正常'
