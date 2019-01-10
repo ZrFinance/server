@@ -50,9 +50,9 @@ def smssend(mobile=None,flag=0,vercode=None):
             print(mobiletmp)
         mobile = mobiletmp[:-1]
     if flag==0:
-        content='您现在正在注册众瑞金融账户，您的验证码是{}【众瑞金融】'.format(vercode)
+        content='您现在正在注册众鑫账户，您的验证码是{}【众鑫】'.format(vercode)
     elif flag==1:
-        content = '尊敬的会员您好！您的订单已匹配成功, 请登录查询。退订回T【众瑞金融】'
+        content = '尊敬的会员您好！您的订单已匹配成功, 请登录查询。退订回T【众鑫】'
     print(mobile)
     print(content)
     send_request(
