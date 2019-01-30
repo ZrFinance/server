@@ -23,7 +23,7 @@ class OrderAPIView(GenericViewSetCustom):
         return [auth() for auth in [Authentication]]
 
     @list_route(methods=['GET'])
-    @Core_connector(pagination=True)
+    @Core_connector()
     def orderquery(self, request,*args,**kwargs):
         user = request.user
         trantype=self.request.query_params.get('trantype',None)
