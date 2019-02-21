@@ -11,7 +11,7 @@ from apps.order.serializers import OrderSerializer
 from apps.public.models import SysParam
 
 from apps.utils import GenericViewSetCustom
-from apps.public.utils import daysqbzcount
+from apps.public.utils import daysqbzcount,get_agent_totle
 
 from apps.user.models import Agent,Users
 
@@ -68,82 +68,101 @@ class OrderAPIView(GenericViewSetCustom):
             type=2
             trantype=12
         else:
-            if int(request.data.get('amount')) < sysparam.amount4 :
-                raise PubErrorCustom('小于最低额%d'%(sysparam.amount4))
-            if int(request.data.get('amount')) % sysparam.amount5 > 0:
-                raise PubErrorCustom('必须为%d倍数'%(sysparam.amount5))
+            # if int(request.data.get('amount')) < sysparam.amount4 :
+            #     raise PubErrorCustom('小于最低额%d'%(sysparam.amount4))
+            # if int(request.data.get('amount')) % sysparam.amount5 > 0:
+            #     raise PubErrorCustom('必须为%d倍数'%(sysparam.amount5))
             if int(request.data.get('amount')) > sysparam.amount6:
                 raise PubErrorCustom('高于最高额%d' % (sysparam.amount6))
             if user.spread < int(request.data.get('amount')):
                 raise  PubErrorCustom('推广股权余额不足')
 
-            #必须满足推荐人才能提取，1代2个提50%,2代4个提100%(必须满足1代)
-            oneagent=Agent.objects.filter(mobile=user.mobile,level=1)
-            oneagentcount=0
-            for item in oneagent:
-                t=Order.objects.raw("""
-                    SELECT t1.ordercode FROM `order` as t1
-                    INNER JOIN user as t2 on t1.userid=t2.userid
-                    where t1.trantype='0' and t1.umark='0' and t1.status='2' and t2.status='0' and %s
-                """%(" t2.mobile=%s"),[item.mobile1])
-                t=list(t)
-                if len(t)>0:
-                    oneagentcount+=1
-
-            twoagent=Agent.objects.filter(mobile=user.mobile,level=2)
-            twoagentcount=0
-
-            for item in twoagent:
-                t=Order.objects.raw("""
-                    SELECT t1.ordercode FROM `order` as t1
-                    INNER JOIN user as t2 on t1.userid=t2.userid
-                    where t1.trantype='0' and t1.umark='0' and t1.status='2' and t2.status='0' and %s
-                """%(" t2.mobile=%s"),[item.mobile1])
-                t=list(t)
-                if len(t)>0:
-                    twoagentcount+=1
-            if oneagentcount>=2 and twoagentcount>=4:
-                pass
-                #提取全部
-            elif oneagentcount<2:
-                raise PubErrorCustom("一代不足2人,不能提取!")
-            else:
-                if int(request.data.get('amount')) > user.spread / 2.0:
-                    raise PubErrorCustom("满足一代2人,二代4人能提取100%,否则提取50%")
-
-            if user.integral < 200:
-                if int(request.data.get('amount')) > 500:
-                    raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral < 320:
-                if int(request.data.get('amount')) > 1000:
-                    raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral < 440:
-                if int(request.data.get('amount')) > 1500:
-                    raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral < 560:
+            agent_totle=get_agent_totle(user.mobile)
+            if agent_totle >= 160 * 2 :
                 if int(request.data.get('amount')) > 2000:
-                    raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral < 760:
-                if int(request.data.get('amount')) > 2500:
-                    raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral < 960:
-                if int(request.data.get('amount')) > 3000:
-                    raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral < 1160:
-                if int(request.data.get('amount')) > 3500:
-                    raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral < 1560:
-                if int(request.data.get('amount')) > 4000:
-                    raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral < 2000:
-                if int(request.data.get('amount')) > 5000:
-                    raise PubErrorCustom('诚心值积分不够！')
-            elif user.integral < 2500:
-                if int(request.data.get('amount')) > 7000:
-                    raise PubErrorCustom('诚心值积分不够！')
+                    raise PubErrorCustom("您的团队有%d人,只能提现最多2000"%(agent_totle))
+            elif agent_totle >= 80 * 2 :
+                if int(request.data.get('amount')) > 1200:
+                    raise PubErrorCustom("您的团队有%d人,只能提现最多1200"%(agent_totle))
+            elif agent_totle >= 40 * 2 :
+                if int(request.data.get('amount')) > 800:
+                    raise PubErrorCustom("您的团队有%d人,只能提现最多800"%(agent_totle))
+            elif agent_totle >= 20 * 2 :
+                if int(request.data.get('amount')) > 500:
+                    raise PubErrorCustom("您的团队有%d人,只能提现最多500"%(agent_totle))
+            elif agent_totle >= 10 * 2 :
+                if int(request.data.get('amount')) > 300:
+                    raise PubErrorCustom("您的团队有%d人,只能提现最多300"%(agent_totle))
             else:
-                if int(request.data.get('amount')) > 10000:
-                    raise PubErrorCustom('诚心值积分不够！')
+                raise PubErrorCustom("您的团队不足20人,不能提现")
+
+            # #必须满足推荐人才能提取，1代2个提50%,2代4个提100%(必须满足1代)
+            # oneagent=Agent.objects.filter(mobile=user.mobile,level=1)
+            # oneagentcount=0
+            # for item in oneagent:
+            #     t=Order.objects.raw("""
+            #         SELECT t1.ordercode FROM `order` as t1
+            #         INNER JOIN user as t2 on t1.userid=t2.userid
+            #         where t1.trantype='0' and t1.umark='0' and t1.status='2' and t2.status='0' and %s
+            #     """%(" t2.mobile=%s"),[item.mobile1])
+            #     t=list(t)
+            #     if len(t)>0:
+            #         oneagentcount+=1
+            #
+            # twoagent=Agent.objects.filter(mobile=user.mobile,level=2)
+            # twoagentcount=0
+            #
+            # for item in twoagent:
+            #     t=Order.objects.raw("""
+            #         SELECT t1.ordercode FROM `order` as t1
+            #         INNER JOIN user as t2 on t1.userid=t2.userid
+            #         where t1.trantype='0' and t1.umark='0' and t1.status='2' and t2.status='0' and %s
+            #     """%(" t2.mobile=%s"),[item.mobile1])
+            #     t=list(t)
+            #     if len(t)>0:
+            #         twoagentcount+=1
+            # if oneagentcount>=2 and twoagentcount>=4:
+            #     pass
+            #     #提取全部
+            # elif oneagentcount<2:
+            #     raise PubErrorCustom("一代不足2人,不能提取!")
+            # else:
+            #     if int(request.data.get('amount')) > user.spread / 2.0:
+            #         raise PubErrorCustom("满足一代2人,二代4人能提取100%,否则提取50%")
+
+            # if user.integral < 200:
+            #     if int(request.data.get('amount')) > 500:
+            #         raise PubErrorCustom('诚心值积分不够！')
+            # elif user.integral < 320:
+            #     if int(request.data.get('amount')) > 1000:
+            #         raise PubErrorCustom('诚心值积分不够！')
+            # elif user.integral < 440:
+            #     if int(request.data.get('amount')) > 1500:
+            #         raise PubErrorCustom('诚心值积分不够！')
+            # elif user.integral < 560:
+            #     if int(request.data.get('amount')) > 2000:
+            #         raise PubErrorCustom('诚心值积分不够！')
+            # elif user.integral < 760:
+            #     if int(request.data.get('amount')) > 2500:
+            #         raise PubErrorCustom('诚心值积分不够！')
+            # elif user.integral < 960:
+            #     if int(request.data.get('amount')) > 3000:
+            #         raise PubErrorCustom('诚心值积分不够！')
+            # elif user.integral < 1160:
+            #     if int(request.data.get('amount')) > 3500:
+            #         raise PubErrorCustom('诚心值积分不够！')
+            # elif user.integral < 1560:
+            #     if int(request.data.get('amount')) > 4000:
+            #         raise PubErrorCustom('诚心值积分不够！')
+            # elif user.integral < 2000:
+            #     if int(request.data.get('amount')) > 5000:
+            #         raise PubErrorCustom('诚心值积分不够！')
+            # elif user.integral < 2500:
+            #     if int(request.data.get('amount')) > 7000:
+            #         raise PubErrorCustom('诚心值积分不够！')
+            # else:
+            #     if int(request.data.get('amount')) > 10000:
+            #         raise PubErrorCustom('诚心值积分不够！')
             type=1
             trantype=11
         Order.objects.create(

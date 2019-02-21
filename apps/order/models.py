@@ -83,6 +83,8 @@ class Tranlist(models.Model):
             26-超过7天未打款清空推荐奖
             27-超过7天未打款清空推荐奖(冻结)
             28-系统赠送VIP分
+            29-股权分红冻结
+            30-获得商品鑫鑫币
             """, default=0)
     tranname = models.CharField(max_length=100,default='')
     userid = models.BigIntegerField(default=0)
@@ -144,6 +146,10 @@ class Tranlist(models.Model):
             self.tranname = '二代奖金(冻结)'
         elif self.trantype == 28:
             self.tranname = '系统赠送VIP分'
+        elif self.trantype == 29:
+            self.tranname = '投资利息冻结'
+        elif self.trantype == 30:
+            self.tranname = '获得商品鑫鑫币'
         if not self.createtime:
             self.createtime = t
         return super(Tranlist, self).save(*args, **kwargs)

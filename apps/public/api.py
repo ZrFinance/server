@@ -13,7 +13,7 @@ from apps.user.models import Agent,Users
 from apps.order.serializers import TranlistSerializer
 from apps.public.serializers import VerificationSerializer,LuckySerializer
 from apps.user.serializers import AgentSerializer,UsersSerializer
-from apps.public.utils import myrandom,smssend,tjjr
+from apps.public.utils import myrandom,smssend,get_agent_totle,get_agent_input_num
 
 from apps.order.serializers import OrderSerializer2
 from libs.utils.mytime import islimit_time
@@ -209,9 +209,13 @@ class PublicAPIView(viewsets.ViewSet):
         )
         agent2=list(agent2)
 
+
+
         return {'data':{
             'level1count': len(agent1),
             'level2count': len(agent2),
+            'level1count_valid_totle': get_agent_totle(user.mobile),
+            'level1count_valid_input': get_agent_input_num(user.mobile),
             'level1': AgentSerializer(agent1,many=True).data,
             'level2': AgentSerializer(agent2,many=True).data,
         }}
@@ -481,10 +485,74 @@ class PublicAPIView(viewsets.ViewSet):
 
         return {'data':s}
 
+    # @list_route(methods=['POST'])
+    # @Core_connector(transaction=True)
+    # def tgbz(self, request, *args, **kwargs):
+    #
+    #     user = request.user
+    #
+    #     amount=int(request.data.get('amount'))
+    #     pay_passwd=request.data.get('pay_passwd')
+    #
+    #     if user.pay_passwd != pay_passwd:
+    #         raise PubErrorCustom("二级密码错误!")
+    #
+    #     if daytgbzcount(user.userid,SysParam.objects.get()):
+    #         raise PubErrorCustom('当天提供帮助次数已超!')
+    #
+    #     if amount == 1000:
+    #         vip = 1
+    #     elif amount == 2000:
+    #         vip = 1
+    #     elif amount == 5000:
+    #         vip = 2
+    #     elif amount == 10000:
+    #         vip = 3
+    #     elif amount == 15000:
+    #         vip=4
+    #     elif amount == 20000:
+    #         vip=5
+    #     elif amount == 30000:
+    #         vip=7
+    #     else:
+    #         raise PubErrorCustom("金额有误")
+    #
+    #     Order.objects.create(
+    #         trantype=0,
+    #         subtrantype=0,
+    #         amount=amount,
+    #         userid=user.userid,
+    #         username=user.username,
+    #         status=0
+    #     )
+    #     amount1 = amount * 2 /100
+    #     if user.buypower < amount1 :
+    #         raise PubErrorCustom('认筹权余额不足！')
+    #     Tranlist.objects.create(
+    #         trantype=17,
+    #         userid=user.userid,
+    #         username=user.username,
+    #         bal=user.buypower,
+    #         amount=amount1*-1
+    #     )
+    #     user.buypower -= amount1
+    #
+    #     Tranlist.objects.create(
+    #         trantype=18,
+    #         userid=user.userid,
+    #         username=user.username,
+    #         bal=user.integral,
+    #         amount=vip
+    #     )
+    #     user.integral += vip
+    #
+    #     user.save()
+    #     return None
+
+
     @list_route(methods=['POST'])
     @Core_connector(transaction=True)
     def tgbz(self, request, *args, **kwargs):
-
         user = request.user
 
         amount=int(request.data.get('amount'))
@@ -493,26 +561,27 @@ class PublicAPIView(viewsets.ViewSet):
         if user.pay_passwd != pay_passwd:
             raise PubErrorCustom("二级密码错误!")
 
-        if daytgbzcount(user.userid,SysParam.objects.get()):
-            raise PubErrorCustom('当天提供帮助次数已超!')
-
-        if amount == 1000:
-            vip = 1
-        elif amount == 2000:
-            vip = 1
-        elif amount == 5000:
+        if int(amount)==5000:
+            amount = 5000
             vip = 2
-        elif amount == 10000:
-            vip = 3
-        elif amount == 15000:
-            vip=4
-        elif amount == 20000:
-            vip=5
-        elif amount == 30000:
-            vip=7
+        elif int(amount)==2000:
+            amount = 2000
+            vip = 1
         else:
-            raise PubErrorCustom("金额有误")
+            raise PubErrorCustom("金额有误!")
 
+        try:
+            param = SysParam.objects.get()
+            if Order.objects.filter(userid=user.userid, umark=0).count():
+                after_c(param)
+                pdlimit(param)
+            if daytgbzcount(user.userid, param):
+                raise PubErrorCustom('当天提供帮助次数已超!')
+        except SysParam.DoesNotExist:
+            raise PubErrorCustom("无参数表数据")
+
+        orderrclimit(user, amount)
+        # Lucky.objects.create(userid=user.userid, index=user.lastindex, name=name)
         Order.objects.create(
             trantype=0,
             subtrantype=0,
@@ -521,22 +590,24 @@ class PublicAPIView(viewsets.ViewSet):
             username=user.username,
             status=0
         )
-        amount1 = amount * 2 /100
-        if user.buypower < amount1 :
+        amount1 = amount * 1.5 / 100
+        if user.buypower < amount1:
             raise PubErrorCustom('认筹权余额不足！')
         Tranlist.objects.create(
-            trantype=17,
+            trantype=3,
             userid=user.userid,
             username=user.username,
             bal=user.buypower,
-            amount=amount1*-1
+            amount=amount1 * -1
         )
         user.buypower -= amount1
 
         Tranlist.objects.create(
-            trantype=18,
+            trantype=6,
             userid=user.userid,
             username=user.username,
+            userid_to=user.userid,
+            username_to=user.username,
             bal=user.integral,
             amount=vip
         )
@@ -544,6 +615,8 @@ class PublicAPIView(viewsets.ViewSet):
 
         user.save()
         return None
+
+
 
 
     @list_route(methods=['GET'])

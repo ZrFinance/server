@@ -43,29 +43,29 @@ def myrandom(num_,r_):
 def smssend(mobile=None,flag=0,vercode=None):
 
     print(mobile)
-    if isinstance(mobile, list):
-        mobiletmp = ''
-        for item in mobile:
-            mobiletmp += '{},'.format(item)
-            print(mobiletmp)
-        mobile = mobiletmp[:-1]
-    if flag==0:
-        content='您现在正在注册众鑫账户，您的验证码是{}【众鑫】'.format(vercode)
-    elif flag==1:
-        content = '尊敬的会员您好！您的订单已匹配成功, 请登录查询。退订回T【众鑫】'
-    print(mobile)
-    print(content)
-    send_request(
-        url="http://dx110.ipyy.net/smsJson.aspx",
-        method='post',
-        data={
-            'account': '8MYX00159',
-            'password': md5pass('8MYX0015998'),
-            'mobile' : mobile,
-            'content' : content,
-            'action' : 'send',
-        }
-    )
+    # if isinstance(mobile, list):
+    #     mobiletmp = ''
+    #     for item in mobile:
+    #         mobiletmp += '{},'.format(item)
+    #         print(mobiletmp)
+    #     mobile = mobiletmp[:-1]
+    # if flag==0:
+    #     content='您现在正在注册众鑫账户，您的验证码是{}【众鑫】'.format(vercode)
+    # elif flag==1:
+    #     content = '尊敬的会员您好！您的订单已匹配成功, 请登录查询。退订回T【众鑫】'
+    # print(mobile)
+    # print(content)
+    # send_request(
+    #     url="http://dx110.ipyy.net/smsJson.aspx",
+    #     method='post',
+    #     data={
+    #         'account': '8MYX00159',
+    #         'password': md5pass('8MYX0015998'),
+    #         'mobile' : mobile,
+    #         'content' : content,
+    #         'action' : 'send',
+    #     }
+    # )
 
 
 def after_c(sysparam):
@@ -143,22 +143,37 @@ def tjjr(user,amount,ordercode,sysparm):
             order = Order.objects.filter(userid=user1.userid, trantype=0, status=2, confirmtime__gte=d5,
                                          confirmtime__lt=send_toTimestamp(t),umark=0)
             if order.exists():
+
+                #动态奖励
                 maxamount=max(get_order_amounts(order))
                 if amount > maxamount:
                     amount = maxamount
 
+                # if item==1:
+                #     #直推是否有5人间推是否有15人
+                #     if Agent.objects.filter(mobile=user1.mobile,level=1).count()>=5 and Agent.objects.filter(mobile=user1.mobile,level=2).count()>=15:
+                #         spread=amount * sysparm.amount9 / 100
+                #     else:
+                #         spread=amount * sysparm.amount7 / 100
+                # elif item==2:
+                #     #直推是否有5人间推是否有15人
+                #     if Agent.objects.filter(mobile=user1.mobile,level=1).count()>=5 and Agent.objects.filter(mobile=user1.mobile,level=2).count()>=15:
+                #         spread=amount * sysparm.amount10 / 100
+                #     else:
+                #         spread=amount * sysparm.amount8 / 100
+
                 if item==1:
-                    #直推是否有5人间推是否有15人
-                    if Agent.objects.filter(mobile=user1.mobile,level=1).count()>=5 and Agent.objects.filter(mobile=user1.mobile,level=2).count()>=15:
+                    #直推是否有3人
+                    if check_input_order(user1.mobile):
                         spread=amount * sysparm.amount9 / 100
                     else:
-                        spread=amount * sysparm.amount7 / 100
+                        continue
                 elif item==2:
-                    #直推是否有5人间推是否有15人
-                    if Agent.objects.filter(mobile=user1.mobile,level=1).count()>=5 and Agent.objects.filter(mobile=user1.mobile,level=2).count()>=15:
+                    #直推是否有3人
+                    if check_input_order(user1.mobile):
                         spread=amount * sysparm.amount10 / 100
                     else:
-                        spread=amount * sysparm.amount8 / 100
+                        continue
 
                 if item == 1:
                     trantype=13
@@ -256,7 +271,6 @@ def orderrclimit(user,amount):
 
 
 def orderconfirmex(ordercode):
-    from libs.utils.mytime import islimit_time
     import time
     try:
         order=Order.objects.get(ordercode=ordercode,umark=0)
@@ -280,11 +294,6 @@ def orderconfirmex(ordercode):
     except SysParam.DoesNotExist:
         raise PubErrorCustom("无规则")
 
-    if islimit_time(order1.matchtime,2):
-        amountlixi=order.amount * sysparam.interset / 100
-    else:
-        amountlixi=order.amount * sysparam.interset1 / 100
-
     try:
         user=Users.objects.get(userid=order.userid)
     except Users.DoesNotExist:
@@ -295,7 +304,21 @@ def orderconfirmex(ordercode):
     except Users.DoesNotExist:
         raise PubErrorCustom("该用户不存在!")
 
-    #本金
+    t = time.mktime(timezone.now().timetuple())
+    order.confirmtime = t
+    order.status = 2
+    order.save()
+
+    order1.status = 2
+    order1.save()
+
+    gqfh(user1,order1,order,sysparam)
+    tjjr(user1,order.amount,order.ordercode,sysparam)
+
+def gqfh(user1,order1,order,sysparam):
+    from libs.utils.mytime import islimit_time
+
+    # 本金
     Tranlist.objects.create(
         trantype=9,
         userid=user1.userid,
@@ -306,9 +329,18 @@ def orderconfirmex(ordercode):
         amount=order1.amount,
         ordercode=order1.ordercode
     )
+    user1.bonus += order1.amount
 
-    user1.bonus +=order1.amount
-    #利息
+    if islimit_time(order1.matchtime,2):
+        amountlixi=order.amount * sysparam.interset / 100
+    else:
+        amountlixi=order.amount * sysparam.interset1 / 100
+
+    #没有直推3个人冻结利息的46%
+    if not check_input_order(user1.mobile):
+        amountlixi = amountlixi * 46 / 100
+
+    # 利息
     Tranlist.objects.create(
         trantype=10,
         userid=user1.userid,
@@ -317,21 +349,78 @@ def orderconfirmex(ordercode):
         username_to=order1.username_to,
         bal=user1.bonus,
         amount=amountlixi,
-        ordercode = order1.ordercode
+        ordercode=order1.ordercode
     )
     user1.bonus += amountlixi
     user1.save()
 
-    t = time.mktime(timezone.now().timetuple())
-    order.confirmtime = t
-    order.status = 2
-    order.save()
+#判断是否有直推3人并且都打款
+def  check_input_order(mobile):
+    agent=Agent.objects.filter(mobile=mobile, level=1)
+    count=0
+    if agent.exists():
+        for item in agent:
+            if check_ok_order(item.mobile1):
+                count+=1
+    return True if count >= 3 else False
 
-    order1.status = 2
-    order1.save()
+#查看直推人数
+def get_agent_input_num(mobile):
+    agent=Agent.objects.filter(mobile=mobile, level=1)
+    count=0
+    if agent.exists():
+        for item in agent:
+            if check_ok_order(item.mobile1):
+                count+=1
+    return count
 
-    tjjr(user1,order.amount,order.ordercode,sysparam)
 
+#判断是否下订单
+def check_ok_order(mobile):
+    return True if Order.objects.filter(username=mobile, umark=0).count() else False
+
+
+#查看下线代理
+def get_agent(mobile):
+    count=0
+    mobile_query=[mobile]
+    obj=[]
+    while True:
+
+        for query_item in mobile_query:
+            agent=Agent.objects.filter(mobile=query_item,level=1)
+            mobile_query_tmp = []
+            if agent.exists():
+                for item in agent:
+                    if check_ok_order(item.mobile1):
+                        mobile_query_tmp.append(item.mobile1)
+                        count+=1
+
+        if not len(mobile_query_tmp):
+            break
+        mobile_query=mobile_query_tmp
+    return count
+
+#查看下线总共人数
+def get_agent_totle(mobile):
+
+    count=0
+    mobile_query=[mobile]
+    while True:
+
+        for query_item in mobile_query:
+            agent=Agent.objects.filter(mobile=query_item,level=1)
+            mobile_query_tmp = []
+            if agent.exists():
+                for item in agent:
+                    if check_ok_order(item.mobile1):
+                        mobile_query_tmp.append(item.mobile1)
+                        count+=1
+
+        if not len(mobile_query_tmp):
+            break
+        mobile_query=mobile_query_tmp
+    return count
 
 #获取订单范围内金额集合(包含订单拆分)
 def get_order_amounts(order=None):
