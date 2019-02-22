@@ -43,29 +43,29 @@ def myrandom(num_,r_):
 def smssend(mobile=None,flag=0,vercode=None):
 
     print(mobile)
-    # if isinstance(mobile, list):
-    #     mobiletmp = ''
-    #     for item in mobile:
-    #         mobiletmp += '{},'.format(item)
-    #         print(mobiletmp)
-    #     mobile = mobiletmp[:-1]
-    # if flag==0:
-    #     content='您现在正在注册众鑫账户，您的验证码是{}【众鑫】'.format(vercode)
-    # elif flag==1:
-    #     content = '尊敬的会员您好！您的订单已匹配成功, 请登录查询。退订回T【众鑫】'
-    # print(mobile)
-    # print(content)
-    # send_request(
-    #     url="http://dx110.ipyy.net/smsJson.aspx",
-    #     method='post',
-    #     data={
-    #         'account': '8MYX00159',
-    #         'password': md5pass('8MYX0015998'),
-    #         'mobile' : mobile,
-    #         'content' : content,
-    #         'action' : 'send',
-    #     }
-    # )
+    if isinstance(mobile, list):
+        mobiletmp = ''
+        for item in mobile:
+            mobiletmp += '{},'.format(item)
+            print(mobiletmp)
+        mobile = mobiletmp[:-1]
+    if flag==0:
+        content='您现在正在注册众鑫账户，您的验证码是{}【众鑫】'.format(vercode)
+    elif flag==1:
+        content = '尊敬的会员您好！您的订单已匹配成功, 请登录查询。退订回T【众鑫】'
+    print(mobile)
+    print(content)
+    send_request(
+        url="http://dx110.ipyy.net/smsJson.aspx",
+        method='post',
+        data={
+            'account': '8MYX00159',
+            'password': md5pass('8MYX0015998'),
+            'mobile' : mobile,
+            'content' : content,
+            'action' : 'send',
+        }
+    )
 
 
 def after_c(sysparam):
