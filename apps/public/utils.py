@@ -334,12 +334,12 @@ def gqfh(user1,order1,order,sysparam):
     if islimit_time(order1.matchtime,2):
         # 没有直推3个人冻结利息的46%
         if not check_input_order(user1.mobile):
-            amountlixi=order.amount * sysparam.interset - 6 / 100
+            amountlixi=order.amount * (sysparam.interset - 6) / 100
         else:
             amountlixi = order.amount * sysparam.interset  / 100
     else:
         if not check_input_order(user1.mobile):
-            amountlixi = order.amount * sysparam.interset - 3 / 100
+            amountlixi = order.amount * (sysparam.interset - 3) / 100
         else:
             amountlixi=order.amount * sysparam.interset1 / 100
 

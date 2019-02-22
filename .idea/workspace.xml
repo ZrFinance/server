@@ -61,8 +61,8 @@
       <file leaf-file-name="utils.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/public/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="338" column="64" lean-forward="true" selection-start-line="338" selection-start-column="64" selection-end-line="338" selection-end-column="64" />
+            <state relative-caret-position="304">
+              <caret line="336" column="67" lean-forward="true" selection-start-line="336" selection-start-column="67" selection-end-line="336" selection-end-column="67" />
               <folding>
                 <element signature="e#1#65#0" expanded="true" />
                 <element signature="e#11787#11796#0" />
@@ -657,8 +657,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/public/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="338" column="64" lean-forward="true" selection-start-line="338" selection-start-column="64" selection-end-line="338" selection-end-column="64" />
+        <state relative-caret-position="304">
+          <caret line="336" column="67" lean-forward="true" selection-start-line="336" selection-start-column="67" selection-end-line="336" selection-end-column="67" />
           <folding>
             <element signature="e#1#65#0" expanded="true" />
             <element signature="e#11787#11796#0" />
