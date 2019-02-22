@@ -332,13 +332,20 @@ def gqfh(user1,order1,order,sysparam):
     user1.bonus += order1.amount
 
     if islimit_time(order1.matchtime,2):
-        amountlixi=order.amount * sysparam.interset / 100
+        # 没有直推3个人冻结利息的46%
+        if not check_input_order(user1.mobile):
+            amountlixi=order.amount * sysparam.interset - 6 / 100
+        else:
+            amountlixi = order.amount * sysparam.interset  / 100
     else:
-        amountlixi=order.amount * sysparam.interset1 / 100
+        if not check_input_order(user1.mobile):
+            amountlixi = order.amount * sysparam.interset - 3 / 100
+        else:
+            amountlixi=order.amount * sysparam.interset1 / 100
 
-    #没有直推3个人冻结利息的46%
-    if not check_input_order(user1.mobile):
-        amountlixi = amountlixi * 46 / 100
+    # #没有直推3个人冻结利息的46%
+    # if not check_input_order(user1.mobile):
+    #     amountlixi = amountlixi * 46 / 100
 
     # 利息
     Tranlist.objects.create(
