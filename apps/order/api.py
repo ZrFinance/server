@@ -11,7 +11,7 @@ from apps.order.serializers import OrderSerializer
 from apps.public.models import SysParam
 
 from apps.utils import GenericViewSetCustom
-from apps.public.utils import daysqbzcount,get_agent_totle_1
+from apps.public.utils import daysqbzcount,get_agent_totle_1,check_input_order
 
 from apps.user.models import Agent,Users
 
@@ -86,23 +86,26 @@ class OrderAPIView(GenericViewSetCustom):
                         t+=1
                 return t
 
-            if is_ok(160) >=2 :
-                if int(request.data.get('amount')) > 2000:
-                    raise PubErrorCustom("您的团队有%d人,只能提现最多2000"%(agent_totle))
-            elif is_ok(80) >=2 :
-                if int(request.data.get('amount')) > 1200:
-                    raise PubErrorCustom("您的团队有%d人,只能提现最多1200"%(agent_totle))
-            elif is_ok(40) >=2 :
-                if int(request.data.get('amount')) > 800:
-                    raise PubErrorCustom("您的团队有%d人,只能提现最多800"%(agent_totle))
-            elif is_ok(20) >=2 :
-                if int(request.data.get('amount')) > 500:
-                    raise PubErrorCustom("您的团队有%d人,只能提现最多500"%(agent_totle))
-            elif is_ok(10) >=2 :
-                if int(request.data.get('amount')) > 300:
-                    raise PubErrorCustom("您的团队有%d人,只能提现最多300"%(agent_totle))
+            if check_input_order(user.mobile):
+                if is_ok(160) >=2 :
+                    if int(request.data.get('amount')) > 2000:
+                        raise PubErrorCustom("您两个区分别有%d人,只能提现最多2000"%(160))
+                elif is_ok(80) >=2 :
+                    if int(request.data.get('amount')) > 1200:
+                        raise PubErrorCustom("您两个区分别有%d人,只能提现最多1200"%(80))
+                elif is_ok(40) >=2 :
+                    if int(request.data.get('amount')) > 800:
+                        raise PubErrorCustom("您两个区分别有%d人,只能提现最多800"%(40))
+                elif is_ok(20) >=2 :
+                    if int(request.data.get('amount')) > 500:
+                        raise PubErrorCustom("您两个区分别有%d人,只能提现最多500"%(20))
+                elif is_ok(10) >=2 :
+                    if int(request.data.get('amount')) > 300:
+                        raise PubErrorCustom("您两个区分别有%d人,只能提现最多300"%(10))
+                else:
+                    raise PubErrorCustom("您两个区不足10人,不能提现")
             else:
-                raise PubErrorCustom("您的团队不足20人,不能提现")
+                raise PubErrorCustom("需要直推3人才能提现")
 
             # #必须满足推荐人才能提取，1代2个提50%,2代4个提100%(必须满足1代)
             # oneagent=Agent.objects.filter(mobile=user.mobile,level=1)

@@ -164,16 +164,18 @@ def tjjr(user,amount,ordercode,sysparm):
 
                 if item==1:
                     #直推是否有3人
-                    if check_input_order(user1.mobile):
-                        spread=amount * sysparm.amount9 / 100
-                    else:
-                        continue
+                    # if check_input_order(user1.mobile):
+                    #     spread=amount * sysparm.amount9 / 100
+                    # else:
+                    #     continue
+                    spread = amount * sysparm.amount9 / 100
                 elif item==2:
                     #直推是否有3人
-                    if check_input_order(user1.mobile):
-                        spread=amount * sysparm.amount10 / 100
-                    else:
-                        continue
+                    # if check_input_order(user1.mobile):
+                    #     spread=amount * sysparm.amount10 / 100
+                    # else:
+                    #     continue
+                    spread = amount * sysparm.amount9 / 100
 
                 if item == 1:
                     trantype=13
