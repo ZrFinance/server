@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1a352d01-af29-4564-9d5c-3e500cff74d5" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/apps/order/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/order/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/user/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/user/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/order/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/order/serializers.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,8 +16,8 @@
       <file leaf-file-name="api.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/public/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="437" column="33" selection-start-line="437" selection-start-column="33" selection-end-line="437" selection-end-column="33" />
+            <state relative-caret-position="19">
+              <caret line="254" column="19" selection-start-line="254" selection-start-column="19" selection-end-line="254" selection-end-column="19" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -29,8 +28,11 @@
       <file leaf-file-name="serializers.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/order/serializers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+            <state relative-caret-position="285">
+              <caret line="45" column="28" lean-forward="true" selection-start-line="45" selection-start-column="28" selection-end-line="45" selection-end-column="28" />
+              <folding>
+                <element signature="e#3#41#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -38,8 +40,8 @@
       <file leaf-file-name="api.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/order/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="88" column="31" lean-forward="true" selection-start-line="88" selection-start-column="31" selection-end-line="88" selection-end-column="31" />
+            <state relative-caret-position="299">
+              <caret line="42" column="27" lean-forward="true" selection-start-line="42" selection-start-column="27" selection-end-line="42" selection-end-column="27" />
               <folding>
                 <element signature="e#1#36#0" expanded="true" />
               </folding>
@@ -130,7 +132,6 @@
       <find>time</find>
       <find>time.</find>
       <find>timezone.now()</find>
-      <find>orderquery</find>
       <find>tranlistquery</find>
       <find>confirm</find>
       <find>info</find>
@@ -138,7 +139,6 @@
       <find>match</find>
       <find>upd</find>
       <find>userupd</find>
-      <find>orderobjquery</find>
       <find>clicklucky</find>
       <find>gqfh</find>
       <find>tgbz</find>
@@ -146,6 +146,8 @@
       <find>check_input_order</find>
       <find>teamquery</find>
       <find>DoesNotExist</find>
+      <find>orderobjquery</find>
+      <find>orderquery</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\Tc\Desktop\众瑞\zhongrui\server</dir>
@@ -167,7 +169,6 @@
         <option value="$PROJECT_DIR$/apps/serveradmin/serializers.py" />
         <option value="$PROJECT_DIR$/libs/auth/__init__.py" />
         <option value="$PROJECT_DIR$/apps/serveradmin/utils.py" />
-        <option value="$PROJECT_DIR$/apps/order/serializers.py" />
         <option value="$PROJECT_DIR$/apps/user/serializers.py" />
         <option value="$PROJECT_DIR$/apps/serveradmin/api.py" />
         <option value="$PROJECT_DIR$/education/config/prod.py" />
@@ -180,6 +181,7 @@
         <option value="$PROJECT_DIR$/apps/order/api.py" />
         <option value="$PROJECT_DIR$/apps/user/api.py" />
         <option value="$PROJECT_DIR$/apps/public/api.py" />
+        <option value="$PROJECT_DIR$/apps/order/serializers.py" />
       </list>
     </option>
   </component>
@@ -192,7 +194,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="262" />
     <option name="y" value="72" />
     <option name="width" value="1202" />
@@ -215,6 +217,12 @@
               <item name="server" type="b2602c69:ProjectViewProjectNode" />
               <item name="server" type="462c0819:PsiDirectoryNode" />
               <item name="apps" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+              <item name="apps" type="462c0819:PsiDirectoryNode" />
+              <item name="order" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="server" type="b2602c69:ProjectViewProjectNode" />
@@ -301,7 +309,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="-6" width="1381" height="925" extended-state="6" />
+    <frame x="-6" y="-6" width="1381" height="925" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -621,16 +629,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/order/api.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="88" column="31" lean-forward="true" selection-start-line="88" selection-start-column="31" selection-end-line="88" selection-end-column="31" />
-          <folding>
-            <element signature="e#1#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/user/api.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
@@ -640,18 +638,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/public/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="437" column="33" selection-start-line="437" selection-start-column="33" selection-end-line="437" selection-end-column="33" />
+        <state relative-caret-position="19">
+          <caret line="254" column="19" selection-start-line="254" selection-start-column="19" selection-end-line="254" selection-end-column="19" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/apps/order/api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="42" column="27" lean-forward="true" selection-start-line="42" selection-start-column="27" selection-end-line="42" selection-end-column="27" />
+          <folding>
+            <element signature="e#1#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/apps/order/serializers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+        <state relative-caret-position="285">
+          <caret line="45" column="28" lean-forward="true" selection-start-line="45" selection-start-column="28" selection-end-line="45" selection-end-column="28" />
+          <folding>
+            <element signature="e#3#41#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

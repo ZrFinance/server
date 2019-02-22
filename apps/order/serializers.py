@@ -5,6 +5,7 @@ from rest_framework import serializers
 from apps.order.models import Order,Tranlist
 from utils.mytime import diff_day,timestamp_toDatetime,add_time
 from apps.public.models import SysParam
+from apps.user.models import Users
 
 class OrderSerializer2(serializers.Serializer):
 
@@ -30,6 +31,12 @@ class OrderSerializer(serializers.ModelSerializer):
     username2=serializers.SerializerMethodField()
     updtime=serializers.SerializerMethodField()
     img=serializers.SerializerMethodField()
+    name=serializers.SerializerMethodField()
+
+
+    def name(self,obj):
+        user=Users.objects.get(userid=obj.userid)
+        return user.name
 
     def get_img(self,obj):
         if obj.trantype==0 and obj.status==1:
