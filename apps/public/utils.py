@@ -377,16 +377,38 @@ def get_agent_input_num(mobile):
 
 #判断是否下订单
 def check_ok_order(mobile):
-    return True if Order.objects.filter(username=mobile, umark=0).count() else False
+
+    print(send_toTimestamp("2019-02-22 12:00:00"))
+    return True if Order.objects.filter(username=mobile, umark=0,createtime__gt=send_toTimestamp("2019-02-22 12:00:00")).count() else False
 
 
-#查看下线代理
-def get_agent(mobile):
+# #查看下线代理
+# def get_agent(mobile):
+#     count=0
+#     mobile_query=[mobile]
+#     obj=[]
+#     while True:
+#
+#         for query_item in mobile_query:
+#             agent=Agent.objects.filter(mobile=query_item,level=1)
+#             mobile_query_tmp = []
+#             if agent.exists():
+#                 for item in agent:
+#                     if check_ok_order(item.mobile1):
+#                         mobile_query_tmp.append(item.mobile1)
+#                         count+=1
+#
+#         if not len(mobile_query_tmp):
+#             break
+#         mobile_query=mobile_query_tmp
+#     return count
+
+#查看下线总共人数
+def get_agent_totle(mobile):
+
     count=0
     mobile_query=[mobile]
-    obj=[]
     while True:
-
         for query_item in mobile_query:
             agent=Agent.objects.filter(mobile=query_item,level=1)
             mobile_query_tmp = []
@@ -401,25 +423,16 @@ def get_agent(mobile):
         mobile_query=mobile_query_tmp
     return count
 
-#查看下线总共人数
-def get_agent_totle(mobile):
+#直推下面的人数(各个线推广数)
+def get_agent_totle_1(mobile):
 
-    count=0
-    mobile_query=[mobile]
-    while True:
+    count=[]
+    agent = Agent.objects.filter(mobile=mobile, level=1)
+    if agent.exists():
+        for item in agent:
+            if check_ok_order(item.mobile1):
+                count.append(get_agent_totle(item.mobile1))
 
-        for query_item in mobile_query:
-            agent=Agent.objects.filter(mobile=query_item,level=1)
-            mobile_query_tmp = []
-            if agent.exists():
-                for item in agent:
-                    if check_ok_order(item.mobile1):
-                        mobile_query_tmp.append(item.mobile1)
-                        count+=1
-
-        if not len(mobile_query_tmp):
-            break
-        mobile_query=mobile_query_tmp
     return count
 
 #获取订单范围内金额集合(包含订单拆分)

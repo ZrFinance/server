@@ -11,7 +11,7 @@ from apps.order.serializers import OrderSerializer
 from apps.public.models import SysParam
 
 from apps.utils import GenericViewSetCustom
-from apps.public.utils import daysqbzcount,get_agent_totle
+from apps.public.utils import daysqbzcount,get_agent_totle_1
 
 from apps.user.models import Agent,Users
 
@@ -77,20 +77,28 @@ class OrderAPIView(GenericViewSetCustom):
             if user.spread < int(request.data.get('amount')):
                 raise  PubErrorCustom('推广股权余额不足')
 
-            agent_totle=get_agent_totle(user.mobile)
-            if agent_totle >= 160 * 2 :
+            agent_totle=get_agent_totle_1(user.mobile)
+
+            def is_ok(count):
+                t=0
+                for item in agent_totle:
+                    if item >= count :
+                        t+=1
+                return t
+
+            if is_ok(160) :
                 if int(request.data.get('amount')) > 2000:
                     raise PubErrorCustom("您的团队有%d人,只能提现最多2000"%(agent_totle))
-            elif agent_totle >= 80 * 2 :
+            elif is_ok(80) :
                 if int(request.data.get('amount')) > 1200:
                     raise PubErrorCustom("您的团队有%d人,只能提现最多1200"%(agent_totle))
-            elif agent_totle >= 40 * 2 :
+            elif is_ok(40) :
                 if int(request.data.get('amount')) > 800:
                     raise PubErrorCustom("您的团队有%d人,只能提现最多800"%(agent_totle))
-            elif agent_totle >= 20 * 2 :
+            elif is_ok(20) :
                 if int(request.data.get('amount')) > 500:
                     raise PubErrorCustom("您的团队有%d人,只能提现最多500"%(agent_totle))
-            elif agent_totle >= 10 * 2 :
+            elif is_ok(10) :
                 if int(request.data.get('amount')) > 300:
                     raise PubErrorCustom("您的团队有%d人,只能提现最多300"%(agent_totle))
             else:
