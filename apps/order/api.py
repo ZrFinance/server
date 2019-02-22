@@ -86,19 +86,19 @@ class OrderAPIView(GenericViewSetCustom):
                         t+=1
                 return t
 
-            if is_ok(160) :
+            if is_ok(160) >=2 :
                 if int(request.data.get('amount')) > 2000:
                     raise PubErrorCustom("您的团队有%d人,只能提现最多2000"%(agent_totle))
-            elif is_ok(80) :
+            elif is_ok(80) >=2 :
                 if int(request.data.get('amount')) > 1200:
                     raise PubErrorCustom("您的团队有%d人,只能提现最多1200"%(agent_totle))
-            elif is_ok(40) :
+            elif is_ok(40) >=2 :
                 if int(request.data.get('amount')) > 800:
                     raise PubErrorCustom("您的团队有%d人,只能提现最多800"%(agent_totle))
-            elif is_ok(20) :
+            elif is_ok(20) >=2 :
                 if int(request.data.get('amount')) > 500:
                     raise PubErrorCustom("您的团队有%d人,只能提现最多500"%(agent_totle))
-            elif is_ok(10) :
+            elif is_ok(10) >=2 :
                 if int(request.data.get('amount')) > 300:
                     raise PubErrorCustom("您的团队有%d人,只能提现最多300"%(agent_totle))
             else:
