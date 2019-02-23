@@ -20,7 +20,7 @@ from libs.utils.mytime import islimit_time
 
 from auth.authentication import Authentication
 
-from apps.public.utils import after_c,pdlimit,daytgbzcount,daysqbzcount,query_agent_limit,orderrclimit
+from apps.public.utils import after_c,pdlimit,daytgbzcount,daysqbzcount,query_agent_limit,orderrclimit,get_agent_totle_text
 
 from utils.log import logger
 
@@ -212,7 +212,7 @@ class PublicAPIView(viewsets.ViewSet):
         return {'data':{
             'level1count': len(agent1),
             'level2count': len(agent2),
-            'level1count_valid_totle': get_agent_totle(user.mobile),
+            'level1count_valid_totle': get_agent_totle_text(user.mobile),
             'level1count_valid_input': get_agent_input_num(user.mobile),
             'level1': AgentSerializer(agent1,many=True).data,
             'level2': AgentSerializer(agent2,many=True).data,

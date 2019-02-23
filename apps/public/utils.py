@@ -444,6 +444,20 @@ def get_agent_totle_1(mobile):
 
     return count
 
+#直推下面的人数(带团队领导人)(各个线推广数)
+def get_agent_totle_2(mobile):
+
+    count=[]
+    agent = Agent.objects.filter(mobile=mobile, level=1)
+    if agent.exists():
+        for item in agent:
+            if check_ok_order(item.mobile1):
+                count.append({"mobile":item.mobile1,"count":get_agent_totle(item.mobile1)})
+    return count
+
+def get_agent_totle_text(mobile):
+    return get_agent_totle_2(mobile)
+
 #获取订单范围内金额集合(包含订单拆分)
 def get_order_amounts(order=None):
 
